@@ -2,11 +2,14 @@ package com.bateng.guestroom.biz.impl;
 
 import com.bateng.guestroom.biz.UserBiz;
 import com.bateng.guestroom.dao.UserDao;
+import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service("userBiz")
@@ -31,6 +34,12 @@ public class UserBizImpl implements UserBiz {
     @Transactional
     public User getUserById(int id) {
         return userDao.getOne(id);
+    }
+
+
+    @Override
+    public PageVo<User> findUserByPage(PageVo<User> pageVo, User user) {
+        return userDao.findUserByPage(pageVo,user);
     }
 
     public UserDao getUserDao() {

@@ -21,6 +21,10 @@ public class User  {
     @JoinColumn(name = "role_id")
     private Role role;//角色
 
+    @ManyToOne
+    @JoinColumn(name="user_level_id")
+    private UserLevel userLevel;//所属用户层级
+
     @Column(name = "delflag")
     private int flag;//删除标记
 
@@ -87,5 +91,13 @@ public class User  {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public UserLevel getUserLevel() {
+        return userLevel;
+    }
+
+    public void setUserLevel(UserLevel userLevel) {
+        this.userLevel = userLevel;
     }
 }
