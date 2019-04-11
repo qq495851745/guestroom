@@ -7,9 +7,9 @@
     <script type="text/javascript" src="dwz/js/jquery-1.11.3.js"></script>
     <script type="text/javascript">
         $(function() {
-            $("#btn").click(function(){
-                console.log($("<div></div>").append("<p></p>").get(0))
-            })
+             $("#btn").on("click",{a:1},function(a){
+                 console.log(a.data)
+             })
         })
 
 

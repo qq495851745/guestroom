@@ -116,6 +116,8 @@ public class UserLevelController {
         return jsonObject.toJSONString();
     }
 
+
+
     public UserLevelBiz getUserLevelBiz() {
         return userLevelBiz;
     }

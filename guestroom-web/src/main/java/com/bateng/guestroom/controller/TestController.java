@@ -18,15 +18,16 @@ public class TestController {
     @RequestMapping("test")
     @ResponseBody
     public String test(){
-        /*try {
-            String client=FastDFSClient.uploadFile(file.getInputStream(),file.getOriginalFilename());
-            System.out.println(client);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+
         return  "";
     }
 
 
+
+
+    @RequestMapping("obj")
+public String test01(){
+        return "obj";
+}
 
 }

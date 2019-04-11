@@ -19,17 +19,27 @@ public class UserDaoImpl implements UserRepository {
 
     @Override
     public PageVo<User> findUserByPage(PageVo<User> pageVo, User user) {
-        StringBuilder sb=new StringBuilder("from User u where 1=1");
-        Map<String,String> paramsMap=new HashMap<String, String>();
+        StringBuilder sb=new StringBuilder("from User u where 1=1 ");
+        Map<String,Object> paramsMap=new HashMap<String, Object>();
 
         if(user!=null && user.getUsername()!=null&& !user.getUsername().equals("")){
             paramsMap.put("username","%"+user.getUsername()+"%");
-            sb.append("and u.username  like :username");
+            sb.append(" and u.username  like :username ");
         }
-           sb.append(" order by u.updateDate desc");
+
+        if(user!=null&&user.getUserLevel()!=null&&user.getUserLevel().getId()!=null){
+            paramsMap.put("userLevelId",user.getUserLevel().getId());
+            sb.append(" and u.userLevel.id=:userLevelId ");
+        }
+
+        if(user!=null&&user.getRole()!=null&&user.getRole().getId()!=null && user.getRole().getId()!=-1){
+            paramsMap.put("roleId",user.getRole().getId());
+            sb.append(" and u.role.id=:roleId ");
+        }
+           sb.append(" order by u.updateDate desc ");
         Query query=entityManager.createQuery(sb.toString());
 
-        for(Map.Entry<String,String> param:paramsMap.entrySet()){
+        for(Map.Entry<String,Object> param:paramsMap.entrySet()){
             query.setParameter(param.getKey(),param.getValue());
         }
 

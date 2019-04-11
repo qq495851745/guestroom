@@ -15,5 +15,8 @@ spring:
     suffix: .html
 server:
   port: 80
+  tomcat:
+    accept-count: 200
+    max-threads: 200
 logging:
   path: /usr/java/logger

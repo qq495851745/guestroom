@@ -73,7 +73,7 @@ function initUI($p){
 	if ($.fn.jTree){
 		$('div.accordion', $p).each(function(){
 			var $this = $(this);
-			$this.accordion({fillSpace:$this.attr("fillSpace"),alwaysOpen:true,active:0});
+			$this.accordion({fillSpace:$this.attr("fillSpace"),alwaysOpen:true,active:-1});
 		});
 	}
 

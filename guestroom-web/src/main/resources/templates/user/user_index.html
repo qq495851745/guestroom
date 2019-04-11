@@ -1,12 +1,44 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="pagerForm" onsubmit="return divSearch(this, 'roomLevelBox');" action="/guestroom/user/index" method="post">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/user/index" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">
             <table class="searchContent">
                 <tr>
                     <td>
-                        名称：<input type="text" name="name" value="" />
+                        用户名：<input type="text" name="username" value="" th:value="${user.username}" />
+                    </td>
+                    <td>
+                        用户层级:
+                        <input name="userLevel.id" value="" type="hidden" th:if="${user.userLevel!=null}"  th:value="${user.userLevel.id}"/>
+                        <input name="userLevel.id" value="" type="hidden" th:if="${user.userLevel==null}"  />
+                        <input   name="userLevel.name" type="text" readonly value="" th:if="${user.userLevel!=null}" th:value="${user.userLevel.name}"/>
+                        <input  name="userLevel.name" type="text" readonly value="" th:if="${user.userLevel==null}" />
+                        <a class="btnLook"  href="guestroom/user/userlevel/tolookup" lookupGroup="userLevel">查找带回</a>
+                    </td>
+                    <td>
+                        角色:
+                        <select name="role.id" id="user_index_role_id">
+                            <option value="-1">请选择角色</option>
+                        </select>
+                        <script type="text/javascript">
+                            $.ajax({
+                                url:"guestroom/role/ajax",
+                                type:"post",
+                                async:false,
+                                dataType:"json",
+                                success:function (data) {
+                                      $.each(data,function (i,obj) {
+                                           $("#user_index_role_id").append(" <option value=\""+obj.id+"\">"+obj.name+"</option>");
+                                      })
+                                }
+                            })
+                        </script>
+                        <script th:inline="javascript">
+                            var obj=[[${user}]]
+                            if(obj.role&&obj.role.id)
+                                $("#user_index_role_id").val(obj.role.id);
+                        </script>
                     </td>
                     <td>
                         <div class="buttonActive">
@@ -24,7 +56,7 @@
      xmlns:th="http://www.thymeleaf.org">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add"   href="guestroom/roomLevel/toAdd/"  target="dialog" mask="true"><span>添加房间项目</span></a>
+            <li><a class="add"   href="guestroom/user/toAdd/"  target="dialog" mask="true"><span>添加用户</span></a>
             </li>
             <li><a class="delete" href="guestroom/roomLevel/del/{sid_obj}" target="ajaxTodo"
                    title="确定要删除吗?"><span>删除</span></a></li>
@@ -90,7 +122,7 @@
             displayText({"treeId":"btroomLevelTree","relId":"roomLevelBox"});
             $("#bt_user_sel").css({display: "block"});
             $("#bt_user_sel").prev().css({display: "none"});
-            $("#bt_user_sel").val($("input[name=\"numPerPage\"]").val());
+            $("#bt_user_sel").val($("#bt_user_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
 
         }
     }, 1);

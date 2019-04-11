@@ -11,7 +11,6 @@
  */
 function validateCallback(form, callback, confirmMsg) {
     var $form = $(form);
-    console.log($form.serializeArray())
     if (!$form.valid()) {
         return false;
     }
