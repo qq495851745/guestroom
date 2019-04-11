@@ -1,0 +1,25 @@
+<div class="pageContent" xmlns:th="http://www.thymeleaf.org">
+    <table class="table" layoutH="118" targetType="dialog" width="100%">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th orderfield="orgName">角色名称</th>
+            <th orderfield="orgNum">创建时间</th>
+            <th orderfield="leader">修改时间</th>
+            <th width="80">查找带回</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="role:${roles}">
+            <td th:text="${roleStat.index+1}"></td>
+            <td th:text="${role.name}">1001</td>
+            <td th:text="${role.createDate}">administrator</td>
+            <td th:text="${role.updateDate}">administrator</td>
+            <td>
+                <a class="btnSelect" th:href="${'javascript:$.bringBack({id:'+role.id+', name: &quot;'+role.name+' &quot;})'}"
+                   href="javascript:$.bringBack({id:'1', orgName:'技术部', orgNum:'1001'})" title="查找带回">选择</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

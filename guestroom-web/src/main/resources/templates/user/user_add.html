@@ -1,33 +1,32 @@
 <h2 class="contentTitle">添加用户</h2>
-<form method="post" action="guestroom/user" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+<form method="post" action="guestroom/user" class="pageForm required-validate" onsubmit="return iframeCallback(this, navTabAjaxDone);">
     <div class="pageContent">
         <div class="pageFormContent" layoutH="97">
-            <dl>
+            <dl class="nowrap">
                 <dt>用户名：</dt>
                 <dd>
                     <input name="username" type="text"  value="" class="required" maxlength="50"/>
                 </dd>
             </dl>
-            <dl>
+            <dl class="nowrap">
                 <dt>密码：</dt>
                 <dd>
                     <input id="user_add_pwd" type="password" name="password" class="required alphanumeric" minlength="6" maxlength="20" alt="字母、数字、下划线 6-20位"/>
                 </dd>
             </dl>
-            <dl>
+            <dl class="nowrap">
                 <dt>确认密码：</dt>
                 <dd>
                     <input type="password" name="repassword" class="required" equalto="#user_add_pwd"/>
                 </dd>
             </dl>
 
-            <dl>
+            <dl class="nowrap">
                 <dt>角色:</dt>
                 <dd>
-                    <input name="obj.orgNum" value="" type="hidden"/>
-                    <input class="required" name="obj.orgName" type="text" suggestFields="orgNum,orgName" suggestUrl="demo/database/db_lookupSuggest.html" lookupGroup="obj" lookupPk="orgNum"/>
-                    <a class="btnLook" href="dwz/demo/database/dwzOrgLookup.html" lookupGroup="obj" lookupPk="orgNum">查找带回</a>
-                    <span class="info">自定义lookup主键，只需添加lookupPk="xxx"属性（lookupPk默认值为id）</span>
+                    <input name="role.id" value="" type="hidden" class="required"/>
+                    <input class="required readonly" disabled="disabled" name="role.name" type="text"  lookupGroup="role" />
+                    <a class="btnLook" href="guestroom/role" lookupGroup="role" >查找带回</a>
                 </dd>
             </dl>
 

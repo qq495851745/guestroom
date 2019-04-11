@@ -38,6 +38,11 @@ public class RoleBizImpl implements RoleBiz {
 
     }
 
+    @Override
+    public List<Role> findRole() {
+        return roleDao.findAllByFlag(1);
+    }
+
     public RoleDao getRoleDao() {
         return roleDao;
     }

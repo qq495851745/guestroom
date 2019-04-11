@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -27,6 +28,8 @@ public class UserBizImpl implements UserBiz {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addUser(User user) {
+        user.setUpdateDate(new Date());
+        user.setCreateDate(new Date());
         userDao.save(user);
     }
 
@@ -40,6 +43,11 @@ public class UserBizImpl implements UserBiz {
     @Override
     public PageVo<User> findUserByPage(PageVo<User> pageVo, User user) {
         return userDao.findUserByPage(pageVo,user);
+    }
+
+    @Override
+    public List<User> findUserByName(User user) {
+        return userDao.findAllByUsername(user.getUsername());
     }
 
     public UserDao getUserDao() {

@@ -18,6 +18,8 @@ public interface UserBiz {
 
     public User getUserById(int id);
 
+    public List<User> findUserByName(User user);
+
 
     public PageVo<User> findUserByPage(PageVo<User> pageVo,User user);
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
@@ -20,8 +21,9 @@ public class RoleBizTest {
     @Autowired
     private RoleBiz roleBiz;
 
-
+    @Test
     public void test() {
-
+        List<Role> roles=roleBiz.findRole();
+        System.out.println(roles.size());
     }
 }

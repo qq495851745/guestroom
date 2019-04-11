@@ -56,7 +56,7 @@
      xmlns:th="http://www.thymeleaf.org">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add"   href="guestroom/user/toAdd/"  target="dialog" mask="true"><span>添加用户</span></a>
+            <li><a class="add"   href="guestroom/user/toAdd"  target="navTab" mask="true"><span>添加用户</span></a>
             </li>
             <li><a class="delete" href="guestroom/roomLevel/del/{sid_obj}" target="ajaxTodo"
                    title="确定要删除吗?"><span>删除</span></a></li>
@@ -73,17 +73,17 @@
             <th width="80">序号</th>
             <th width="120">用户名</th>
             <th width="120">角色名称</th>
-            <th width="120">所属用户层级</th>
+            <!--<th width="120">所属用户层级</th>-->
             <th width="120">最近修改时间</th>
         </tr>
         </thead>
         <tbody >
          <tr th:each="user:${pageVo.contents}">
-             <td th:text="${userStat.index+1}"></td>
-             <td th:text="${user.username}"></td>
-             <td th:text="${user.role.name}"></td>
-             <td th:text="${user.userLevel.name}"></td>
-             <td th:text="${user.updateDate}"></td>
+             <td th:text="${userStat.index+1}">1</td>
+             <td th:text="${user.username}">1</td>
+             <td th:text="${user.role.name}">1</td>
+             <!--<td th:text="${user.userLevel.name}">1</td>-->
+             <td th:text="${user.updateDate}">1</td>
          </tr>
 
 

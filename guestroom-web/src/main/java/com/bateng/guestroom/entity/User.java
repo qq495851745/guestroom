@@ -26,7 +26,7 @@ public class User  {
     private UserLevel userLevel;//所属用户层级
 
     @Column(name = "delflag")
-    private int flag;//删除标记
+    private int flag=1;//删除标记
 
     @Column(name = "createdate")
     @Temporal(TemporalType.DATE)
