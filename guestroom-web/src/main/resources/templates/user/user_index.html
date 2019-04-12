@@ -73,7 +73,7 @@
             <th width="80">序号</th>
             <th width="120">用户名</th>
             <th width="120">角色名称</th>
-            <!--<th width="120">所属用户层级</th>-->
+            <th width="120">所属用户层级</th>
             <th width="120">最近修改时间</th>
         </tr>
         </thead>
@@ -82,7 +82,7 @@
              <td th:text="${userStat.index+1}">1</td>
              <td th:text="${user.username}">1</td>
              <td th:text="${user.role.name}">1</td>
-             <!--<td th:text="${user.userLevel.name}">1</td>-->
+             <td th:text="${user.userLevel.name}">1</td>
              <td th:text="${user.updateDate}">1</td>
          </tr>
 
