@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +36,6 @@ public class UserBizImpl implements UserBiz {
     }
 
     @Override
-    @Transactional
     public User getUserById(int id) {
         return userDao.getOne(id);
     }
@@ -49,6 +50,22 @@ public class UserBizImpl implements UserBiz {
     @Transactional
     public void deleteUserById(int id) {
         userDao.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        user.setUpdateDate(new Date());
+        String m=null;
+        try {
+            m=DigestUtils.md5DigestAsHex("".getBytes("utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if(user.getPassword().equals(m)){//用户密码不修改
+            userDao.updateUser(user.getRole().getId(),user.getUserLevel().getId(),user.getUpdateDate(),user.getId());
+        }else
+            userDao.updateUser(user.getRole().getId(),user.getUserLevel().getId(),user.getUpdateDate(),user.getId(),user.getPassword());
     }
 
     @Override

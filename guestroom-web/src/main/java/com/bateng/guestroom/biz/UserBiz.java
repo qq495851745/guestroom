@@ -28,4 +28,10 @@ public interface UserBiz {
      * @param id
      */
     public void deleteUserById(int id);
+
+    /**
+     * 更新用户
+     * @param user
+     */
+    public void updateUser(User user);
 }

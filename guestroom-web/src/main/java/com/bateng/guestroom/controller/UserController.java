@@ -79,8 +79,29 @@ public class UserController extends BaseController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
         jsonObject.put("message", "删除成功!");
+        jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
         jsonObject.put("navTabId", "w_e");
         return jsonObject.toJSONString();
+    }
+
+    //跳转修改页面
+    @RequestMapping(value = "/user/{id}",method = {RequestMethod.GET})
+    public String toEdit(@PathVariable("id") int id,Model model){
+        User user=userBiz.getUserById(id);
+        model.addAttribute("user",user);
+        return "user/user_edit";
+    }
+
+    //做修改
+    @RequestMapping(value = "/user",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String doEdit(User user){
+        userBiz.updateUser(user);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("statusCode", StatusCodeDWZ.OK);
+        jsonObject.put("message", "修改成功!");
+        jsonObject.put("navTabId", "w_e");
+        return  jsonObject.toJSONString();
     }
 
 
