@@ -1,0 +1,72 @@
+<div class="pageContent">
+    <div class="pageFormContent" layoutH="58">
+        <ul class="tree expand" id="user_add_lookup_userLevel_tree">
+            <!--<li><a href="javascript:">北京</a>
+                <ul>
+                    <li><a href="javascript:" onclick="$.bringBack({id:'1', districtName:'东城', cityName:'北京'})">东城</a></li>
+                    <li><a href="javascript:" onclick="$.bringBack({id:'2', districtName:'西城', cityName:'北京'})">西城</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:">上海</a>
+                <ul>
+                    <li><a href="javascript:" onclick="$.bringBack({id:'1', districtName:'崇明', cityName:'上海'})">崇明</a>
+                        <ul>
+                            <li><a>南昌</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="javascript:" onclick="$.bringBack({id:'2', districtName:'黄浦', cityName:'上海'})">黄浦</a></li>
+                </ul>
+            </li>-->
+        </ul>
+    </div>
+    <script type="text/javascript">
+        $.ajax({
+            url:"guestroom/userLevel",
+            type:"get",
+            dataType:"json",
+            async:false,
+            cache:false,
+            success:function(data){
+                var $root=$("#user_add_lookup_userLevel_tree");
+               $.each(data,function (i,obj) {
+                   var $li=$("<li></li>");
+                       $li.attr("id",obj.id);
+                       $li.attr("pid",obj.pid);
+                       $li.append("<a href='javascript:void(0);'></a>");
+                       $li.find("a").text(obj.name);
+                       $li.find("a").attr("onclick","$.bringBack({id:"+obj.id+",name:'"+obj.name+"'})");
+                   //查父亲是否存在
+                   var $pli=$root.find("li[id='"+obj.pid+"']");
+                   if($pli.size()){//查找到父亲
+                       var $pli_u = $pli.find(">ul");//查找ul
+                       if($pli_u.size()){
+                           $pli_u.append($li);//添加Li
+                       }else{
+                           $pli.append("<ul></ul>");
+                           $pli.find(">ul").append($li);
+                       }
+                   }else{//没有父亲
+                       $root.append($li);
+                   }
+
+                   //查找儿子是否存在
+                   var $cli=$root.find("li[pid='"+obj.id+"']");
+                    if($cli.size()){
+                        $li.append("<ul></ul>");
+                        $li.find(">ul").append($cli);
+                    }
+
+
+               })
+            },error:function () {
+
+            }
+        })
+    </script>
+
+    <div class="formBar">
+        <ul>
+            <li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>
+        </ul>
+    </div>
+</div>

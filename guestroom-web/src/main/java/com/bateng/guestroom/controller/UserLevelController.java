@@ -99,6 +99,7 @@ public class UserLevelController {
     }
 
 
+    //做更新
     @RequestMapping(value = "/userLevel",method = RequestMethod.PUT,produces = "application/json;charset-utf-8")
     @ResponseBody
     public String doEdit(UserLevel userLevel){
@@ -114,6 +115,14 @@ public class UserLevelController {
         jsonObject.put("url","guestroom/ajax/userLevel");
         jsonObject.put("selectId","userLevel"+userLevel.getUserLevel().getId());
         return jsonObject.toJSONString();
+    }
+
+
+//获取所有UserLevel
+    @RequestMapping(value = "/userLevel",method = {RequestMethod.GET},produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String findAll(){
+        return  userLevelBiz.findAllUserLevelAjax();
     }
 
 

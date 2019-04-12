@@ -44,6 +44,7 @@ public class UserController extends BaseController {
         return  "user/user_add";
     }
 
+    //做添加操作
     @RequestMapping(value = "/user",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public String add(User user){
@@ -61,6 +62,12 @@ public class UserController extends BaseController {
             jsonObject.put("message","用户添加成功");
         }
         return jsonObject.toJSONString();
+    }
+
+    //跳转查询UserLevel页面
+    @RequestMapping(value = "/userLevel/lookup",method = {RequestMethod.GET})
+    public String toLookupUserLevel(){
+        return "user/user_add_lookup_userLevel";
     }
 
 
