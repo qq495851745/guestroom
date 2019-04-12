@@ -22,4 +22,10 @@ public interface UserBiz {
 
 
     public PageVo<User> findUserByPage(PageVo<User> pageVo,User user);
+
+    /**
+     * 做删除操作
+     * @param id
+     */
+    public void deleteUserById(int id);
 }

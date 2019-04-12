@@ -53,13 +53,13 @@
     </form>
 </div>
 <div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
-     xmlns:th="http://www.thymeleaf.org">
+     xmlns:th="http://www.thymeleaf.org" id="user_index_pageContent">
     <div class="panelBar">
         <ul class="toolBar">
             <li><a class="add"   href="guestroom/user/toAdd"  target="navTab" mask="true"><span>添加用户</span></a>
             </li>
-            <li><a class="delete" href="guestroom/roomLevel/del/{sid_obj}" target="ajaxTodo"
-                   title="确定要删除吗?"><span>删除</span></a></li>
+            <li><a class="delete" href="guestroom/user/{sid_obj}" target="ajaxTodo"
+                   title="确定要删除吗?" _method="delete"><span>删除</span></a></li>
             <li><a class="edit" href="guestroom/roomLevel/toEdit/{sid_obj}" target="dialog"
                    mask="true"><span>修改</span></a></li>
             <li class="line">line</li>
@@ -69,7 +69,7 @@
     </div>
     <table class="table" width="100%" layoutH="100" id="bt_user_table" >
         <thead>
-        <tr>
+        <tr >
             <th width="80">序号</th>
             <th width="120">用户名</th>
             <th width="120">角色名称</th>
@@ -78,7 +78,7 @@
         </tr>
         </thead>
         <tbody >
-         <tr th:each="user:${pageVo.contents}">
+         <tr th:each="user:${pageVo.contents}" th:attr="rel=${user.id}">
              <td th:text="${userStat.index+1}">1</td>
              <td th:text="${user.username}">1</td>
              <td th:text="${user.role.name}">1</td>
@@ -119,7 +119,7 @@
         if (!len)
             setTimeout(arguments.callee, 100);
         else {
-            displayText({"treeId":"btroomLevelTree","relId":"roomLevelBox"});
+            displayText({"relId":"user_index_pageContent"});
             $("#bt_user_sel").css({display: "block"});
             $("#bt_user_sel").prev().css({display: "none"});
             $("#bt_user_sel").val($("#bt_user_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());

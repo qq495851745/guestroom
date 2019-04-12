@@ -46,6 +46,12 @@ public class UserBizImpl implements UserBiz {
     }
 
     @Override
+    @Transactional
+    public void deleteUserById(int id) {
+        userDao.deleteById(id);
+    }
+
+    @Override
     public List<User> findUserByName(User user) {
         return userDao.findAllByUsername(user.getUsername());
     }
