@@ -38,6 +38,8 @@ public class Menu {
     @Column(name = "mrel")
     private String rel;//dwz属性
 
+
+
     @ManyToOne
     @JoinColumn(name = "pid")
     private Menu menu;

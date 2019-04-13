@@ -31,20 +31,20 @@ public class DeclarationForm {
 
 
     @ManyToOne
-    @JoinColumn(name = "roomOption_id")
+    @JoinColumn(name = "roomoption_id")
     private RoomOption roomOption;//关联到房间某个地方
 
 
     @Column(name = "delflag")
-    private int flag;//删除标记
+    private Integer flag=1;//删除标记
 
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "dcreateDate")
+    @Column(name = "dcreatedate")
     private Date createDate;//创建时间
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "dupdateDate")
+    @Column(name = "dupdatedate")
     private Date updateDate;//更新时间
 
 
@@ -88,11 +88,11 @@ public class DeclarationForm {
         this.roomOption = roomOption;
     }
 
-    public int getFlag() {
+    public Integer getFlag() {
         return flag;
     }
 
-    public void setFlag(int flag) {
+    public void setFlag(Integer flag) {
         this.flag = flag;
     }
 
@@ -110,5 +110,13 @@ public class DeclarationForm {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
