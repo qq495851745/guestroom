@@ -6,7 +6,7 @@
             <table class="searchContent">
                 <tr>
                     <td>
-                        用户名：<input type="text" name="username" value=""  />
+                        名称：<input type="text" name="formName" value="" th:value="${declarationForm.formName}"  />
                     </td>
 
 
@@ -51,7 +51,7 @@
         <tbody >
         <tr th:each="declarationForm:${pageVo.contents}">
             <td th:text="${declarationFormStat.index+1}"></td>
-            <td th:text="${declarationForm.name}"></td>
+            <td th:text="${declarationForm.formName}"></td>
             <td th:text="${declarationForm.description}"></td>
             <td th:text="${declarationForm.room.name}"></td>
             <td th:text="${declarationForm.roomOption.name}"></td>

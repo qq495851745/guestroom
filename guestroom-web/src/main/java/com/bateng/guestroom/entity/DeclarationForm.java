@@ -16,7 +16,7 @@ public class DeclarationForm {
     private Integer id;
 
     @Column(name = "dname")
-    private String name;//名称
+    private String formName;//名称
 
     @Column(name="ddescription")
     private String description;//报修单说明
@@ -56,12 +56,12 @@ public class DeclarationForm {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFormName() {
+        return formName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFormName(String formName) {
+        this.formName = formName;
     }
 
     public String getDescription() {

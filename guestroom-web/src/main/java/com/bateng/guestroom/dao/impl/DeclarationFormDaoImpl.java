@@ -33,6 +33,11 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
             params.put("flag",declarationForm.getFlag());
         }
 
+        if(declarationForm.getFormName() !=null && !declarationForm.getFormName().equals("")){
+            sb.append(" and df.formName like :formName");
+            params.put("formName","%"+declarationForm.getFormName()+"%");
+        }
+
         Query query=entityManager.createQuery(sb.toString());//生成查询对象
 
         //设置参数

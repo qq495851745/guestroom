@@ -26,6 +26,7 @@ public class DeclarationFormController {
         //查询报修单
         pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
+        model.addAttribute("declarationForm",declarationForm);
 
         return "declarationForm/declarationForm_index";
     }
