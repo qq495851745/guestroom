@@ -72,6 +72,7 @@
         <tr >
             <th width="80">序号</th>
             <th width="120">用户名</th>
+            <th width="120">真实姓名</th>
             <th width="120">角色名称</th>
             <th width="120">所属用户层级</th>
             <th width="120">最近修改时间</th>
@@ -81,6 +82,7 @@
          <tr th:each="user:${pageVo.contents}" th:attr="rel=${user.id}">
              <td th:text="${userStat.index+1}">1</td>
              <td th:text="${user.username}">1</td>
+             <td th:text="${user.realName}"></td>
              <td th:text="${user.role.name}">1</td>
              <td th:text="${user.userLevel.name}">1</td>
              <td th:text="${user.updateDate}">1</td>
@@ -105,7 +107,7 @@
         </div>
 
         <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
-             class="pagination" rel="jbsxBox" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+             class="pagination" targettype="navTab"  totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
 
     </div>
 </div>

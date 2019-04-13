@@ -18,7 +18,7 @@ public class DeclarationFormController {
 
     @Autowired
     private DeclarationFormBiz declarationFormBiz;
-    @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET})
+    @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET,RequestMethod.POST})
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
         User u= (User) session.getAttribute("user");
 

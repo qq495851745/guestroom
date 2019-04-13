@@ -11,6 +11,12 @@
                 </dd>
             </dl>
             <dl class="nowrap">
+                <dt>用户名：</dt>
+                <dd>
+                    <input name="realName" type="text" th:value="${user.realName}" value="" class="required readonly" maxlength="50"/>
+                </dd>
+            </dl>
+            <dl class="nowrap">
                 <dt>密码：</dt>
                 <dd>
                     <input  id="user_edit_pwd" type="password" name="password" class=" alphanumeric" minlength="6" maxlength="20" alt="字母、数字、下划线 6-20位"/>

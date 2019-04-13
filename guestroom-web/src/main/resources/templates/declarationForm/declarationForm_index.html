@@ -1,5 +1,5 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/user/index" method="post">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/declarationForm/index" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">
@@ -77,7 +77,7 @@
         </div>
 
         <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
-             class="pagination" rel="jbsxBox" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+             class="pagination" targettype="navTab" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
 
     </div>
 </div>

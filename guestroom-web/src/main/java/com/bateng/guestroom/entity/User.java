@@ -17,6 +17,9 @@ public class User  {
     @Column(name = "upassword")
     private String password; //密码
 
+    @Column(name = "realname")
+    private String realName;//真实姓名
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;//角色
@@ -99,5 +102,13 @@ public class User  {
 
     public void setUserLevel(UserLevel userLevel) {
         this.userLevel = userLevel;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }
