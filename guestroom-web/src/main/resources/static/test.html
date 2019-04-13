@@ -6,22 +6,19 @@
     <base href="http://localhost/"/>
     <script type="text/javascript" src="dwz/js/jquery-1.11.3.js"></script>
     <script type="text/javascript">
-        $(function() {
-             $("#btn").on("click",{a:1},function(a){
-                 console.log(a.data)
-             })
-        })
-
+       function test(){
+           console.log('abc')
+           return true
+       }
 
     </script>
 
 
 </head>
 <body>
-<button id="btn">test</button>
-
-<div id="one"></div>
-<div id="two"></div>
+<form onsubmit="return test()">
+    <input type="submit" value="提交"/>
+</form>
 </body>
 </html>
 

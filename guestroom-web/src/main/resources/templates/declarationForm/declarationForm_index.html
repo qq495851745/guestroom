@@ -1,0 +1,96 @@
+<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/user/index" method="post">
+        <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
+        <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        用户名：<input type="text" name="username" value=""  />
+                    </td>
+
+
+                    <td>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">检索</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
+     xmlns:th="http://www.thymeleaf.org" id="user_index_pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add"   href="guestroom/user/toAdd"  target="navTab" mask="true"><span>添加用户</span></a>
+            </li>
+            <li><a class="delete" href="guestroom/user/{sid_obj}" target="ajaxTodo"
+                   title="确定要删除吗?" _method="delete"><span>删除</span></a></li>
+            <li><a class="edit" href="guestroom/user/{sid_obj}" target="navTab"
+                   mask="true"><span>修改</span></a></li>
+            <li class="line">line</li>
+            <!--<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
+                   title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="100" id="bt_declarationForm_table" >
+        <thead>
+        <tr >
+            <th width="80">序号</th>
+            <th width="120">报修单名称</th>
+            <th width="120">报修单描述</th>
+            <th width="120">报修房间</th>
+            <th width="120">报修部位</th>
+            <th width="120">报修人</th>
+        </tr>
+        </thead>
+        <tbody >
+
+
+
+        </tbody>
+        <script type="text/javascript">
+            $("#bt_declarationForm_table").find("th,td").css({"text-align": "center"});
+        </script>
+    </table>
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span>
+            <select id="bt_declarationForm_sel" class="combox" name="numPerPage"
+                    onchange="navTabPageBreak({numPerPage:this.value,pageNum:1})">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+            <span th:text="${'条，共'+pageVo.totalCount+'条'}">条，共50条</span>
+        </div>
+
+        <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
+             class="pagination" rel="jbsxBox" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(window).trigger("resize");
+    //消除分页错误
+    setTimeout(function () {
+        var len = $("#bt_declarationForm_sel").parent().find("a").size();
+        if (!len)
+            setTimeout(arguments.callee, 100);
+        else {
+            displayText({"relId":"user_index_pageContent"});
+            $("#bt_declarationForm_sel").css({display: "block"});
+            $("#bt_declarationForm_sel").prev().css({display: "none"});
+            $("#bt_declarationForm_sel").val($("#bt_declarationForm_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
+
+        }
+    }, 1);
+
+
+</script>
