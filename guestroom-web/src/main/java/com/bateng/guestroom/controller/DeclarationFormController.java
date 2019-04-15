@@ -58,6 +58,12 @@ public class DeclarationFormController {
         return jsonObject.toJSONString();
     }
 
+    //添加报修单查询roomOption
+    @RequestMapping(value = "/declarationForm/roomOption",method = RequestMethod.GET)
+    public String toRoomOptionLookup(){
+        return "declarationForm/declarationForm_add_lookup_roomOption";
+    }
+
     public DeclarationFormBiz getDeclarationFormBiz() {
         return declarationFormBiz;
     }
