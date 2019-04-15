@@ -23,7 +23,7 @@
     </form>
 </div>
 <div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
-     xmlns:th="http://www.thymeleaf.org" id="user_index_pageContent">
+     xmlns:th="http://www.thymeleaf.org" id="declaration_index_pageContent">
     <div class="panelBar">
         <ul class="toolBar">
             <li><a class="add"   href="guestroom/declarationForm/toAdd"  target="navTab" mask="true"><span>添加报修单</span></a>
@@ -91,7 +91,7 @@
         if (!len)
             setTimeout(arguments.callee, 100);
         else {
-            displayText({"relId":"user_index_pageContent"});
+            displayText({"relId":"declaration_index_pageContent"});
             $("#bt_declarationForm_sel").css({display: "block"});
             $("#bt_declarationForm_sel").prev().css({display: "none"});
             $("#bt_declarationForm_sel").val($("#bt_declarationForm_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
