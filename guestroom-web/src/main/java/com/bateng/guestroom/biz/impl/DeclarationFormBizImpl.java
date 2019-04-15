@@ -6,6 +6,7 @@ import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("declarationFormBiz")
 public class DeclarationFormBizImpl implements DeclarationFormBiz {
@@ -16,6 +17,12 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     public PageVo<DeclarationForm> findDeclarationFormByPage(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm) {
 
         return declarationFormDao.findDeclarationFormByPage(pageVo,declarationForm);
+    }
+
+    @Override
+    @Transactional
+    public void saveDeclarationForm(DeclarationForm declarationForm) {
+        declarationFormDao.save(declarationForm);
     }
 
     public DeclarationFormDao getDeclarationFormDao() {

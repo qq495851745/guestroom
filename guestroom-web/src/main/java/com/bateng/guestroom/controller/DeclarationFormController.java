@@ -1,6 +1,8 @@
 package com.bateng.guestroom.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bateng.guestroom.biz.DeclarationFormBiz;
+import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.User;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -37,6 +40,22 @@ public class DeclarationFormController {
     @RequestMapping(value = "/declarationForm/toAdd",method = RequestMethod.GET)
     public String toAdd(){
         return "declarationForm/declarationForm_add";
+    }
+
+
+    //做添加操作
+    @RequestMapping(value = "/declarationForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String add(DeclarationForm declarationForm,HttpSession session){
+        User user= (User) session.getAttribute("user");
+        declarationForm.setUser(user);
+        declarationFormBiz.saveDeclarationForm(declarationForm);
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("statusCode", StatusCodeDWZ.OK);
+        jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
+        jsonObject.put("navTabId", "w_14");
+        jsonObject.put("message", "报修单添加成功");
+        return jsonObject.toJSONString();
     }
 
     public DeclarationFormBiz getDeclarationFormBiz() {

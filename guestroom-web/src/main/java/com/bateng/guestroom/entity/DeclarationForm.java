@@ -41,11 +41,11 @@ public class DeclarationForm {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dcreatedate")
-    private Date createDate;//创建时间
+    private Date createDate=new Date();//创建时间
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dupdatedate")
-    private Date updateDate;//更新时间
+    private Date updateDate = new Date();//更新时间
 
 
     public Integer getId() {

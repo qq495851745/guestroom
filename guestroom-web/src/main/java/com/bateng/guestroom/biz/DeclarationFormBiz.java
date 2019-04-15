@@ -2,6 +2,7 @@ package com.bateng.guestroom.biz;
 
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.PageVo;
+import org.dom4j.dtd.Decl;
 
 public interface DeclarationFormBiz {
     /**
@@ -11,4 +12,10 @@ public interface DeclarationFormBiz {
      * @return
      */
     public PageVo<DeclarationForm> findDeclarationFormByPage(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm);
+
+    /**
+     * 添加
+     * @param declarationForm
+     */
+    public void saveDeclarationForm(DeclarationForm declarationForm);
 }
