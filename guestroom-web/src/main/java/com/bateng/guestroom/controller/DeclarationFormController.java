@@ -31,6 +31,14 @@ public class DeclarationFormController {
         return "declarationForm/declarationForm_index";
     }
 
+
+
+    //跳转添加页面
+    @RequestMapping(value = "/declarationForm/toAdd",method = RequestMethod.GET)
+    public String toAdd(){
+        return "declarationForm/declarationForm_add";
+    }
+
     public DeclarationFormBiz getDeclarationFormBiz() {
         return declarationFormBiz;
     }
