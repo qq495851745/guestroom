@@ -45,7 +45,7 @@
             <th width="120">报修单描述</th>
             <th width="120">报修房间号</th>
             <th width="120">报修部位</th>
-            <th width="120">报修人</th>
+            <th width="120">报修人(真实姓名)</th>
         </tr>
         </thead>
         <tbody >
@@ -55,7 +55,7 @@
             <td th:text="${declarationForm.description}"></td>
             <td th:text="${declarationForm.room.name}"></td>
             <td th:text="${declarationForm.roomOption.name}"></td>
-            <td th:text="${declarationForm.user.username}"></td>
+            <td th:text="${declarationForm.user.username+'('+declarationForm.user.realName+')'}"></td>
         </tr>
 
 

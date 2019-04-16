@@ -26,13 +26,9 @@
      xmlns:th="http://www.thymeleaf.org">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add"  href="guestroom/room/toAdd" title="房间添加"  target="navTab" rel="roomnavTab" mask="true"><span>添加房间</span></a>
+            <li><a class="add"  href="javascript:void(0)" title="房间选择"   id="declarationForm_add_lookup_room_show_a"><span>选择</span></a>
             </li>
-            <li><a class="delete" href="guestroom/room/{sid_obj}" target="ajaxTodo"
-                   title="确定要删除吗?" _method="delete" ><span>删除</span></a></li>
-            <li><a class="edit" href="guestroom/room/toEdit/{sid_obj}" target="navTab" rel="roomEditnavTab"
-                   mask="true"><span>修改/查看</span></a></li>
-            <li class="line">line</li>
+
             <!--<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
                    title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
         </ul>
@@ -44,6 +40,7 @@
             <th width="120">房号</th>
             <th width="120">房间描述</th>
             <th width="120">最近修改时间</th>
+            <th width="120">所属层级</th>
         </tr>
         </thead>
         <tbody >
@@ -52,6 +49,13 @@
             <td th:text="${room.name}"></td>
             <td th:text="${room.des}"></td>
             <td th:text="${room.updateDate}"></td>
+            <td >
+                <th:block th:each="rls:${room.roomAndRoomLevels}">
+                    <span th:if="${rlsStat.index != 0}">,</span>
+                    <span th:text="${rls.roomLevel.name}"></span>
+                </th:block>
+
+            </td>
         </tr>
 
 
@@ -87,7 +91,14 @@
         if (!len)
             setTimeout(arguments.callee, 100);
         else {
-            displayText({"relId":"roomBox"});
+             //获取选择项
+            var $table=$("#declarationForm_add_lookup_room_box").find(".gridTbody");
+            $table.find("tr").on("click",function () {
+                var id=$(this).attr("rel");
+                var name=$(this).find(">td:eq(1)").text()
+                var json='{"id":'+id+',"name":"'+name+'"}'
+                $("#declarationForm_add_lookup_room_show_a").attr("onclick","$.bringBack("+json+")")
+            })
             $("#declaration_add_lookup_room_show_sel").css({display: "block"});
             $("#declaration_add_lookup_room_show_sel").prev().css({display: "none"});
             $("#declaration_add_lookup_room_show_sel").val($("input[name=\"numPerPage\"]").val());

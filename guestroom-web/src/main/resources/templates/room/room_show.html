@@ -1,4 +1,5 @@
-<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
+<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org"
+     xmlns:td="http://www.thymeleaf.org">
     <form id="pagerForm" onsubmit="return divSearch(this, 'roomBox');" action="guestroom/room/roomLevel/show" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
@@ -44,6 +45,7 @@
             <th width="120">房号</th>
             <th width="120">房间描述</th>
             <th width="120">最近修改时间</th>
+            <th width="120">所属层级</th>
         </tr>
         </thead>
         <tbody >
@@ -52,6 +54,13 @@
             <td th:text="${room.name}"></td>
             <td th:text="${room.des}"></td>
             <td th:text="${room.updateDate}"></td>
+            <td >
+                <th:block th:each="rls:${room.roomAndRoomLevels}">
+                    <span th:if="${rlsStat.index != 0}">,</span>
+                    <span th:text="${rls.roomLevel.name}"></span>
+                </th:block>
+
+            </td>
         </tr>
 
 

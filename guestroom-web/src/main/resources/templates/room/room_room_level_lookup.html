@@ -5,7 +5,7 @@
                 <li>
                     <div class="button">
                         <div class="buttonContent">
-                            <button type="button" multLookup="room_room_level_lookup_tree_room_level" warn="请选择部门1">选择带回</button>
+                            <button type="button" multLookup="room_room_level_lookup_tree_room_level" warn="请选择">选择带回</button>
                         </div>
                     </div>
                 </li>
@@ -15,10 +15,11 @@
 </div>
 
 <div class="pageContent">
-    <ul class="tree treeFolder treeCheck collapse" id="room_room_level_lookup_tree" >
+    <div class="pageFormContent" layoutH="58">
+    <ul class="tree treeFolder treeCheck expand" id="room_room_level_lookup_tree" >
 
     </ul>
-
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -57,7 +58,7 @@
                 if (!events1 || !events2)//判断默认事件已经加载
                     window.setTimeout(arguments.callee, 1);
                 else {
-                    //取消默认事件
+                   /* //取消默认事件
                     var $aAll=$("#room_room_level_lookup_tree a");
                     var $ckboxAll=$("#room_room_level_lookup_tree div.ckbox");
                     $aAll.add($ckboxAll).off("click");
@@ -86,7 +87,7 @@
                         ckbox.removeClass("unchecked").addClass("checked");
                         $input.attr("checked", "checked");//默认勾选层级
                         alertMsg.warn("正在添加的房间所属此层级为必选，不可取消");
-                    });
+                    });*/
                      //默认选项
                     var val=$("#room_add_roomLevel_id").val();
                     var vals=val.split(",");
