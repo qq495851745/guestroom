@@ -33,6 +33,7 @@ public class RoomLevelAjaxController extends BaseController {
         return roomLevelBiz.findAllRoomLevelAjax(1,map);
     }
 
+
     public RoomLevelBiz getRoomLevelBiz() {
         return roomLevelBiz;
     }

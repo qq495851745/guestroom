@@ -9,25 +9,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class TestController {
 
-    @RequestMapping("test")
-    @ResponseBody
-    public String test(){
+    @RequestMapping(value = {"/abc","/efg"})
+public String test(HttpServletRequest request){
+        System.out.println(request.getPathInfo() +"             sfwe");
+        System.out.println(request.getContextPath()+"   abc");
+        System.out.println(request.getRequestURL());
+        System.out.println(request.getServletPath());
 
-        return  "";
-    }
-
-
-
-
-    @RequestMapping("obj")
-public String test01(){
-        return "obj";
+    return "";
 }
-
 }

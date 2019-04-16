@@ -39,21 +39,27 @@ public class RoomController extends BaseController {
     }
 
     //第一次跳转
-    @RequestMapping(value = "/room/roomLevel/show/{roomLevel.id}" ,method = {RequestMethod.GET})
-    public String findRoomByRoomLevel1(@PathVariable(value = "roomLevel.id")  int id, Model model, PageVo<Room> pageVo, RoomAndRoomLevel roomAndRoomLevel){
+    @RequestMapping(value = {"/room/roomLevel/show/{roomLevel.id}","/declarationForm/roomLevel/room/show/{roomLevel.id}"} ,method = {RequestMethod.GET})
+    public String findRoomByRoomLevel1(@PathVariable(value = "roomLevel.id")  int id, Model model, PageVo<Room> pageVo, RoomAndRoomLevel roomAndRoomLevel,HttpServletRequest request){
       pageVo=roomBiz.findRoomByPage(pageVo,roomAndRoomLevel);
       model.addAttribute("pageVo",pageVo);
       model.addAttribute("roomAndRoomLevel",roomAndRoomLevel);
-        return  "room/room_show";
+        if(request.getRequestURL().indexOf("declarationForm")!=-1)
+            return "declarationForm/declarationForm_add_lookup_room_show";
+        else
+            return  "room/room_show";
     }
 
     //第二次跳转
-    @RequestMapping(value = "/room/roomLevel/show" ,method = {RequestMethod.POST})
-    public String findRoomByRoomLevel2(Model model, PageVo<Room> pageVo, RoomAndRoomLevel roomAndRoomLevel){
+    @RequestMapping(value = {"/room/roomLevel/show","/declarationForm/roomLevel/room/show"} ,method = {RequestMethod.POST})
+    public String findRoomByRoomLevel2(Model model, PageVo<Room> pageVo, RoomAndRoomLevel roomAndRoomLevel,HttpServletRequest request){
         pageVo=roomBiz.findRoomByPage(pageVo,roomAndRoomLevel);
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("roomAndRoomLevel",roomAndRoomLevel);
-        return  "room/room_show";
+        if(request.getRequestURL().indexOf("declarationForm")!=-1)
+            return "declarationForm/declarationForm_add_lookup_room_show";
+        else
+            return  "room/room_show";
     }
 
     //跳转到添加页面

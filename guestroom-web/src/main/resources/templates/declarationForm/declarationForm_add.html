@@ -15,6 +15,14 @@
                 </dd>
             </dl>
             <dl class="nowrap">
+                <dt>报修的房间:</dt>
+                <dd>
+                    <input name="roomOption.id" value="" type="hidden" class="required"/>
+                    <input class="required readonly" disabled="disabled" name="roomOption.name" type="text"  lookupGroup="room" />
+                    <a class="btnLook" href="/guestroom/declarationForm/room" lookupGroup="room" >选择报修的房间</a>
+                </dd>
+            </dl>
+            <dl class="nowrap">
                 <dt>房间的报修部位:</dt>
                 <dd>
                     <input name="roomOption.id" value="" type="hidden" class="required"/>
@@ -22,6 +30,7 @@
                     <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="roomOption" >选择房间报修部位</a>
                 </dd>
             </dl>
+
 
 
 

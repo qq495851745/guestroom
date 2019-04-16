@@ -14,7 +14,13 @@ public class AttachJsonTreeDWZ {
     public static class RoomDWZ{
         public static final String ROOM_TREE_REL="roomBox";
         public static final String ROOM_TREE_HREF="guestroom/room/roomLevel/show/";
+
+        public static  final String DECLARATION_ROOM_TREE_REL="declarationForm_add_lookup_room_box";
+        public static  final String  DECLARATION_ROOM_TREE_HREF="guestroom/declarationForm/roomLevel/room/show/";
     }
+
+
+
 
 
     //UserLevel
