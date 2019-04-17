@@ -2,6 +2,7 @@ package com.bateng.guestroom.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 报修单实体
@@ -38,6 +39,10 @@ public class DeclarationForm {
     @Column(name = "delflag")
     private Integer flag=1;//删除标记
 
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "declarationform_id")
+    private List<DeclarationFormPhoto> declarationFormPhotos;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dcreatedate")
@@ -118,5 +123,13 @@ public class DeclarationForm {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<DeclarationFormPhoto> getDeclarationFormPhotos() {
+        return declarationFormPhotos;
+    }
+
+    public void setDeclarationFormPhotos(List<DeclarationFormPhoto> declarationFormPhotos) {
+        this.declarationFormPhotos = declarationFormPhotos;
     }
 }
