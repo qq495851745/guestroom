@@ -95,7 +95,9 @@ public class RoomController extends BaseController {
                roomPhoto.setPath(client);
                roomPhoto.setExt(FastDFSClient.getFileExt(file.getOriginalFilename()));
                roomPhoto.setOrigName(file.getOriginalFilename());
+               roomPhoto.setRoom(room);
                roomPhotos.add(roomPhoto);
+
             }
         } catch (Exception e) {
            logger.error("图片上传出错",e);

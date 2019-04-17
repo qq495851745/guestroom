@@ -6,18 +6,16 @@
     <base href="http://localhost/"/>
     <script type="text/javascript" src="dwz/js/jquery-1.11.3.js"></script>
     <script type="text/javascript">
-       function test(){
-           console.log('abc')
-           return true
-       }
+
 
     </script>
 
 
 </head>
 <body>
-<form onsubmit="return test()">
-    <input type="submit" value="提交"/>
+<form method="post" enctype="multipart/form-data" action="upload">
+    <input type="file" name="fm" value=""/>
+    <input type="submit" value="上传"/>
 </form>
 </body>
 </html>
