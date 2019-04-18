@@ -32,13 +32,16 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     @Override
     @Transactional
     public void deleteById(int id) {
-        //删除图片
+        /*//删除图片
         DeclarationForm declarationForm=declarationFormDao.getOne(id);
         List<DeclarationFormPhoto> photos=declarationForm.getDeclarationFormPhotos();
         for(DeclarationFormPhoto photo:photos){
             FastDFSClient.deleteFile(photo.getPath());
         }
-        declarationFormDao.deleteById(id);
+        declarationFormDao.deleteById(id);*/
+        //假删除
+        declarationFormDao.updateByFlag(0,id);
+
     }
 
     public DeclarationFormDao getDeclarationFormDao() {
