@@ -1,5 +1,6 @@
 package com.bateng.guestroom.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bateng.guestroom.biz.DeclarationFormBiz;
 import com.bateng.guestroom.biz.RoomLevelBiz;
@@ -13,10 +14,7 @@ import com.bateng.guestroom.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -105,6 +103,18 @@ public class DeclarationFormController {
         map.put("href",AttachJsonTreeDWZ.RoomDWZ.DECLARATION_ROOM_TREE_HREF);
 
         return roomLevelBiz.findAllRoomLevelAjax(1,map);
+    }
+
+    //做删除
+    @RequestMapping(value = "/declarationForm/{id}",method = RequestMethod.DELETE,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String del(@PathVariable("id") int id){
+        declarationFormBiz.deleteById(id);
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("statusCode",StatusCodeDWZ.OK);
+        jsonObject.put("message","删除成功!");
+        jsonObject.put("navTabId","w_14");
+        return  jsonObject.toJSONString();
     }
 
     public DeclarationFormBiz getDeclarationFormBiz() {

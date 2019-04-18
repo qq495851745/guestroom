@@ -18,4 +18,10 @@ public interface DeclarationFormBiz {
      * @param declarationForm
      */
     public void saveDeclarationForm(DeclarationForm declarationForm);
+
+    /**
+     * 删除
+     * @param id
+     */
+    public void deleteById(int id);
 }

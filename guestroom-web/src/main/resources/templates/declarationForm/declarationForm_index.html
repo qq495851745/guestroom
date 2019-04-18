@@ -28,7 +28,7 @@
         <ul class="toolBar">
             <li><a class="add"   href="guestroom/declarationForm/toAdd"  target="navTab" mask="true"><span>添加报修单</span></a>
             </li>
-            <li><a class="delete" href="guestroom/user/{sid_obj}" target="ajaxTodo"
+            <li><a class="delete" href="guestroom/declarationForm/{sid_obj}" target="ajaxTodo"
                    title="确定要删除吗?" _method="delete"><span>删除</span></a></li>
             <li><a class="edit" href="guestroom/user/{sid_obj}" target="navTab"
                    mask="true"><span>修改</span></a></li>
@@ -49,7 +49,7 @@
         </tr>
         </thead>
         <tbody >
-        <tr th:each="declarationForm:${pageVo.contents}">
+        <tr th:each="declarationForm:${pageVo.contents}" th:attr="rel=${declarationForm.id}">
             <td th:text="${declarationFormStat.index+1}"></td>
             <td th:text="${declarationForm.formName}"></td>
             <td th:text="${declarationForm.description}"></td>
