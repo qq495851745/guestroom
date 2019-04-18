@@ -1,5 +1,5 @@
 <h2 class="contentTitle">报修单修改</h2>
-<form xmlns:th="http://www.thymeleaf.org" method="post" action="guestroom/room" class="pageForm required-validate"
+<form xmlns:th="http://www.thymeleaf.org" method="post" action="guestroom/declarationForm" class="pageForm required-validate"
       enctype="multipart/form-data" onsubmit="return iframeCallback(this, navTabAjaxDone);">
     <input type="hidden" name="id" value="" th:value="${declarationForm.id}"/>
     <input type="hidden" name="_method" value="PUT"/>

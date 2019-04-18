@@ -119,12 +119,43 @@ public class DeclarationFormController  extends BaseController {
         return  jsonObject.toJSONString();
     }
 
+    //跳转修改
     @RequestMapping(value = "/declarationForm/{id}",method = RequestMethod.GET)
     public String toEdit(@PathVariable("id") int id,DeclarationForm declarationForm,Model model){
         declarationForm=declarationFormBiz.getDeclarationFormById(id);
         model.addAttribute("declarationForm",declarationForm);
         addurl(model);
         return  "declarationForm/declarationForm_edit";
+    }
+
+    //做修改
+    @RequestMapping(value = "/declarationForm",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String doEdit(DeclarationForm declarationForm,@RequestParam("photo") MultipartFile[] files) throws  Exception{
+        //保存图片
+        List<DeclarationFormPhoto> photoList=new ArrayList<DeclarationFormPhoto>();
+        for(MultipartFile file:files){
+            String orname=file.getOriginalFilename();//获取原始文件名
+            if(orname.equals(""))
+                continue;
+            String ext=FastDFSClient.getFileExt(orname);//获取扩展名
+            String path=FastDFSClient.uploadFile(file.getInputStream(),orname);//上传文件
+            DeclarationFormPhoto photo=new DeclarationFormPhoto();
+            photo.setCreateDate(new Date());
+            photo.setExt(ext);
+            photo.setPath(path);
+            photo.setOrigName(orname);
+            photo.setDeclarationForm(declarationForm);
+            photoList.add(photo);//添加到列表
+        }
+        declarationForm.setDeclarationFormPhotos(photoList);
+        declarationFormBiz.updateDeclarationForm(declarationForm);
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("statusCode", StatusCodeDWZ.OK);
+        jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
+        jsonObject.put("navTabId", "w_14");
+        jsonObject.put("message", "报修单修改成功");
+        return jsonObject.toJSONString();
     }
 
     public DeclarationFormBiz getDeclarationFormBiz() {

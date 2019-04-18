@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public interface DeclarationFormDao extends JpaRepository<DeclarationForm,Integer>, DeclarationFormRepository {
 
@@ -15,4 +17,9 @@ public interface DeclarationFormDao extends JpaRepository<DeclarationForm,Intege
     @Modifying
     @Query("update DeclarationForm df set df.flag=:flag where df.id=:id")
     public void updateByFlag(@Param("flag") int flag, @Param("id") int id);
+
+    @Modifying
+    @Query("update DeclarationForm  df set df.formName=:formName,df.updateDate=:updateDate,df.description=:description" +
+            ",df.roomOption.id=:roomOptionId,df.room.id=:roomId where df.id=:id")
+    public void updateDeclaration(String formName, Date updateDate,String description,int roomOptionId,int roomId,int id);
 }

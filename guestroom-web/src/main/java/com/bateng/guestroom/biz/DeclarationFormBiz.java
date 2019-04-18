@@ -31,4 +31,10 @@ public interface DeclarationFormBiz {
      * @return
      */
     public DeclarationForm getDeclarationFormById(int id);
+
+    /**
+     * 修改
+     * @param declarationForm
+     */
+    public void updateDeclarationForm(DeclarationForm declarationForm);
 }
