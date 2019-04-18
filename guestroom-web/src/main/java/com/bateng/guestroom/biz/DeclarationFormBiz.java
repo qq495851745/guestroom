@@ -24,4 +24,11 @@ public interface DeclarationFormBiz {
      * @param id
      */
     public void deleteById(int id);
+
+    /**
+     * 查询
+     * @param id
+     * @return
+     */
+    public DeclarationForm getDeclarationFormById(int id);
 }

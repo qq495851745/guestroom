@@ -44,6 +44,11 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
 
     }
 
+    @Override
+    public DeclarationForm getDeclarationFormById(int id) {
+        return declarationFormDao.getOne(id);
+    }
+
     public DeclarationFormDao getDeclarationFormDao() {
         return declarationFormDao;
     }

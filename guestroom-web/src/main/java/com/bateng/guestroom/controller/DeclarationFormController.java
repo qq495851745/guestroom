@@ -6,12 +6,14 @@ import com.bateng.guestroom.biz.DeclarationFormBiz;
 import com.bateng.guestroom.biz.RoomLevelBiz;
 import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
+import com.bateng.guestroom.config.controller.BaseController;
 import com.bateng.guestroom.config.util.FastDFSClient;
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.DeclarationFormPhoto;
 import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/guestroom")
-public class DeclarationFormController {
+public class DeclarationFormController  extends BaseController {
 
     @Autowired
     private DeclarationFormBiz declarationFormBiz;
@@ -115,6 +117,14 @@ public class DeclarationFormController {
         jsonObject.put("message","删除成功!");
         jsonObject.put("navTabId","w_14");
         return  jsonObject.toJSONString();
+    }
+
+    @RequestMapping(value = "/declarationForm/{id}",method = RequestMethod.GET)
+    public String toEdit(@PathVariable("id") int id,DeclarationForm declarationForm,Model model){
+        declarationForm=declarationFormBiz.getDeclarationFormById(id);
+        model.addAttribute("declarationForm",declarationForm);
+        addurl(model);
+        return  "declarationForm/declarationForm_edit";
     }
 
     public DeclarationFormBiz getDeclarationFormBiz() {
