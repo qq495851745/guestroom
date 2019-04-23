@@ -21,6 +21,12 @@ public class DeclarationFormPhotoBizImpl implements DeclarationFormPhotoBiz {
         declarationFormPhotoDao.deleteById(id);
     }
 
+    @Override
+    @Transactional
+    public void saveDeclaratrionFormPhoto(DeclarationFormPhoto declarationFormPhoto) {
+        declarationFormPhotoDao.save(declarationFormPhoto);
+    }
+
     public DeclarationFormPhotoDao getDeclarationFormPhotoDao() {
         return declarationFormPhotoDao;
     }

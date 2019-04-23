@@ -1,6 +1,5 @@
 package com.bateng.guestroom.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.alibaba.fastjson.JSONObject;
 import com.bateng.guestroom.biz.RoomBiz;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
@@ -16,12 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -45,7 +42,7 @@ public class RoomController extends BaseController {
       model.addAttribute("pageVo",pageVo);
       model.addAttribute("roomAndRoomLevel",roomAndRoomLevel);
         if(request.getRequestURL().indexOf("declarationForm")!=-1)
-            return "declarationForm/declarationForm_add_lookup_room_show";
+            return "declarationForm/guest/declarationForm_add_lookup_room_show";
         else
             return  "room/room_show";
     }
@@ -57,7 +54,7 @@ public class RoomController extends BaseController {
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("roomAndRoomLevel",roomAndRoomLevel);
         if(request.getRequestURL().indexOf("declarationForm")!=-1)
-            return "declarationForm/declarationForm_add_lookup_room_show";
+            return "declarationForm/guest/declarationForm_add_lookup_room_show";
         else
             return  "room/room_show";
     }

@@ -1,6 +1,5 @@
 package com.bateng.guestroom.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bateng.guestroom.biz.DeclarationFormBiz;
 import com.bateng.guestroom.biz.RoomLevelBiz;
@@ -8,12 +7,8 @@ import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.config.controller.BaseController;
 import com.bateng.guestroom.config.util.FastDFSClient;
-import com.bateng.guestroom.entity.DeclarationForm;
-import com.bateng.guestroom.entity.DeclarationFormPhoto;
-import com.bateng.guestroom.entity.PageVo;
-import com.bateng.guestroom.entity.User;
+import com.bateng.guestroom.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +35,7 @@ public class DeclarationFormController  extends BaseController {
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("declarationForm",declarationForm);
 
-        return "declarationForm/declarationForm_index";
+        return "declarationForm/guest/declarationForm_index";
     }
 
 
@@ -48,7 +43,7 @@ public class DeclarationFormController  extends BaseController {
     //跳转添加页面
     @RequestMapping(value = "/declarationForm/toAdd",method = RequestMethod.GET)
     public String toAdd(){
-        return "declarationForm/declarationForm_add";
+        return "declarationForm/guest/declarationForm_add";
     }
 
 
@@ -68,7 +63,7 @@ public class DeclarationFormController  extends BaseController {
             photo.setExt(ext);
             photo.setPath(path);
             photo.setOrigName(orname);
-            photo.setDeclarationForm(declarationForm);
+            //photo.setDeclarationForm(declarationForm);
             photoList.add(photo);//添加到列表
         }
         declarationForm.setDeclarationFormPhotos(photoList);
@@ -86,14 +81,14 @@ public class DeclarationFormController  extends BaseController {
     //添加报修单查询roomOption
     @RequestMapping(value = "/declarationForm/roomOption",method = RequestMethod.GET)
     public String toRoomOptionLookup(){
-        return "declarationForm/declarationForm_add_lookup_roomOption";
+        return "declarationForm/guest/declarationForm_add_lookup_roomOption";
     }
 
 
     //跳转添加报修单查询Room
     @RequestMapping(value = "/declarationForm/room",method = RequestMethod.GET)
     public String toRoom(){
-        return "declarationForm/declarationForm_add_lookup_room_index";
+        return "declarationForm/guest/declarationForm_add_lookup_room_index";
     }
 
     //查询room
@@ -125,7 +120,7 @@ public class DeclarationFormController  extends BaseController {
         declarationForm=declarationFormBiz.getDeclarationFormById(id);
         model.addAttribute("declarationForm",declarationForm);
         addurl(model);
-        return  "declarationForm/declarationForm_edit";
+        return  "declarationForm/guest/declarationForm_edit";
     }
 
     //做修改
@@ -157,6 +152,37 @@ public class DeclarationFormController  extends BaseController {
         jsonObject.put("message", "报修单修改成功");
         return jsonObject.toJSONString();
     }
+
+
+    /**
+     *
+     * 以下方法是工程人员操作报修单
+     *
+     *
+     * begin
+     */
+
+    /**
+     * 工程查询新建状态报修单
+     * @return
+     */
+    @RequestMapping(value = "project/declarationForm/show",method = RequestMethod.GET)
+    public String show(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,Model model){
+        DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
+        declarationFormStatus.setId(1);
+        declarationForm.setDeclarationFormStatus(declarationFormStatus);
+
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
+        model.addAttribute("pageVo",pageVo);
+        model.addAttribute("declarationForm",declarationForm);
+        return  "declarationForm/project/declarationForm_index";
+    }
+
+
+    /**
+     * end
+     *
+     */
 
     public DeclarationFormBiz getDeclarationFormBiz() {
         return declarationFormBiz;

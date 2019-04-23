@@ -46,6 +46,7 @@
             <th width="120">报修房间号</th>
             <th width="120">报修部位</th>
             <th width="120">报修人(真实姓名)</th>
+            <th width="120">状态</th>
         </tr>
         </thead>
         <tbody >
@@ -56,6 +57,7 @@
             <td th:text="${declarationForm.room.name}"></td>
             <td th:text="${declarationForm.roomOption.name}"></td>
             <td th:text="${declarationForm.user.username+'('+declarationForm.user.realName+')'}"></td>
+            <td th:text="${declarationForm.declarationFormStatus.status}"></td>
         </tr>
 
 

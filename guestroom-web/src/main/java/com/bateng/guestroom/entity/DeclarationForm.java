@@ -52,6 +52,16 @@ public class DeclarationForm {
     @Column(name = "dupdatedate")
     private Date updateDate = new Date();//更新时间
 
+    @ManyToOne
+    @JoinColumn(name = "dfstatus")
+    private DeclarationFormStatus declarationFormStatus;
+
+    /**
+     * 状态
+     * 0,表示刚新建，工程未读
+     * @return
+     */
+
 
     public Integer getId() {
         return id;
@@ -131,5 +141,13 @@ public class DeclarationForm {
 
     public void setDeclarationFormPhotos(List<DeclarationFormPhoto> declarationFormPhotos) {
         this.declarationFormPhotos = declarationFormPhotos;
+    }
+
+    public DeclarationFormStatus getDeclarationFormStatus() {
+        return declarationFormStatus;
+    }
+
+    public void setDeclarationFormStatus(DeclarationFormStatus declarationFormStatus) {
+        this.declarationFormStatus = declarationFormStatus;
     }
 }

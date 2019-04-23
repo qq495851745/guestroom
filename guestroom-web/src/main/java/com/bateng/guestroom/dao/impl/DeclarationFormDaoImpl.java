@@ -38,6 +38,12 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
             params.put("formName","%"+declarationForm.getFormName()+"%");
         }
 
+        //获取是否有状态
+        if(declarationForm.getDeclarationFormStatus() !=null && declarationForm.getDeclarationFormStatus().getId() != 0){
+            sb.append(" and df.declarationFormStatus.id = :declarationFormStatusId");
+            params.put("declarationFormStatusId",declarationForm.getDeclarationFormStatus().getId());
+        }
+
         Query query=entityManager.createQuery(sb.toString());//生成查询对象
 
         //设置参数
