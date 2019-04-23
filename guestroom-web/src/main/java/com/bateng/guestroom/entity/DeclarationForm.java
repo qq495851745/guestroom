@@ -56,6 +56,10 @@ public class DeclarationForm {
     @JoinColumn(name = "dfstatus")
     private DeclarationFormStatus declarationFormStatus;
 
+    @ManyToOne
+    @JoinColumn(name = "project_user_id")
+    private User projectUser;//维修人
+
     /**
      * 状态
      * 0,表示刚新建，工程未读
@@ -149,5 +153,13 @@ public class DeclarationForm {
 
     public void setDeclarationFormStatus(DeclarationFormStatus declarationFormStatus) {
         this.declarationFormStatus = declarationFormStatus;
+    }
+
+    public User getProjectUser() {
+        return projectUser;
+    }
+
+    public void setProjectUser(User projectUser) {
+        this.projectUser = projectUser;
     }
 }

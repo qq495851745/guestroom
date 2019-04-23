@@ -166,7 +166,7 @@ public class DeclarationFormController  extends BaseController {
      * 工程查询新建状态报修单
      * @return
      */
-    @RequestMapping(value = "project/declarationForm/show",method = RequestMethod.GET)
+    @RequestMapping(value = "project/declarationForm/show",method = {RequestMethod.GET,RequestMethod.POST})
     public String show(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,Model model){
         DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
         declarationFormStatus.setId(1);
@@ -177,6 +177,10 @@ public class DeclarationFormController  extends BaseController {
         model.addAttribute("declarationForm",declarationForm);
         return  "declarationForm/project/declarationForm_index";
     }
+
+
+    //处理报修，选择维修人
+
 
 
     /**

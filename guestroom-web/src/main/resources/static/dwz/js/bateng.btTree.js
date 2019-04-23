@@ -90,6 +90,7 @@ function displayText(json) {
         }
         //修改删除标签
         $sel = $("#" + json["relId"]).find(".gridTbody").find("tr");
+
         $sel.on("click", function () {
             var id = $(this).attr("rel");//获取rel属性 就是id
             var $del = $("#" + json["relId"]).find("a.delete");
@@ -103,6 +104,7 @@ function displayText(json) {
             text = $edit.attr("href");
             text = text.replace(/\/[^\/]+$/g, "/" + id);
             $edit.attr("href", text); //修改href属性
+
 
         })
     }
