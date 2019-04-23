@@ -44,6 +44,11 @@ public class DeclarationForm {
     @JoinColumn(name = "declarationform_id")
     private List<DeclarationFormPhoto> declarationFormPhotos;
 
+
+    @OneToMany
+    @JoinColumn(name = "declaration_form_id")
+    private List<AppointForm> appointForms;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dcreatedate")
     private Date createDate=new Date();//创建时间
@@ -56,9 +61,9 @@ public class DeclarationForm {
     @JoinColumn(name = "dfstatus")
     private DeclarationFormStatus declarationFormStatus;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "project_user_id")
-    private User projectUser;//维修人
+    private User projectUser;//维修人*/
 
     /**
      * 状态
@@ -155,11 +160,11 @@ public class DeclarationForm {
         this.declarationFormStatus = declarationFormStatus;
     }
 
-    public User getProjectUser() {
-        return projectUser;
+    public List<AppointForm> getAppointForms() {
+        return appointForms;
     }
 
-    public void setProjectUser(User projectUser) {
-        this.projectUser = projectUser;
+    public void setAppointForms(List<AppointForm> appointForms) {
+        this.appointForms = appointForms;
     }
 }

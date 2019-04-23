@@ -26,10 +26,11 @@
      xmlns:th="http://www.thymeleaf.org" id="declaration_project_index_pageContent">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add deal"   href="guestroom/declarationForm/toAdd/{sid_obj}"  target="navTab" mask="true"><span>处理报修单</span></a>
+            <li><a class="add deal"   href="guestroom/declarationForm/toAdd/{sid_obj}"  target="navTab" mask="true"><span>查看/处理</span></a>
             </li>
-            <!--<li><a class="delete" href="guestroom/declarationForm/{sid_obj}" target="ajaxTodo"
-                   title="确定要删除吗?" _method="delete"><span>删除</span></a></li>
+            <li><a class="add deal"   href="guestroom/appointForm/declarationForm/{sid_obj}"  target="navTab" mask="true"><span>查看/委派</span></a>
+            </li>
+            <!--
             <li><a class="edit" href="guestroom/declarationForm/{sid_obj}" target="navTab"
                    mask="true"><span>修改</span></a></li>-->
             <li class="line">line</li>
@@ -102,7 +103,10 @@
                 text = text.replace(/\/[^\/]+$/g, "/" + id);
                 $deal.attr("href", text); //修改href属性
                 text = $(this).find("td:eq(1)").find("div").text();
-                $deal.find("span").html("查看/处理" + "<b style='color: red'>" + text + "</b>报修单");
+                $deal.find("span").each(function(i,obj){
+                    $(this).html(($(this).text().indexOf("处理")==-1?"查看/委派":"查看/处理") + "<b style='color: red'>" + text + "</b>报修单")
+                })
+               // $deal.find("span").html("查看/处理" + "<b style='color: red'>" + text + "</b>报修单");
             })
             $("#bt_declarationForm_project_sel").css({display: "block"});
             $("#bt_declarationForm_project_sel").prev().css({display: "none"});

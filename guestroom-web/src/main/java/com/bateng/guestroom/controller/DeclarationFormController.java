@@ -175,7 +175,7 @@ public class DeclarationFormController  extends BaseController {
         pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("declarationForm",declarationForm);
-        return  "declarationForm/project/declarationForm_index";
+        return "declarationForm/project/declarationForm_project_index";
     }
 
 
