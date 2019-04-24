@@ -21,6 +21,16 @@ public class DeclarationFormStatus {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
+    public DeclarationFormStatus(String status) {
+        this.status = status;
+    }
+
+    public DeclarationFormStatus(int id){
+        this.id=id;
+    }
+    public DeclarationFormStatus() {
+    }
+
     public int getId() {
         return id;
     }

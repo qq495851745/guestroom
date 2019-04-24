@@ -8,6 +8,7 @@ import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.config.controller.BaseController;
 import com.bateng.guestroom.entity.AppointForm;
 import com.bateng.guestroom.entity.DeclarationForm;
+import com.bateng.guestroom.entity.DeclarationFormStatus;
 import com.bateng.guestroom.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,13 @@ public class AppointFormController extends BaseController {
     public String toAdd(@PathVariable("id") int id, Model model, DeclarationForm declarationForm){
         declarationForm = declarationFormBiz.getDeclarationFormById(id);
         model.addAttribute("declarationForm",declarationForm);
+        //修改状态为已读
+        DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
+        declarationFormStatus.setId(2);
+        declarationForm.setDeclarationFormStatus(declarationFormStatus);
+        declarationFormBiz.updateStatus(declarationForm);
         addurl(model);
+
         return "appointForm/appointForm_add";
     }
 

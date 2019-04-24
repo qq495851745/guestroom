@@ -148,6 +148,8 @@
                         "left": "0px"
                     });
                     $(this).parent().after($img);
+                },"mouseout":function () {
+                    $(this).parent().parent().find(">img").remove();
                 }
             }, ":file[data-multifile='multifile']:not(:last)");
             /* end */

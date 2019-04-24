@@ -58,6 +58,12 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     }
 
     @Override
+    @Transactional
+    public void updateStatus(DeclarationForm declarationForm) {
+        declarationFormDao.updateDeclarationForm2(declarationForm.getDeclarationFormStatus().getId(),declarationForm.getId());
+    }
+
+    @Override
     public DeclarationForm getDeclarationFormById(int id) {
         return declarationFormDao.getOne(id);
     }

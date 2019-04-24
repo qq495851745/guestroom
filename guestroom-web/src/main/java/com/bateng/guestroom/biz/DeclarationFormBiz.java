@@ -37,4 +37,9 @@ public interface DeclarationFormBiz {
      * @param declarationForm
      */
     public void updateDeclarationForm(DeclarationForm declarationForm);
+
+    /**
+     * 更新状态
+     */
+    public void updateStatus(DeclarationForm declarationForm);
 }

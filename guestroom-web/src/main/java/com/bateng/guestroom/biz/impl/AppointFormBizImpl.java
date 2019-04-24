@@ -21,7 +21,7 @@ public class AppointFormBizImpl implements AppointFormBiz {
     public void saveAppointForm(AppointForm appointForm) {
         appointForm.setCreateDate(new Date());
         appointFormDao.save(appointForm);
-        declarationFormDao.updateDeclarationForm2(2,appointForm.getDeclarationForm().getId());//已读状态
+        //declarationFormDao.updateDeclarationForm2(2,appointForm.getDeclarationForm().getId());//已读状态
         declarationFormDao.updateDeclarationForm(appointForm.getId(),appointForm.getDeclarationForm().getId());
     }
 
