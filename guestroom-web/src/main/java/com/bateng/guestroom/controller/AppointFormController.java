@@ -1,8 +1,12 @@
 package com.bateng.guestroom.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bateng.guestroom.biz.AppointFormBiz;
 import com.bateng.guestroom.biz.DeclarationFormBiz;
 import com.bateng.guestroom.biz.UserLevelBiz;
+import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.config.controller.BaseController;
+import com.bateng.guestroom.entity.AppointForm;
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +28,33 @@ public class AppointFormController extends BaseController {
 
     @Autowired
     private UserLevelBiz userLevelBiz;
+
+    @Autowired
+    private AppointFormBiz appointFormBiz;
+
     //跳转添加委派单
     @RequestMapping(value = "/appointForm/declarationForm/{id}",method = RequestMethod.GET)
-    public String add(@PathVariable("id") int id, Model model, DeclarationForm declarationForm){
+    public String toAdd(@PathVariable("id") int id, Model model, DeclarationForm declarationForm){
         declarationForm = declarationFormBiz.getDeclarationFormById(id);
         model.addAttribute("declarationForm",declarationForm);
         addurl(model);
         return "appointForm/appointForm_add";
+    }
+
+    //添加委派单
+    @RequestMapping(value = "/appointForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String add(AppointForm appointForm,HttpSession session){
+        User user2= (User) session.getAttribute("user");
+        appointForm.setUser2(user2);
+
+        appointFormBiz.saveAppointForm(appointForm);
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("statusCode", StatusCodeDWZ.OK);
+        jsonObject.put("callbackType","closeCurrent");
+        jsonObject.put("message","委派成功！");
+        jsonObject.put("navTabId","w_15");
+        return jsonObject.toJSONString();
     }
 
     //跳转用户查询页面
@@ -63,5 +87,13 @@ public class AppointFormController extends BaseController {
 
     public void setUserLevelBiz(UserLevelBiz userLevelBiz) {
         this.userLevelBiz = userLevelBiz;
+    }
+
+    public AppointFormBiz getAppointFormBiz() {
+        return appointFormBiz;
+    }
+
+    public void setAppointFormBiz(AppointFormBiz appointFormBiz) {
+        this.appointFormBiz = appointFormBiz;
     }
 }

@@ -3,6 +3,7 @@ package com.bateng.guestroom.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.bateng.guestroom.biz.DeclarationFormBiz;
 import com.bateng.guestroom.biz.RoomLevelBiz;
+import com.bateng.guestroom.biz.UserLevelBiz;
 import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.config.controller.BaseController;
@@ -25,6 +26,8 @@ public class DeclarationFormController  extends BaseController {
     private DeclarationFormBiz declarationFormBiz;
     @Autowired
     private RoomLevelBiz roomLevelBiz;
+    @Autowired
+    private UserLevelBiz userLevelBiz;
     @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET,RequestMethod.POST})
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
         User u= (User) session.getAttribute("user");
@@ -170,7 +173,7 @@ public class DeclarationFormController  extends BaseController {
      * @return
      */
     @RequestMapping(value = "project/declarationForm/show",method = {RequestMethod.GET,RequestMethod.POST})
-    public String show(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,Model model){
+    public String show(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,Model model,HttpSession session){
         DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
         declarationFormStatus.setId(1);
         declarationForm.setDeclarationFormStatus(declarationFormStatus);
@@ -178,6 +181,8 @@ public class DeclarationFormController  extends BaseController {
         pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("declarationForm",declarationForm);
+        User user= (User) session.getAttribute("user");
+        model.addAttribute("flag",userLevelBiz.findAllUserLevelAjaxByPid(user.getUserLevel().getId()).equals("[]"));
         return "declarationForm/project/declarationForm_project_index";
     }
 
@@ -205,5 +210,13 @@ public class DeclarationFormController  extends BaseController {
 
     public void setRoomLevelBiz(RoomLevelBiz roomLevelBiz) {
         this.roomLevelBiz = roomLevelBiz;
+    }
+
+    public UserLevelBiz getUserLevelBiz() {
+        return userLevelBiz;
+    }
+
+    public void setUserLevelBiz(UserLevelBiz userLevelBiz) {
+        this.userLevelBiz = userLevelBiz;
     }
 }

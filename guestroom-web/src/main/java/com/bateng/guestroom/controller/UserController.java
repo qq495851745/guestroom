@@ -66,10 +66,12 @@ public class UserController extends BaseController {
     }
 
     //根据层级列出所有用户
-    @RequestMapping(value = "/appointForm/user/{userLevel.id}",method = RequestMethod.GET)
-    public String list(@PathVariable("userLevel.id")int id, User user){
-
-        return "";
+    @RequestMapping(value = {"/appointForm/user/{userLevel.id}","/appointForm/user"},method = {RequestMethod.GET,RequestMethod.POST})
+    public String list(@PathVariable(value = "userLevel.id",required = false)Integer id, User user,PageVo<User> pageVo,Model model){
+        pageVo = userBiz.findUserByPage(pageVo,user);
+        model.addAttribute("pageVo",pageVo);
+        model.addAttribute("user",user);
+        return "appointForm/user/appointForm_user_show";
     }
 
     //跳转查询UserLevel页面

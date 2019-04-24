@@ -1,20 +1,25 @@
 <h2 class="contentTitle">委派报修单</h2>
-<form xmlns:th="http://www.thymeleaf.org" method="post" action="guestroom/declarationForm" class="pageForm required-validate"
+<form xmlns:th="http://www.thymeleaf.org" method="post" action="guestroom/appointForm" class="pageForm required-validate"
       enctype="multipart/form-data" onsubmit="return iframeCallback(this, navTabAjaxDone);" id="appointForm_add_form">
-    <input type="hidden" name="id" value="" th:value="${declarationForm.id}"/>
-    <input type="hidden" name="_method" value="PUT"/>
+    <input type="hidden" name="declarationForm.id" value="" th:value="${declarationForm.id}"/>
     <div class="pageContent">
         <div class="pageFormContent" layoutH="97">
             <dl class="nowrap">
                 <dt>指派给维修人:</dt>
                 <dd>
-                    <input name="room.id" value="" th:value="${declarationForm.room.id}" type="hidden" class="required"/>
-                    <input class="required readonly" th:value="${declarationForm.room.name}" disabled="disabled" name="room.name" type="text"  lookupGroup="room" />
-                    <a class="btnLook" href="guestroom/declarationFrom/appointForm/user" lookupGroup="room" >选择维修人</a>
+                    <input name="user1.id" value="" type="hidden" class="required"/>
+                    <input class="required readonly" value="" disabled="disabled" name="user1.name" type="text"  lookupGroup="user1" />
+                    <a class="btnLook" href="guestroom/declarationFrom/appointForm/user" lookupGroup="user1" >选择维修人</a>
                 </dd>
             </dl>
             <dl class="nowrap">
-                <dt>名称：</dt>
+                <dt>委派描述：</dt>
+                <dd>
+                    <input name="description"  type="text"  value="" maxlength="50"/>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>报修单名称：</dt>
                 <dd>
                     <input name="formName"  type="text" th:value="${declarationForm.formName}"  value="" class=" readonly" maxlength="50"/>
                 </dd>
@@ -22,7 +27,7 @@
             <dl class="nowrap">
                 <dt>报修描述：</dt>
                 <dd>
-                    <input name="description" type="text" th:value="${declarationForm.description}"  value="" class=" readonly" maxlength="50"/>
+                    <input name="des" type="text" th:value="${declarationForm.description}"  value="" class=" readonly" maxlength="50"/>
                 </dd>
             </dl>
             <dl class="nowrap">
@@ -84,7 +89,7 @@
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
-                            <button type="submit">修改</button>
+                            <button type="submit">委派</button>
                         </div>
                     </div>
                 </li>
@@ -104,46 +109,4 @@
 </form>
 
 
-<!--
-<div layoutH="0">
-    <div class="row" style="padding: 0 10px">
-        <div class="col-md-7 col-sm-7" style="border: 1px solid red">
-            <div class="pageFormContent" layoutH="56">
-                <p>
-                    <label>房 间 号：</label>
-                    <input name="room.name" type="text" size="30" value="" class="required" maxlength="50"/>
-                </p>
-                <p>
-                    <label>房 间 描 述：</label>
-                    <input name="room.des" type="text" size="30" value="" maxlength="50"/>
-                </p>
-            </div>
-        </div>
-        <div class="col-md-5 col-sm-5" style="border: 1px solid green">
 
-        </div>
-    </div>
-    <div class="row" style="padding: 0 10px">
-        <div class="col-md-12 col-sm-12 col-lg-12">
-            <div class="formBar">
-                <ul>
-                    &lt;!&ndash;<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>&ndash;&gt;
-                    <li>
-                        <div class="buttonActive">
-                            <div class="buttonContent">
-                                <button type="submit">保存</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="button">
-                            <div class="buttonContent">
-                                <button type="button" class="close">取消</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>-->
