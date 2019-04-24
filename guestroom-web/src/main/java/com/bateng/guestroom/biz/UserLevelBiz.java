@@ -13,6 +13,13 @@ public interface UserLevelBiz {
      */
     public String findAllUserLevelAjax();
 
+    /**
+     * 查找指定层级下的所有UserLevel
+     * @param pid
+     * @return
+     */
+    public String findAllUserLevelAjaxByPid(int pid);
+
 
     /**
      * 分页查询

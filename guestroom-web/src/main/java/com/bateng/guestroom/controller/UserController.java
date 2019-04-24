@@ -65,6 +65,13 @@ public class UserController extends BaseController {
         return jsonObject.toJSONString();
     }
 
+    //根据层级列出所有用户
+    @RequestMapping(value = "/appointForm/user/{userLevel.id}",method = RequestMethod.GET)
+    public String list(@PathVariable("userLevel.id")int id, User user){
+
+        return "";
+    }
+
     //跳转查询UserLevel页面
     @RequestMapping(value = "/userLevel/lookup", method = {RequestMethod.GET})
     public String toLookupUserLevel() {

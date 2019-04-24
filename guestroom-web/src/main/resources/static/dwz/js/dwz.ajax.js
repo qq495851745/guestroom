@@ -273,7 +273,6 @@ function dwzPageBreak(options) {
         data: {pageNum: "", numPerPage: "", orderField: "", orderDirection: ""},
         callback: null
     }, options);
-    console.log(op.targetType)
     var $parent = op.targetType == "dialog" ? $.pdialog.getCurrent() : navTab.getCurrentPanel();
     if (op.rel) {
         var $box = $parent.find("#" + op.rel);

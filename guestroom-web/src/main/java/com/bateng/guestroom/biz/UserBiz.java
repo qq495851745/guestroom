@@ -34,4 +34,6 @@ public interface UserBiz {
      * @param user
      */
     public void updateUser(User user);
+
+
 }

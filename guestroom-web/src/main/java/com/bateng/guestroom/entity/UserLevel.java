@@ -2,6 +2,7 @@ package com.bateng.guestroom.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * UserLevel 用户层级设置
@@ -32,6 +33,10 @@ public class UserLevel {
     @ManyToOne
     @JoinColumn(name = "pid")
     private UserLevel userLevel;
+
+    @OneToMany
+    @JoinColumn(name="pid")
+    private List<UserLevel> userLevels;
 
     public Integer getId() {
         return id;
@@ -79,5 +84,13 @@ public class UserLevel {
 
     public void setDes(String des) {
         this.des = des;
+    }
+
+    public List<UserLevel> getUserLevels() {
+        return userLevels;
+    }
+
+    public void setUserLevels(List<UserLevel> userLevels) {
+        this.userLevels = userLevels;
     }
 }

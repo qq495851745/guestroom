@@ -69,6 +69,9 @@ public class DeclarationFormController  extends BaseController {
         declarationForm.setDeclarationFormPhotos(photoList);
         User user= (User) session.getAttribute("user");
         declarationForm.setUser(user);
+        DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
+        declarationFormStatus.setId(1);
+        declarationForm.setDeclarationFormStatus(declarationFormStatus);
         declarationFormBiz.saveDeclarationForm(declarationForm);
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("statusCode", StatusCodeDWZ.OK);

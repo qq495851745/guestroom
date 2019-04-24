@@ -99,14 +99,14 @@
             $sel.on("click", function () {
                 var id = $(this).attr("rel");//获取rel属性 就是id
                 var $deal = $("#declaration_project_index_pageContent").find("a.deal");
-                var text = $deal.attr("href");
-                text = text.replace(/\/[^\/]+$/g, "/" + id);
-                $deal.attr("href", text); //修改href属性
-                text = $(this).find("td:eq(1)").find("div").text();
-                $deal.find("span").each(function(i,obj){
-                    $(this).html(($(this).text().indexOf("处理")==-1?"查看/委派":"查看/处理") + "<b style='color: red'>" + text + "</b>报修单")
+                var t = $(this).find("td:eq(1)").find("div").text();
+                $deal.each(function(i,obj){
+                    var text = $(this).attr("href");
+                    text = text.replace(/\/[^\/]+$/g, "/" + id);
+                    $(this).attr("href", text); //修改href属性
+                    $(this).find("span").html(($(this).find("span").text().indexOf("处理")==-1?"查看/委派":"查看/处理") + "<b style='color: red'>" + t + "</b>报修单")
                 })
-               // $deal.find("span").html("查看/处理" + "<b style='color: red'>" + text + "</b>报修单");
+
             })
             $("#bt_declarationForm_project_sel").css({display: "block"});
             $("#bt_declarationForm_project_sel").prev().css({display: "none"});

@@ -59,7 +59,7 @@ public class DeclarationForm {
 
     @ManyToOne
     @JoinColumn(name = "dfstatus")
-    private DeclarationFormStatus declarationFormStatus;
+    private DeclarationFormStatus declarationFormStatus;//报修状态
 
     /*@ManyToOne
     @JoinColumn(name = "project_user_id")

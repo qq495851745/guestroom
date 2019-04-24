@@ -33,30 +33,18 @@ public class UserBizTest {
     private RoomAndRoomLevelBiz roomAndRoomLevelBiz;
 
     @Autowired
-    private RoomBiz roomBiz;
+    private UserLevelBiz userLevelBiz;
 
     @Autowired
-    private UserLevelBiz userLevelBiz;
+    private RoomBiz roomBiz;
+
+
 
 
     @Test
+    @Transactional
     public void addUserTest(){
-     DeclarationForm declarationForm=new DeclarationForm();
-     DeclarationFormPhoto d1=new DeclarationFormPhoto();
-     d1.setOrigName("Abc");
-     d1.setPath("Adsd");
-     d1.setExt("Sdfd");
-     d1.setCreateDate(new Date());
-     //d1.setDeclarationForm(declarationForm);
-     DeclarationFormPhoto d2=new DeclarationFormPhoto();
-
-     List<DeclarationFormPhoto> photos=new ArrayList<DeclarationFormPhoto>();
-     photos.add(d1);
-     photos.add(d2);
-
-     declarationForm.setDeclarationFormPhotos(photos);
-
-     declarationFormBiz.saveDeclarationForm(declarationForm);
+     userLevelBiz.findAllUserLevelAjaxByPid(1);
     }
 
     @Test
