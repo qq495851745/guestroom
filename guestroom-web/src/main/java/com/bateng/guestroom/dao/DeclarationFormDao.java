@@ -22,4 +22,12 @@ public interface DeclarationFormDao extends JpaRepository<DeclarationForm,Intege
     @Query("update DeclarationForm  df set df.formName=:formName,df.updateDate=:updateDate,df.description=:description" +
             ",df.roomOption.id=:roomOptionId,df.room.id=:roomId where df.id=:id")
     public void updateDeclaration(String formName, Date updateDate,String description,int roomOptionId,int roomId,int id);
+
+    @Modifying
+    @Query("update DeclarationForm  df set df.appointForm.id = :appointFormId where df.id=:id")
+    public void updateDeclarationForm(int appointFormId,int id);
+
+    @Modifying
+    @Query("update DeclarationForm  df set df.declarationFormStatus.id = :statusId where df.id=:id")
+    public void updateDeclarationForm2(int statusId,int id);
 }

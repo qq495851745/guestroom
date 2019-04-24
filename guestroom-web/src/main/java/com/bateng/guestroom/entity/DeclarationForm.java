@@ -61,6 +61,10 @@ public class DeclarationForm {
     @JoinColumn(name = "dfstatus")
     private DeclarationFormStatus declarationFormStatus;//报修状态
 
+    @ManyToOne
+    @JoinColumn(name = "appoint_form_id")
+    private AppointForm appointForm;//最近委派单
+
     /*@ManyToOne
     @JoinColumn(name = "project_user_id")
     private User projectUser;//维修人*/
@@ -166,5 +170,13 @@ public class DeclarationForm {
 
     public void setAppointForms(List<AppointForm> appointForms) {
         this.appointForms = appointForms;
+    }
+
+    public AppointForm getAppointForm() {
+        return appointForm;
+    }
+
+    public void setAppointForm(AppointForm appointForm) {
+        this.appointForm = appointForm;
     }
 }
