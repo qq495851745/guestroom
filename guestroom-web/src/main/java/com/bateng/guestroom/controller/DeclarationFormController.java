@@ -7,11 +7,14 @@ import com.bateng.guestroom.biz.UserLevelBiz;
 import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.config.controller.BaseController;
+import com.bateng.guestroom.config.interceptor.DatePropertyEditor;
+import com.bateng.guestroom.config.interceptor.MD5PropertyEditor;
 import com.bateng.guestroom.config.util.FastDFSClient;
 import com.bateng.guestroom.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -112,8 +115,15 @@ public class DeclarationFormController  extends BaseController {
     @RequestMapping(value = "/declarationForm/{id}",method = RequestMethod.DELETE,produces = "application/json;charset=utf-8")
     @ResponseBody
     public String del(@PathVariable("id") int id){
-        declarationFormBiz.deleteById(id);
         JSONObject jsonObject=new JSONObject();
+        DeclarationForm declarationForm = declarationFormBiz.getDeclarationFormById(id);
+        if(declarationForm.getDeclarationFormStatus().getId() != 1){
+            jsonObject.put("statusCode",StatusCodeDWZ.ERROR);
+            jsonObject.put("message","工程已处理中，不能删除！");
+            return  jsonObject.toJSONString();
+        }
+        declarationFormBiz.deleteById(id);
+
         jsonObject.put("statusCode",StatusCodeDWZ.OK);
         jsonObject.put("message","删除成功!");
         jsonObject.put("navTabId","w_14");
@@ -133,6 +143,15 @@ public class DeclarationFormController  extends BaseController {
     @RequestMapping(value = "/declarationForm",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
     @ResponseBody
     public String doEdit(DeclarationForm declarationForm,@RequestParam("photo") MultipartFile[] files) throws  Exception{
+        JSONObject jsonObject=new JSONObject();
+        DeclarationForm df=declarationFormBiz.getDeclarationFormById(declarationForm.getId());
+        if(df.getDeclarationFormStatus().getId() != 1){
+            jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
+            //jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
+            //jsonObject.put("navTabId", "w_14");
+            jsonObject.put("message", "工程处理中！报修单不能修改");
+            return jsonObject.toJSONString();
+        }
         //保存图片
         List<DeclarationFormPhoto> photoList=new ArrayList<DeclarationFormPhoto>();
         for(MultipartFile file:files){
@@ -151,12 +170,22 @@ public class DeclarationFormController  extends BaseController {
         }
         declarationForm.setDeclarationFormPhotos(photoList);
         declarationFormBiz.updateDeclarationForm(declarationForm);
-        JSONObject jsonObject=new JSONObject();
+
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
         jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
         jsonObject.put("navTabId", "w_14");
         jsonObject.put("message", "报修单修改成功");
         return jsonObject.toJSONString();
+    }
+
+    //查询审核的报修单
+    @RequestMapping(value = {"/declarationForm/status/{declarationFormStatus.id}","/declarationForm/status"},method = {RequestMethod.GET,RequestMethod.POST})
+    public String lookup(@PathVariable(value = "declarationFormStatus.id",required = false) Integer id,PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,HttpSession session,Model model){
+        declarationForm.setUser((User) session.getAttribute("user"));
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
+        model.addAttribute("pageVo",pageVo);
+        model.addAttribute("declarationForm",declarationForm);
+        return "repairForm/guest/declarationForm_index";
     }
 
 
@@ -218,5 +247,10 @@ public class DeclarationFormController  extends BaseController {
 
     public void setUserLevelBiz(UserLevelBiz userLevelBiz) {
         this.userLevelBiz = userLevelBiz;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        binder.registerCustomEditor(Date.class,"finishDate",new DatePropertyEditor());
     }
 }

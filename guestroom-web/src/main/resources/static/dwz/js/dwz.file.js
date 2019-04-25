@@ -137,7 +137,7 @@
                 "click": function () {
                     return false;
                 }, "mouseover": function () {
-                    $(this).parent().parent().find(">img").remove();
+                   /* $(this).parent().parent().find(">img").remove();
                     var $img = $(this).next().find("img").clone();
                     //$img=$("<div style='border: 10px solid red; width: 200px;height: 200px'></div>")
                     $img.removeAttr("width");
@@ -147,9 +147,9 @@
                         "top": "" + $(this).parent().parent().innerHeight() + "px",
                         "left": "0px"
                     });
-                    $(this).parent().after($img);
+                    $(this).parent().after($img);*/
                 },"mouseout":function () {
-                    $(this).parent().parent().find(">img").remove();
+                    /*$(this).parent().parent().find(">img").remove();*/
                 }
             }, ":file[data-multifile='multifile']:not(:last)");
             /* end */

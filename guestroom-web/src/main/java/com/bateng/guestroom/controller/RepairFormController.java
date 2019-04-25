@@ -1,6 +1,7 @@
 package com.bateng.guestroom.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bateng.guestroom.biz.AppointFormBiz;
 import com.bateng.guestroom.biz.DeclarationFormBiz;
 import com.bateng.guestroom.biz.RepairFormBiz;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
@@ -11,10 +12,7 @@ import com.sun.org.apache.regexp.internal.REUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -30,6 +28,8 @@ public class RepairFormController extends BaseController {
     private DeclarationFormBiz declarationFormBiz;
     @Autowired
     private RepairFormBiz repairFormBiz;
+    @Autowired
+    private AppointFormBiz appointFormBiz;
 
     //跳转添加维修单
     @RequestMapping(value = "/repairForm/declarationForm/{id}",method = {RequestMethod.GET})
@@ -46,7 +46,8 @@ public class RepairFormController extends BaseController {
     }
 
     //做添加维修单
-    @RequestMapping(value = "/repairForm",method = RequestMethod.POST)
+    @RequestMapping(value = "/repairForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @ResponseBody
     public String add(RepairForm repairForm, @RequestParam("photo") MultipartFile[] photos, HttpSession session) throws  Exception{
         List<RepairFormPhoto> repairFormPhotos=new ArrayList<RepairFormPhoto>();
         for(MultipartFile photo : photos){
@@ -64,6 +65,16 @@ public class RepairFormController extends BaseController {
         repairForm.setCreateDate(new Date());
         repairForm.setUser1((User) session.getAttribute("user"));
         repairForm.setDeclarationFormStatus(new DeclarationFormStatus(3));
+
+        //添加委派单
+        AppointForm appointForm=new AppointForm();
+        appointForm.setUser1((User) session.getAttribute("user"));
+        appointForm.setUser2((User) session.getAttribute("user"));
+        appointForm.setCreateDate(new Date());
+        appointForm.setDeclarationForm(repairForm.getDeclarationForm());
+        appointForm.setDescription("自己主动接单");
+        repairForm.setAppointForm(appointForm);
+
         repairFormBiz.saveRepairForm(repairForm);
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
@@ -71,6 +82,24 @@ public class RepairFormController extends BaseController {
         jsonObject.put("message","处理成功！");
         jsonObject.put("navTabId","w_15");
         return jsonObject.toJSONString();
+    }
+
+    //审核报修单
+    @RequestMapping(value = "/repairForm/check/{id}",method = RequestMethod.GET)
+    public String check(@PathVariable("id") int id,DeclarationForm declarationForm,Model model){
+        declarationForm=declarationFormBiz.getDeclarationFormById(id);
+        model.addAttribute("declarationForm",declarationForm);
+        model.addAttribute("repairForms",repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
+        model.addAttribute("appointForm",appointFormBiz.findAppointFormsByDeclarationFormId(declarationForm.getId()));
+        addurl(model);
+
+        return "repairForm/guest/repairForm_add";
+    }
+
+    //客房添加审核记录
+    @RequestMapping(value = "/guest/repairForm",method = RequestMethod.POST)
+    public String add(RepairForm repairForm){
+        return "";
     }
 
     public DeclarationFormBiz getDeclarationFormBiz() {
@@ -87,5 +116,13 @@ public class RepairFormController extends BaseController {
 
     public void setRepairFormBiz(RepairFormBiz repairFormBiz) {
         this.repairFormBiz = repairFormBiz;
+    }
+
+    public AppointFormBiz getAppointFormBiz() {
+        return appointFormBiz;
+    }
+
+    public void setAppointFormBiz(AppointFormBiz appointFormBiz) {
+        this.appointFormBiz = appointFormBiz;
     }
 }

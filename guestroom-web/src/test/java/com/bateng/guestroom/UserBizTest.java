@@ -38,13 +38,14 @@ public class UserBizTest {
     @Autowired
     private RoomBiz roomBiz;
 
-
+    @Autowired
+    private  RepairFormBiz repairFormBiz;
 
 
     @Test
     @Transactional
     public void addUserTest(){
-     userLevelBiz.findAllUserLevelAjaxByPid(1);
+        System.out.println(repairFormBiz.findRepairFormByDeclarationFormId(45));
     }
 
     @Test

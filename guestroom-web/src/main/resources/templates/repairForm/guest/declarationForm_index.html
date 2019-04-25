@@ -1,7 +1,8 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/declarationForm/index" method="post">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/declarationForm/status" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+        <input type="hidden" name="declarationFormStatus.id" th:value="${declarationForm.declarationFormStatus.id}">
         <div class="searchBar">
             <table class="searchContent">
                 <tr>
@@ -23,21 +24,21 @@
     </form>
 </div>
 <div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
-     xmlns:th="http://www.thymeleaf.org" id="declaration_index_pageContent">
+     xmlns:th="http://www.thymeleaf.org" id="bt_repairForm_guest_declarationForm_index_content">
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a class="add"   href="guestroom/declarationForm/toAdd"  target="navTab" mask="true"><span>添加报修单</span></a>
+            <li><a class="add deal"   href="guestroom/repairForm/check/{sid_obj}"  target="navTab" mask="true"><span>查看/审核</span></a>
             </li>
-            <li><a class="delete" href="guestroom/declarationForm/{sid_obj}" target="ajaxTodo"
+            <!--<li><a class="delete" href="guestroom/declarationForm/{sid_obj}" target="ajaxTodo"
                    title="确定要删除吗?" _method="delete"><span>删除</span></a></li>
             <li><a class="edit" href="guestroom/declarationForm/{sid_obj}" target="navTab"
-                   mask="true"><span>修改</span></a></li>
+                   mask="true"><span>修改</span></a></li>-->
             <li class="line">line</li>
             <!--<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
                    title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
         </ul>
     </div>
-    <table class="table" width="100%" layoutH="100" id="bt_declarationForm_table" >
+    <table class="table" width="100%" layoutH="100" id="bt_repairForm_guest_declarationForm_index_table" >
         <thead>
         <tr >
             <th width="80">序号</th>
@@ -67,13 +68,13 @@
 
         </tbody>
         <script type="text/javascript">
-            $("#bt_declarationForm_table").find("th,td").css({"text-align": "center"});
+            $("#bt_repairForm_guest_declarationForm_index_table").find("th,td").css({"text-align": "center"});
         </script>
     </table>
     <div class="panelBar">
         <div class="pages">
             <span>显示</span>
-            <select id="bt_declarationForm_sel" class="combox" name="numPerPage"
+            <select id="bt_repairForm_guest_declarationForm_index_sel" class="combox" name="numPerPage"
                     onchange="navTabPageBreak({numPerPage:this.value,pageNum:1})">
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -93,14 +94,27 @@
     $(window).trigger("resize");
     //消除分页错误
     setTimeout(function () {
-        var len = $("#bt_declarationForm_sel").parent().find("a").size();
+        var len = $("#bt_repairForm_guest_declarationForm_index_sel").parent().find("a").size();
         if (!len)
             setTimeout(arguments.callee, 100);
         else {
-            displayText({"relId":"declaration_index_pageContent"});
-            $("#bt_declarationForm_sel").css({display: "block"});
-            $("#bt_declarationForm_sel").prev().css({display: "none"});
-            $("#bt_declarationForm_sel").val($("#bt_declarationForm_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
+            //displayText({"relId":"declaration_index_pageContent"});
+            var $sel = $("#bt_repairForm_guest_declarationForm_index_content").find(".gridTbody").find("tr");
+            $sel.on("click", function () {
+                var id = $(this).attr("rel");//获取rel属性 就是id
+                var $deal = $("#bt_repairForm_guest_declarationForm_index_content").find("a.deal");
+                var t = $(this).find("td:eq(1)").find("div").text();
+                $deal.each(function(i,obj){
+                    var text = $(this).attr("href");
+                    text = text.replace(/\/[^\/]+$/g, "/" + id);
+                    $(this).attr("href", text); //修改href属性
+                    $(this).find("span").html("查看/审核" + "<b style='color: red'>" + t + "</b>报修单")
+                })
+
+            })
+            $("#bt_repairForm_guest_declarationForm_index_sel").css({display: "block"});
+            $("#bt_repairForm_guest_declarationForm_index_sel").prev().css({display: "none"});
+            $("#bt_repairForm_guest_declarationForm_index_sel").val($("#bt_repairForm_guest_declarationForm_index_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
 
         }
     }, 1);

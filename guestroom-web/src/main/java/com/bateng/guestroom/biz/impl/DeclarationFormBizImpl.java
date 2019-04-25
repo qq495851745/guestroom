@@ -51,7 +51,7 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     @Override
     @Transactional
     public void updateDeclarationForm(DeclarationForm declarationForm) {
-        declarationFormDao.updateDeclaration(declarationForm.getFormName(),new Date(),declarationForm.getDescription(),declarationForm.getRoomOption().getId(),declarationForm.getRoom().getId(),declarationForm.getId());
+        declarationFormDao.updateDeclaration(declarationForm.getFormName(),new Date(),declarationForm.getDescription(),declarationForm.getRoomOption().getId(),declarationForm.getRoom().getId(),declarationForm.getId(),declarationForm.getFinishDate());
         for(DeclarationFormPhoto photo:declarationForm.getDeclarationFormPhotos()){
             declarationFormPhotoDao.save(photo);
         }

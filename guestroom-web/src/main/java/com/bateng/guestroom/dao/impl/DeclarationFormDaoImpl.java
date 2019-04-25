@@ -44,6 +44,7 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
             params.put("declarationFormStatusId",declarationForm.getDeclarationFormStatus().getId());
         }
 
+
         Query query=entityManager.createQuery(sb.toString());//生成查询对象
 
         //设置参数

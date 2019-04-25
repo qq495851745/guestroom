@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service("appointFormBiz")
 public class AppointFormBizImpl implements AppointFormBiz {
@@ -23,6 +24,11 @@ public class AppointFormBizImpl implements AppointFormBiz {
         appointFormDao.save(appointForm);
         //declarationFormDao.updateDeclarationForm2(2,appointForm.getDeclarationForm().getId());//已读状态
         declarationFormDao.updateDeclarationForm(appointForm.getId(),appointForm.getDeclarationForm().getId());
+    }
+
+    @Override
+    public List<AppointForm> findAppointFormsByDeclarationFormId(int id) {
+        return appointFormDao.findAllByDeclarationFormId(id);
     }
 
     public AppointFormDao getAppointFormDao() {

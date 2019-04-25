@@ -12,7 +12,7 @@ public class DeclarationFormStatus {
     @Id
     @Column(name = "sid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "dstatus")
     private String status;
@@ -31,11 +31,11 @@ public class DeclarationFormStatus {
     public DeclarationFormStatus() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

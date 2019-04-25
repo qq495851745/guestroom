@@ -30,6 +30,10 @@ public class DeclarationForm {
     @JoinColumn(name = "user_id")
     private  User user;//报修人
 
+    @ManyToOne
+    @JoinColumn(name = "user2_id")
+    private User user2;//审核人
+
 
     @ManyToOne
     @JoinColumn(name = "roomoption_id")
@@ -64,6 +68,24 @@ public class DeclarationForm {
     @ManyToOne
     @JoinColumn(name = "appoint_form_id")
     private AppointForm appointForm;//最近委派单
+
+    @ManyToOne
+    @JoinColumn(name = "repair_form_id")
+    private RepairForm repairForm;//最近维修单
+
+    @OneToMany
+    @JoinColumn(name="declaration_form_id")
+    private List<RepairForm> repairForms;
+
+    @Column(name = "finish_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date finishDate;//要求完成时间
+
+    @Column(name = "end_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;//实际最后完成并审核通过时间
+
+
 
     /*@ManyToOne
     @JoinColumn(name = "project_user_id")
@@ -178,5 +200,45 @@ public class DeclarationForm {
 
     public void setAppointForm(AppointForm appointForm) {
         this.appointForm = appointForm;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public User getUser2() {
+        return user2;
+    }
+
+    public void setUser2(User user2) {
+        this.user2 = user2;
+    }
+
+    public RepairForm getRepairForm() {
+        return repairForm;
+    }
+
+    public void setRepairForm(RepairForm repairForm) {
+        this.repairForm = repairForm;
+    }
+
+    public List<RepairForm> getRepairForms() {
+        return repairForms;
+    }
+
+    public void setRepairForms(List<RepairForm> repairForms) {
+        this.repairForms = repairForms;
     }
 }

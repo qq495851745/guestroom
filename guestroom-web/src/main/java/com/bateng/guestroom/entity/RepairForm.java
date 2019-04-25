@@ -33,6 +33,10 @@ public class RepairForm {
     @Column(name = "createdate")
     private Date createDate;
 
+    @JoinColumn(name = "appoint_form_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private AppointForm appointForm;//关联委派单
+
     @ManyToOne
     @JoinColumn(name = "pid")
     private RepairForm repairForm;
@@ -44,6 +48,9 @@ public class RepairForm {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "repair_form_id" )
     private List<RepairFormPhoto> repairFormPhotos;
+
+    @Column(name = "s_type")
+    private int type=1;//1 维修单 2 审核单
 
     public int getId() {
         return id;
@@ -115,5 +122,21 @@ public class RepairForm {
 
     public void setRepairFormPhotos(List<RepairFormPhoto> repairFormPhotos) {
         this.repairFormPhotos = repairFormPhotos;
+    }
+
+    public AppointForm getAppointForm() {
+        return appointForm;
+    }
+
+    public void setAppointForm(AppointForm appointForm) {
+        this.appointForm = appointForm;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

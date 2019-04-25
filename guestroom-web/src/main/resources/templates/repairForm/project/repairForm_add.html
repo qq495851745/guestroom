@@ -49,7 +49,7 @@
                     <input class=" readonly" th:value="${declarationForm.roomOption.name}" disabled="disabled" name="roomOption.name" type="text"  lookupGroup="roomOption" />
                 </dd>
             </dl>
-            <dl class="nowrap" id="repairForm_add_form_photo">
+            <dl class="nowrap repairForm_add_form_photo" >
                 <dt>照片</dt>
                 <dd style="position: relative">
                     <th:block th:each="photo:${declarationForm.declarationFormPhotos}">
@@ -62,9 +62,14 @@
 
                     </th:block>
                 </dd>
-                <script type="text/javascript">
-                    var $form=$("#repairForm_add_form_photo");
-                    $form.on({
+
+
+            </dl>
+
+
+            <script type="text/javascript">
+                var $form=$(".repairForm_add_form_photo");
+                $form.on({
                         "click": function () {
                             return false;
                         }, "mouseover": function () {
@@ -80,16 +85,11 @@
                             });
                             $(this).parent().after($img);
                         },"mouseout":function () {
-                                $(this).parent().parent().find(">img").remove();
-                            }
+                            $(this).parent().parent().find(">img").remove();
                         }
+                    }
                     ,":file");
-                </script>
-
-            </dl>
-
-
-
+            </script>
         </div>
         <div class="formBar">
             <ul>

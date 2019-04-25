@@ -22,7 +22,7 @@ public class RepairFormPhoto {
 
 
     @Column(name = "createdate")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate=new Date();
 
     @ManyToOne
