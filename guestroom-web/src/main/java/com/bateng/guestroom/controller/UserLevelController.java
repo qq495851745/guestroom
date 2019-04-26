@@ -1,6 +1,7 @@
 package com.bateng.guestroom.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bateng.guestroom.biz.UserBiz;
 import com.bateng.guestroom.biz.UserLevelBiz;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.entity.PageVo;
@@ -19,6 +20,8 @@ public class UserLevelController {
 
     @Autowired
     private UserLevelBiz userLevelBiz;
+    @Autowired
+    private UserBiz userBiz;
 
     @RequestMapping(value = "/userLevel/index",method = RequestMethod.GET)
     public String index(){
@@ -70,6 +73,13 @@ public class UserLevelController {
     @RequestMapping(value = "/userLevel/{id}",method = RequestMethod.DELETE,produces = "application/json;charset=utf-8")
     @ResponseBody
     public String doDelete(UserLevel userLevel){
+        boolean bool=userBiz.checkUserByUserLevel(userLevel.getId());
+        if(bool){
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("message","该项目被引用了，不能删除");
+            jsonObject.put("statusCode",StatusCodeDWZ.ERROR);
+            return  jsonObject.toJSONString();
+        }
         userLevel=userLevelBiz.getUserLevelById(userLevel.getId());
         List<UserLevel> userLevels=userLevelBiz.findSubUserLevelByid(userLevel.getId());
         JSONObject jsonObject=new JSONObject();
@@ -133,5 +143,13 @@ public class UserLevelController {
 
     public void setUserLevelBiz(UserLevelBiz userLevelBiz) {
         this.userLevelBiz = userLevelBiz;
+    }
+
+    public UserBiz getUserBiz() {
+        return userBiz;
+    }
+
+    public void setUserBiz(UserBiz userBiz) {
+        this.userBiz = userBiz;
     }
 }

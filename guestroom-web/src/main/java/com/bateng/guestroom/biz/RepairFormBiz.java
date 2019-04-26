@@ -8,5 +8,7 @@ public interface RepairFormBiz {
 
     public void saveRepairForm(RepairForm repairForm);
 
+    public void saveRepairForm2(RepairForm repairForm);
+
     public List<RepairForm> findRepairFormByDeclarationFormId(int id);
 }

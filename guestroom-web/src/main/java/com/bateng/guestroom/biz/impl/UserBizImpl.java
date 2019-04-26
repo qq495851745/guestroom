@@ -73,6 +73,12 @@ public class UserBizImpl implements UserBiz {
         return userDao.findAllByUsername(user.getUsername());
     }
 
+    @Override
+    public boolean checkUserByUserLevel(int id) {
+        List<User> list=userDao.findByUserLevelId(id);
+        return list.size() != 0;
+    }
+
     public UserDao getUserDao() {
         return userDao;
     }

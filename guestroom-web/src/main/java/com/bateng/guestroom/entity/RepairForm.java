@@ -34,7 +34,7 @@ public class RepairForm {
     private Date createDate;
 
     @JoinColumn(name = "appoint_form_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private AppointForm appointForm;//关联委派单
 
     @ManyToOne
@@ -51,6 +51,11 @@ public class RepairForm {
 
     @Column(name = "s_type")
     private int type=1;//1 维修单 2 审核单
+
+    public RepairForm(){}
+    public RepairForm(int id){
+        this.id=id;
+    }
 
     public int getId() {
         return id;

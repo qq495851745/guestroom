@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class FastDFSClient {
 
 	private static  String CONF_FILENAME = Thread.currentThread().getContextClassLoader().getResource("").getPath() + "fdfs/fdfs_client.conf";
-	//private static  String CONF_FILENAME = "classpath:fdfs/fdfs_client.conf";
+	//private static  String CONF_FILENAME = "/fdfs/fdfs_client.conf";
 	private static StorageClient1 storageClient1 = null;
 
 	private static Logger logger = LoggerFactory.getLogger(FastDFSClient.class);
@@ -31,6 +31,7 @@ public class FastDFSClient {
 	 * 只加载一次.
 	 */
 	static {
+
 		try {
 			if(CONF_FILENAME.contains("classpath:")){
 				String path = URLDecoder.decode(FastDFSClient.class.getProtectionDomain().getCodeSource().getLocation().toString(),"UTF-8");
@@ -38,6 +39,12 @@ public class FastDFSClient {
 				CONF_FILENAME = CONF_FILENAME.replace("classpath:",URLDecoder.decode(path,"UTF-8"));
 			}
 			logger.info("=== CONF_FILENAME:" + CONF_FILENAME);
+			/*ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			if (loader == null) {
+				loader = ClassLoader.getSystemClassLoader();
+			}
+			InputStream inputStream = loader.getResourceAsStream("/fdfs/fdfs_client.conf");
+			System.out.println(inputStream+"  "+CONF_FILENAME);*/
 			ClientGlobal.init(CONF_FILENAME);
 			TrackerClient trackerClient = new TrackerClient(ClientGlobal.g_tracker_group);
 			TrackerServer trackerServer = trackerClient.getConnection();
@@ -49,7 +56,9 @@ public class FastDFSClient {
 				logger.error("getStoreStorage return null");
 			}
 			storageClient1 = new StorageClient1(trackerServer, storageServer);
+			System.out.println(storageClient1);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
 	}

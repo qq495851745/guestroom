@@ -39,10 +39,10 @@ public class AppointFormController extends BaseController {
         declarationForm = declarationFormBiz.getDeclarationFormById(id);
         model.addAttribute("declarationForm",declarationForm);
         //修改状态为已读
-        DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
+       /* DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
         declarationFormStatus.setId(2);
         declarationForm.setDeclarationFormStatus(declarationFormStatus);
-        declarationFormBiz.updateStatus(declarationForm);
+        declarationFormBiz.updateStatus(declarationForm);*/
         addurl(model);
 
         return "appointForm/appointForm_add";
@@ -78,6 +78,9 @@ public class AppointFormController extends BaseController {
 
         return userLevelBiz.findAllUserLevelAjaxByPid(user.getUserLevel().getId());
     }
+
+
+
 
 
     public DeclarationFormBiz getDeclarationFormBiz() {

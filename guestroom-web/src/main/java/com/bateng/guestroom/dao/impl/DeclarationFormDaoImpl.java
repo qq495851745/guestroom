@@ -44,6 +44,26 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
             params.put("declarationFormStatusId",declarationForm.getDeclarationFormStatus().getId());
         }
 
+        //查看搜索条件
+        if(declarationForm.getDeclarationFormStatusList() !=null && declarationForm.getDeclarationFormStatusList().size()!=0){
+            StringBuilder ps=new StringBuilder(" ( ");
+            for(int i=0;i<declarationForm.getDeclarationFormStatusList().size();i++){
+                ps.append(declarationForm.getDeclarationFormStatusList().get(i));
+                if(i!= declarationForm.getDeclarationFormStatusList().size()-1)
+                    ps.append(",");
+            }
+            ps.append(" ) ");
+            sb.append(" and df.declarationFormStatus.id in ");
+            sb.append(ps);
+        }
+
+        //委派条件
+        if(declarationForm.getAppointForm()!=null && declarationForm.getAppointForm().getId()!=0){
+            sb.append(" and df.appointForm.id = :appointFormId");
+            params.put("appointFormId",declarationForm.getAppointForm().getId());
+        }
+
+
 
         Query query=entityManager.createQuery(sb.toString());//生成查询对象
 

@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface RepairFormDao extends JpaRepository<RepairForm,Integer> {
 
-    @Query("from RepairForm  rf where rf.declarationForm.id=:id order by  rf.createDate desc")
+    @Query("from RepairForm  rf where rf.declarationForm.id=:id order by  rf.createDate asc")
     public List<RepairForm> findAllByDeclarationFormId(int id);
 }

@@ -80,6 +80,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastdfs-client-java</artifactId>
         </dependency>
+        <!--<dependency>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+            <version>1.26.5</version>
+        </dependency>-->
+
 
     </dependencies>
 

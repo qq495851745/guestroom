@@ -179,8 +179,13 @@ public class DeclarationFormController  extends BaseController {
     }
 
     //查询审核的报修单
-    @RequestMapping(value = {"/declarationForm/status/{declarationFormStatus.id}","/declarationForm/status"},method = {RequestMethod.GET,RequestMethod.POST})
-    public String lookup(@PathVariable(value = "declarationFormStatus.id",required = false) Integer id,PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,HttpSession session,Model model){
+    @RequestMapping(value = {"/declarationForm/status"},method = {RequestMethod.GET,RequestMethod.POST})
+    public String lookup(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,HttpSession session,Model model){
+        //设置搜索条件，搜索待审核单子
+        List<Integer> list=new ArrayList<Integer>();
+        list.add(3);
+        list.add(6);
+        declarationForm.setDeclarationFormStatusList(list);
         declarationForm.setUser((User) session.getAttribute("user"));
         pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
@@ -211,12 +216,33 @@ public class DeclarationFormController  extends BaseController {
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("declarationForm",declarationForm);
         User user= (User) session.getAttribute("user");
-        model.addAttribute("flag",userLevelBiz.findAllUserLevelAjaxByPid(user.getUserLevel().getId()).equals("[]"));
+        try {
+            model.addAttribute("flag",userLevelBiz.findAllUserLevelAjaxByPid(user.getUserLevel().getId()).equals("[]"));
+        } catch (Exception e) {
+           model.addAttribute("flag",true);
+        }
         return "declarationForm/project/declarationForm_project_index";
     }
 
 
-    //处理报修，选择维修人
+    //查询工程，待维修的单子
+    @RequestMapping(value = "/project/appointForm",method = {RequestMethod.GET,RequestMethod.POST})
+    public String list(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,HttpSession session,Model model){
+        AppointForm appointForm=new AppointForm();
+        appointForm.setUser1((User) session.getAttribute("user"));
+        declarationForm.setAppointForm(appointForm);//设置委派查询参数
+
+        //设置参数
+        List<Integer> list=new ArrayList<Integer>();
+        list.add(2);
+        list.add(5);
+        declarationForm.setDeclarationFormStatusList(list);
+
+        pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
+        model.addAttribute("pageVo",pageVo);
+        model.addAttribute("flag",true);
+        return "declarationForm/project/declarationForm_project_index";
+    }
 
 
 

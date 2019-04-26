@@ -65,6 +65,10 @@ public class DeclarationForm {
     @JoinColumn(name = "dfstatus")
     private DeclarationFormStatus declarationFormStatus;//报修状态
 
+    @Transient
+    private List<Integer> declarationFormStatusList;//搜索条件 状态
+
+
     @ManyToOne
     @JoinColumn(name = "appoint_form_id")
     private AppointForm appointForm;//最近委派单
@@ -240,5 +244,13 @@ public class DeclarationForm {
 
     public void setRepairForms(List<RepairForm> repairForms) {
         this.repairForms = repairForms;
+    }
+
+    public List<Integer> getDeclarationFormStatusList() {
+        return declarationFormStatusList;
+    }
+
+    public void setDeclarationFormStatusList(List<Integer> declarationFormStatusList) {
+        this.declarationFormStatusList = declarationFormStatusList;
     }
 }

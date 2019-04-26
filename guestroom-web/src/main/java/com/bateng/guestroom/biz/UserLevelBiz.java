@@ -54,4 +54,6 @@ public interface UserLevelBiz {
      * @param userLevel
      */
     public void updateUserLevel(UserLevel userLevel);
+
+
 }

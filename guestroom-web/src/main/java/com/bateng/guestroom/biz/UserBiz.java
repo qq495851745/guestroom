@@ -35,5 +35,12 @@ public interface UserBiz {
      */
     public void updateUser(User user);
 
+    /**
+     * 根据UserLevel查看是否被引用
+     * @param id
+     * @return
+     */
+    public boolean checkUserByUserLevel(int id);
+
 
 }
