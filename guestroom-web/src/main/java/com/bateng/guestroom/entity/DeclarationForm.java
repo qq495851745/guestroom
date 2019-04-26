@@ -102,6 +102,7 @@ public class DeclarationForm {
      */
 
 
+
     public Integer getId() {
         return id;
     }

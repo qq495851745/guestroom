@@ -32,33 +32,33 @@ public class RepairFormController extends BaseController {
     private AppointFormBiz appointFormBiz;
 
     //跳转添加维修单
-    @RequestMapping(value = "/repairForm/declarationForm/{id}",method = {RequestMethod.GET})
-    public String toAdd(@PathVariable(required = false,value = "id") int id, DeclarationForm declarationForm, Model model){
-       declarationForm = declarationFormBiz.getDeclarationFormById(declarationForm.getId());
-        model.addAttribute("declarationForm",declarationForm);
-        model.addAttribute("repairForms",repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
-        model.addAttribute("appointForm",appointFormBiz.findAppointFormsByDeclarationFormId(declarationForm.getId()));
-        model.addAttribute("navId","w_15");
+    @RequestMapping(value = "/repairForm/declarationForm/{id}", method = {RequestMethod.GET})
+    public String toAdd(@PathVariable(required = false, value = "id") int id, DeclarationForm declarationForm, Model model) {
+        declarationForm = declarationFormBiz.getDeclarationFormById(declarationForm.getId());
+        model.addAttribute("declarationForm", declarationForm);
+        model.addAttribute("repairForms", repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
+        model.addAttribute("appointForm", appointFormBiz.findAppointFormsByDeclarationFormId(declarationForm.getId()));
+        model.addAttribute("navId", "w_15");
         addurl(model);
         //修改状态为已读
         /*DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
         declarationFormStatus.setId(2);
         declarationForm.setDeclarationFormStatus(declarationFormStatus);
         declarationFormBiz.updateStatus(declarationForm);*/
-        return  "repairForm/project/repairForm_add";
+        return "repairForm/project/repairForm_add";
     }
 
     //做添加维修单
-    @RequestMapping(value = "/repairForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/repairForm", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String add(RepairForm repairForm, @RequestParam("photo") MultipartFile[] photos, HttpSession session) throws  Exception{
+    public String add(RepairForm repairForm, @RequestParam("photo") MultipartFile[] photos, HttpSession session) throws Exception {
 
-        List<RepairFormPhoto> repairFormPhotos=new ArrayList<RepairFormPhoto>();
-        for(MultipartFile photo : photos){
-            if(photo.getSize() == 0)
+        List<RepairFormPhoto> repairFormPhotos = new ArrayList<RepairFormPhoto>();
+        for (MultipartFile photo : photos) {
+            if (photo.getSize() == 0)
                 continue;
-            String path=FastDFSClient.uploadFile(photo.getInputStream(),photo.getOriginalFilename());
-            RepairFormPhoto repairFormPhoto=new RepairFormPhoto();
+            String path = FastDFSClient.uploadFile(photo.getInputStream(), photo.getOriginalFilename());
+            RepairFormPhoto repairFormPhoto = new RepairFormPhoto();
             repairFormPhoto.setExt(FastDFSClient.getFileExt(photo.getOriginalFilename()));
             repairFormPhoto.setCreateDate(new Date());
             repairFormPhoto.setOrigName(photo.getOriginalFilename());
@@ -68,59 +68,63 @@ public class RepairFormController extends BaseController {
         repairForm.setRepairFormPhotos(repairFormPhotos);
         repairForm.setCreateDate(new Date());
         repairForm.setUser1((User) session.getAttribute("user"));
-        repairForm.setDeclarationFormStatus(new DeclarationFormStatus(3));
-
 
 
         //设置报修单更新项
         repairForm.setDeclarationForm(declarationFormBiz.getDeclarationFormById(repairForm.getDeclarationForm().getId()));
+        int id = repairForm.getDeclarationForm().getRepairForm() != null ? repairForm.getDeclarationForm().getRepairForm().getId() : 0;
         repairForm.getDeclarationForm().setRepairForm(repairForm);
+        repairForm.setDeclarationFormStatus(id == 0 ? new DeclarationFormStatus(3) : new DeclarationFormStatus(6));
         repairForm.getDeclarationForm().setDeclarationFormStatus(repairForm.getDeclarationFormStatus());
 
         //添加委派单
-        if(repairForm.getDeclarationForm().getAppointForm() == null){
-            AppointForm appointForm=new AppointForm();
+        if (repairForm.getDeclarationForm().getAppointForm() == null || repairForm.getDeclarationForm().getAppointForm().getId() == 0) {
+            AppointForm appointForm = new AppointForm();
             appointForm.setUser1((User) session.getAttribute("user"));
             appointForm.setUser2((User) session.getAttribute("user"));
             appointForm.setCreateDate(new Date());
             appointForm.setDeclarationForm(repairForm.getDeclarationForm());
             appointForm.setDescription("自己主动接单");
             repairForm.setAppointForm(appointForm);
+            repairForm.getDeclarationForm().setAppointForm(appointForm);
+        } else {
+            repairForm.setAppointForm(repairForm.getDeclarationForm().getAppointForm());
         }
 
-
+        if (id != 0)
+            repairForm.setRepairForm(new RepairForm(id));
         repairFormBiz.saveRepairForm(repairForm);
-        JSONObject jsonObject=new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
-        jsonObject.put("callbackType","closeCurrent");
-        jsonObject.put("message","处理成功！");
-        jsonObject.put("navTabId","w_15");
+        jsonObject.put("callbackType", "closeCurrent");
+        jsonObject.put("message", "处理成功！");
+        jsonObject.put("navTabId", "w_15");
         return jsonObject.toJSONString();
     }
 
     //审核报修单
-    @RequestMapping(value = "/repairForm/check/{id}",method = RequestMethod.GET)
-    public String check(@PathVariable("id") int id,DeclarationForm declarationForm,Model model){
-        declarationForm=declarationFormBiz.getDeclarationFormById(id);
-        model.addAttribute("declarationForm",declarationForm);
-        model.addAttribute("repairForms",repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
-        model.addAttribute("appointForm",appointFormBiz.findAppointFormsByDeclarationFormId(declarationForm.getId()));
+    @RequestMapping(value = "/repairForm/check/{id}", method = RequestMethod.GET)
+    public String check(@PathVariable("id") int id, DeclarationForm declarationForm, Model model) {
+        declarationForm = declarationFormBiz.getDeclarationFormById(id);
+        model.addAttribute("declarationForm", declarationForm);
+        model.addAttribute("repairForms", repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
+        model.addAttribute("appointForm", appointFormBiz.findAppointFormsByDeclarationFormId(declarationForm.getId()));
         addurl(model);
 
         return "repairForm/guest/repairForm_add";
     }
 
     //客房添加审核记录
-    @RequestMapping(value = "/guest/repairForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/guest/repairForm", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String add(RepairForm repairForm,HttpSession session,@RequestParam("photo") MultipartFile[] photos) throws Exception{
+    public String add(RepairForm repairForm, HttpSession session, @RequestParam("photo") MultipartFile[] photos) throws Exception {
         //上传图片
-        List<RepairFormPhoto> repairFormPhotos=new ArrayList<RepairFormPhoto>();
-        for (MultipartFile photo:photos){
-            if(photo.getSize() == 0)
+        List<RepairFormPhoto> repairFormPhotos = new ArrayList<RepairFormPhoto>();
+        for (MultipartFile photo : photos) {
+            if (photo.getSize() == 0)
                 continue;
-            String path=FastDFSClient.uploadFile(photo.getInputStream(),photo.getOriginalFilename());
-            RepairFormPhoto repairFormPhoto=new RepairFormPhoto();
+            String path = FastDFSClient.uploadFile(photo.getInputStream(), photo.getOriginalFilename());
+            RepairFormPhoto repairFormPhoto = new RepairFormPhoto();
             repairFormPhoto.setPath(path);
             repairFormPhoto.setOrigName(photo.getOriginalFilename());
             repairFormPhoto.setExt(FastDFSClient.getFileExt(photo.getOriginalFilename()));
@@ -137,18 +141,18 @@ public class RepairFormController extends BaseController {
         repairForm.getDeclarationForm().setDeclarationFormStatus(repairForm.getDeclarationFormStatus());
         repairForm.setCreateDate(new Date());
 
-        if(repairForm.getDeclarationFormStatus().getId() == 6)
+        if (repairForm.getDeclarationFormStatus().getId() == 6)
             repairForm.getDeclarationForm().setEndDate(new Date());
 
         //添加审核单
         //更新报修单
 
         repairFormBiz.saveRepairForm2(repairForm);
-        JSONObject jsonObject=new JSONObject();
-        jsonObject.put("message","审核处理完成");
-        jsonObject.put("statusCode",StatusCodeDWZ.OK);
-        jsonObject.put("callbackType","closeCurrent");
-        jsonObject.put("navTabId","w_16");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", "审核处理完成");
+        jsonObject.put("statusCode", StatusCodeDWZ.OK);
+        jsonObject.put("callbackType", "closeCurrent");
+        jsonObject.put("navTabId", "w_16");
         return jsonObject.toJSONString();
     }
 

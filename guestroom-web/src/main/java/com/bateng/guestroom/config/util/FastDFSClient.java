@@ -56,7 +56,6 @@ public class FastDFSClient {
 				logger.error("getStoreStorage return null");
 			}
 			storageClient1 = new StorageClient1(trackerServer, storageServer);
-			System.out.println(storageClient1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e.getMessage());
