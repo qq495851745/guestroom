@@ -75,7 +75,15 @@ public class RoomController extends BaseController {
     @RequestMapping(value = "/room",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     @ResponseBody
     public String doAdd(@RequestParam("roomLevel.id")List<RoomAndRoomLevel> roomAndRoomLevels, Room room, HttpServletRequest request){
-         if(roomAndRoomLevels==null){
+         //验证房间名不能为空
+        Room room2 = roomBiz.getRoomByName(room.getName());
+        if(room2!=null){
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("statusCode",StatusCodeDWZ.ERROR);
+            jsonObject.put("message","房号已经存在,请重新输入！");
+            return jsonObject.toJSONString();
+        }
+        if(roomAndRoomLevels==null){
              //数据输入有误
              return  errorJsonMes("选择层级不能为空，请重选择");
          }

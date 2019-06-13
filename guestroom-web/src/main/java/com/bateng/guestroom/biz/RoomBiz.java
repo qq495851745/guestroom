@@ -51,4 +51,11 @@ public interface RoomBiz {
      */
     public void updateRoom(Room room);
 
+    /**
+     * 根据房号查找房间是否存在
+     * @param name
+     * @return
+     */
+    public Room getRoomByName(String name);
+
 }

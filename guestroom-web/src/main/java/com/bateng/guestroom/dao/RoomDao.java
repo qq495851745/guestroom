@@ -18,5 +18,7 @@ public interface RoomDao extends RoomRepository, JpaRepository<Room,Integer>, Jp
     @Query("select  r.room  from RoomAndRoomLevel r where r.roomLevel.id=?1")
     public List<Room> findRoomByRoomLevel(int id);
 
+    public Room findRoomByName(String name);
+
 
 }

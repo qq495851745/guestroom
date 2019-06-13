@@ -75,6 +75,12 @@ public class RoomBizImpl implements RoomBiz {
 
     }
 
+    @Override
+    public Room getRoomByName(String name) {
+
+        return roomDao.findRoomByName(name);
+    }
+
     public RoomDao getRoomDao() {
         return roomDao;
     }

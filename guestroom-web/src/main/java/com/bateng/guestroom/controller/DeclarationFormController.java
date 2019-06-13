@@ -2,6 +2,7 @@ package com.bateng.guestroom.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bateng.guestroom.biz.DeclarationFormBiz;
+import com.bateng.guestroom.biz.RoomBiz;
 import com.bateng.guestroom.biz.RoomLevelBiz;
 import com.bateng.guestroom.biz.UserLevelBiz;
 import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
@@ -31,6 +32,8 @@ public class DeclarationFormController  extends BaseController {
     private RoomLevelBiz roomLevelBiz;
     @Autowired
     private UserLevelBiz userLevelBiz;
+    @Autowired
+    private RoomBiz roomBiz;
     @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET,RequestMethod.POST})
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
         User u= (User) session.getAttribute("user");
@@ -57,6 +60,15 @@ public class DeclarationFormController  extends BaseController {
     @RequestMapping(value = "/declarationForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public String add(DeclarationForm declarationForm, HttpSession session, @RequestParam("photo") MultipartFile[] photos) throws Exception{
+        //验证房号填写正确
+        Room room=roomBiz.getRoomByName(declarationForm.getRoom().getName());
+        if(room==null){
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("statusCode",StatusCodeDWZ.ERROR);
+            jsonObject.put("message","房号输入不正确！注意前后不要有空格！");
+            return jsonObject.toJSONString();
+        }else
+            declarationForm.setRoom(room);
         List<DeclarationFormPhoto> photoList =new ArrayList<DeclarationFormPhoto>();
         for(MultipartFile file:photos){//保存文件
             String orname=file.getOriginalFilename();//获取原始文件名
@@ -273,6 +285,14 @@ public class DeclarationFormController  extends BaseController {
 
     public void setUserLevelBiz(UserLevelBiz userLevelBiz) {
         this.userLevelBiz = userLevelBiz;
+    }
+
+    public RoomBiz getRoomBiz() {
+        return roomBiz;
+    }
+
+    public void setRoomBiz(RoomBiz roomBiz) {
+        this.roomBiz = roomBiz;
     }
 
     @InitBinder
