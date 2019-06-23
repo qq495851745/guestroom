@@ -123,6 +123,11 @@ public class RoomOptionBizImpl implements RoomOptionBiz {
     }
 
     @Override
+    public List<RoomOption> findRoomOptionByName(String name) {
+        return roomOptionDao.findByName(name);
+    }
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteRoomOptionById(int id) {
         roomOptionDao.deleteFlagById(id);

@@ -1,12 +1,12 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/declarationForm/index" method="post">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/declarationForm/index" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">
             <table class="searchContent">
                 <tr>
                     <td>
-                        名称：<input type="text" name="formName" value="" th:value="${declarationForm.formName}"  />
+                        房号：<input type="text" name="room.name" value="" th:if="${declarationForm.room != null}" th:value="${declarationForm.room.name}"  /><input type="text" name="room.name" value="" th:if="${declarationForm.room == null}"   />
                     </td>
 
 
@@ -41,10 +41,10 @@
         <thead>
         <tr >
             <th width="80">序号</th>
-            <th width="120">报修单名称</th>
-            <th width="120">报修单描述</th>
-            <th width="120">报修房间号</th>
-            <th width="120">报修部位</th>
+            <th width="120">房号</th>
+            <th width="120">报修位置</th>
+            <th width="120">报修内容</th>
+            <th width="120">报修描述</th>
             <th width="120">报修人(真实姓名)</th>
             <th width="120">创建时间</th>
             <!--<th width="120">最晚完成时间</th>-->
@@ -54,10 +54,10 @@
         <tbody >
         <tr th:each="declarationForm:${pageVo.contents}" th:attr="rel=${declarationForm.id}">
             <td th:text="${declarationFormStat.index+1}"></td>
-            <td th:text="${declarationForm.formName}"></td>
-            <td th:text="${declarationForm.description}"></td>
             <td th:text="${declarationForm.room.name}"></td>
             <td th:text="${declarationForm.roomOption.name}"></td>
+            <td th:text="${declarationForm.forNameOption.name}"></td>
+            <td th:text="${declarationForm.description}"></td>
             <td th:text="${declarationForm.user.username+'('+declarationForm.user.realName+')'}"></td>
             <td th:text="${#dates.format(declarationForm.createDate,'yyyy-MM-dd HH:mm:ss')}"></td>
             <!--<td th:text="${#dates.format(declarationForm.finishDate,'yyyy-MM-dd HH:mm:ss')}"></td>-->

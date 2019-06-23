@@ -76,6 +76,17 @@ public class RoomBizImpl implements RoomBiz {
     }
 
     @Override
+    public Room findRoomForReoprtByName(String name) {
+        Room room = roomDao.findRoomByName(name);
+        return null;
+    }
+
+    @Override
+    public PageVo<Room> findRoomByPage(PageVo<Room> pageVo, Room room) {
+        return roomDao.findRoomForRoomByPage(pageVo,room);
+    }
+
+    @Override
     public Room getRoomByName(String name) {
 
         return roomDao.findRoomByName(name);

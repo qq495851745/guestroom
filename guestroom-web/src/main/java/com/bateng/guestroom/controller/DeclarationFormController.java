@@ -1,10 +1,7 @@
 package com.bateng.guestroom.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bateng.guestroom.biz.DeclarationFormBiz;
-import com.bateng.guestroom.biz.RoomBiz;
-import com.bateng.guestroom.biz.RoomLevelBiz;
-import com.bateng.guestroom.biz.UserLevelBiz;
+import com.bateng.guestroom.biz.*;
 import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.config.controller.BaseController;
@@ -34,6 +31,8 @@ public class DeclarationFormController  extends BaseController {
     private UserLevelBiz userLevelBiz;
     @Autowired
     private RoomBiz roomBiz;
+    @Autowired
+    private RoomOptionBiz roomOptionBiz;
     @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET,RequestMethod.POST})
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
         User u= (User) session.getAttribute("user");
@@ -69,6 +68,16 @@ public class DeclarationFormController  extends BaseController {
             return jsonObject.toJSONString();
         }else
             declarationForm.setRoom(room);
+        //验证报修工程内容是否填写正确
+        List<RoomOption> forNameOptions = roomOptionBiz.findRoomOptionByName(declarationForm.getForNameOption().getName());
+        if(forNameOptions.size()==0){
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("statusCode",StatusCodeDWZ.ERROR);
+            jsonObject.put("message","输入的工程报修内容不对！");
+            return jsonObject.toJSONString();
+        }else
+            declarationForm.setForNameOption(forNameOptions.get(0));
+
         List<DeclarationFormPhoto> photoList =new ArrayList<DeclarationFormPhoto>();
         for(MultipartFile file:photos){//保存文件
             String orname=file.getOriginalFilename();//获取原始文件名
@@ -294,9 +303,18 @@ public class DeclarationFormController  extends BaseController {
     public void setRoomBiz(RoomBiz roomBiz) {
         this.roomBiz = roomBiz;
     }
+    public RoomOptionBiz getRoomOptionBiz() {
+        return roomOptionBiz;
+    }
+
+    public void setRoomOptionBiz(RoomOptionBiz roomOptionBiz) {
+        this.roomOptionBiz = roomOptionBiz;
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder){
         binder.registerCustomEditor(Date.class,"finishDate",new DatePropertyEditor());
     }
+
+
 }

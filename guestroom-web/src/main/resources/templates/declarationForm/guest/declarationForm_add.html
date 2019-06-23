@@ -19,9 +19,11 @@
                 </dd>
             </dl>
             <dl class="nowrap">
-                <dt>报修工程名称：</dt>
+                <dt>报修工程内容：</dt>
                 <dd>
-                    <input name="formName" type="text"  value="" class="required" maxlength="50"/>
+                    <input name="forNameOption.id" value="" type="hidden" />
+                    <input name="forNameOption.name" type="text"  value="" class="required" maxlength="50" lookupGroup="forNameOption"/>
+                    <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="forNameOption" >选择工程报修内容</a>
                 </dd>
             </dl>
             <dl class="nowrap">

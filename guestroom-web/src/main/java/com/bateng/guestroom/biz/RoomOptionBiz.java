@@ -56,6 +56,12 @@ public interface RoomOptionBiz {
      */
     public void deleteRoomOptionById(int id);
 
+    /**
+     * 根据名字，查找RoomOption
+     * @param name
+     * @return
+     */
+    public List<RoomOption> findRoomOptionByName(String name);
 
 
 }

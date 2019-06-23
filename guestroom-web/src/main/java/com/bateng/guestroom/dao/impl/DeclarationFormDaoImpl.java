@@ -37,6 +37,10 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
             sb.append(" and df.formName like :formName");
             params.put("formName","%"+declarationForm.getFormName()+"%");
         }
+        if(declarationForm.getRoom()!=null && declarationForm.getRoom().getName()!=null && !declarationForm.getRoom().getName().equals("")){
+            sb.append(" and df.room.name = :roomName ");
+            params.put("roomName",declarationForm.getRoom().getName());
+        }
 
         //获取是否有状态
         if(declarationForm.getDeclarationFormStatus() !=null && declarationForm.getDeclarationFormStatus().getId() != 0){
@@ -87,6 +91,28 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
 
 
         return pageVo;
+    }
+
+    @Override
+    public List<DeclarationForm> findDeclarationForms(DeclarationForm declarationForm) {
+        StringBuilder sb=new StringBuilder();
+        Map<String,Object> params=new HashMap<String,Object>();
+        sb.append("from DeclarationForm df where 1=1");
+        if(declarationForm.getFlag() != null){
+            sb.append(" and df.flag = :flag");
+            params.put("flag",declarationForm.getFlag());
+        }
+
+        if(declarationForm.getRoom()!=null && declarationForm.getRoom().getName()!=null && !declarationForm.getRoom().getName().equals("")){
+            sb.append(" and df.room.name = :roomName ");
+            params.put("roomName",declarationForm.getRoom().getName());
+        }
+        Query query=entityManager.createQuery(sb.toString());//生成查询对象
+        //设置参数
+        for(Map.Entry<String,Object> entry:params.entrySet()){
+            query.setParameter(entry.getKey(),entry.getValue());
+        }
+        return query.getResultList();
     }
 
     public EntityManager getEntityManager() {

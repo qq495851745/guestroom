@@ -1,5 +1,7 @@
 package com.bateng.guestroom.entity;
 
+import org.dom4j.dtd.Decl;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +47,10 @@ public class Room {
     @Column(name="updatetime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate=new Date();
+
+    @OneToMany
+    @JoinColumn(name = "room_id")
+    private List<DeclarationForm> declarationForms;
 
 
     public int getId() {
@@ -109,6 +115,14 @@ public class Room {
 
     public void setRoomAndRoomLevels(List<RoomAndRoomLevel> roomAndRoomLevels) {
         this.roomAndRoomLevels = roomAndRoomLevels;
+    }
+
+    public List<DeclarationForm> getDeclarationForms() {
+        return declarationForms;
+    }
+
+    public void setDeclarationForms(List<DeclarationForm> declarationForms) {
+        this.declarationForms = declarationForms;
     }
 
     @Override

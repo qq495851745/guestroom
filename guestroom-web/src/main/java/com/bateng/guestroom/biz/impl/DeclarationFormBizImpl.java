@@ -28,6 +28,11 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     }
 
     @Override
+    public List<DeclarationForm> findDeclarationForms(DeclarationForm declarationForm) {
+        return declarationFormDao.findDeclarationForms(declarationForm);
+    }
+
+    @Override
     @Transactional
     public void saveDeclarationForm(DeclarationForm declarationForm) {
         declarationFormDao.save(declarationForm);

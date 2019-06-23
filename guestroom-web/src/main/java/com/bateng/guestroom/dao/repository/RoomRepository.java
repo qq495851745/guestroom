@@ -14,4 +14,6 @@ public interface RoomRepository {
      * @return
      */
     public PageVo<Room> findRoomForRoomLevelByPage(PageVo<Room> pageVo, RoomAndRoomLevel roomAndRoomLevel);
+
+    public PageVo<Room> findRoomForRoomByPage(PageVo<Room> pageVo,Room room);
 }

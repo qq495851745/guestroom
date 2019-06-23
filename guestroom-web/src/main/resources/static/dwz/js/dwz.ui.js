@@ -49,6 +49,9 @@ function initLayout(){
 	$("#sidebar, #sidebar_s .collapse, #splitBar, #splitBarProxy").height(iContentH - 5);
 	$("#taskbar").css({top: iContentH + $("#header").height() + 5, width:$(window).width()});
 }
+//js ajax
+
+
 
 function initUI($p){
 	//tables
@@ -208,6 +211,56 @@ function initUI($p){
 			event.preventDefault();
 		});
 	});
+
+	//报表下载操作
+	$("a[target=report]",$p).each(function(){
+		$(this).click(function(){
+			var $pageContent = $(this).parents(".pageContent");
+			var id=$pageContent.attr("id");
+			id=id+"_pagerForm";
+			var arr = $("#"+id).serializeArray();
+			var url=$(this).attr("href");
+			$.ajax({
+				url:url,
+				type:"post",
+				async:true,
+				cache:true,
+				data:arr,
+				processData:false,
+				success:function(data,status,xhr){
+					console.log(data)
+					console.log(xhr.getAllResponseHeaders())
+					console.log(xhr.response)
+					downFlie(data,"abc.txt");
+				},
+				error:function () {
+
+				}/*,
+				xhr:function(a){
+					console.log(a)
+					console.log(this)
+				}*/
+			});
+			return false;
+		});
+	})
+	function downFlie(data,filename) {
+		// 创建a标签
+		var elementA = document.createElement('a');
+
+		//文件的名称为时间戳加文件名后缀
+		elementA.download = filename;
+		elementA.style.display = 'none';
+
+		//生成一个blob二进制数据，内容为json数据
+		var blob = new Blob([data]);
+
+		//生成一个指向blob的URL地址，并赋值给a标签的href属性
+		elementA.href = URL.createObjectURL(blob);
+		document.body.appendChild(elementA);
+		elementA.click();
+		document.body.removeChild(elementA);
+	}
 
 	//dialogs
 	$("a[target=dialog]", $p).each(function(){

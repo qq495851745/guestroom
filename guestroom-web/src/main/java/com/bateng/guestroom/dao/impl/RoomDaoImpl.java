@@ -21,6 +21,24 @@ public class RoomDaoImpl implements RoomRepository {
     private EntityManager entityManager;
 
     @Override
+    public PageVo<Room> findRoomForRoomByPage(PageVo<Room> pageVo, Room room) {
+        Map<String,Object> paramsMap = new HashMap<String,Object>();
+        StringBuilder sb  = new StringBuilder();
+        sb.append("from Room r where 1=1");
+        Query query = entityManager.createQuery(sb.toString());
+
+        int max= query.getResultList().size();
+        int pages=max%pageVo.getNumPerPage()==0?max/pageVo.getNumPerPage():(max/pageVo.getNumPerPage()+1);
+
+        query.setMaxResults(pageVo.getNumPerPage());
+        query.setFirstResult((pageVo.getPageNum()-1)*pageVo.getNumPerPage());
+        pageVo.setContents(query.getResultList());
+        pageVo.setTotalCount(max);
+        pageVo.setTotalPages(pages);
+        return pageVo;
+    }
+
+    @Override
     public PageVo<Room> findRoomForRoomLevelByPage(PageVo<Room> pageVo, RoomAndRoomLevel roomAndRoomLevel) {
         Map<String,Object> paramsMap=new HashMap<String,Object>();
         StringBuilder sb=new StringBuilder();
@@ -34,7 +52,6 @@ public class RoomDaoImpl implements RoomRepository {
         }
           sb.append(" order by rarl.room.id desc");
         Query query=entityManager.createQuery(sb.toString());
-        System.out.println(new Date());
           //设置参数
           for(Map.Entry<String,Object> entry:paramsMap.entrySet()){
               query.setParameter(entry.getKey(),entry.getValue());

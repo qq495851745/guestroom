@@ -17,7 +17,7 @@ public class DeclarationForm {
     private Integer id;
 
     @Column(name = "dname")
-    private String formName;//名称
+    private String formName;//名称   报修工程内容
 
     @Column(name="ddescription")
     private String description;//报修单说明
@@ -38,6 +38,10 @@ public class DeclarationForm {
     @ManyToOne
     @JoinColumn(name = "roomoption_id")
     private RoomOption roomOption;//关联到房间某个地方
+
+    @ManyToOne
+    @JoinColumn(name = "fornameoption_id")
+    private RoomOption forNameOption;//工程报修位置
 
 
     @Column(name = "delflag")
@@ -253,5 +257,13 @@ public class DeclarationForm {
 
     public void setDeclarationFormStatusList(List<Integer> declarationFormStatusList) {
         this.declarationFormStatusList = declarationFormStatusList;
+    }
+
+    public RoomOption getForNameOption() {
+        return forNameOption;
+    }
+
+    public void setForNameOption(RoomOption forNameOption) {
+        this.forNameOption = forNameOption;
     }
 }

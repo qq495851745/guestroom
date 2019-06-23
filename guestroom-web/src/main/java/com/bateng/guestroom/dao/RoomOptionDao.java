@@ -39,4 +39,13 @@ public interface RoomOptionDao extends JpaRepository<RoomOption,Integer>, JpaSpe
     @Modifying
     @Query("update RoomOption  ro set ro.flag=0 where ro.id=?1")
     public void deleteFlagById(int id);
+
+    /**
+     * 根据名字查找RoomOption
+     * @param name
+     * @return
+     */
+    public List<RoomOption> findByName(String name);
+
+
 }

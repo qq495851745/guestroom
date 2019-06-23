@@ -25,6 +25,14 @@ public interface RoomBiz {
     public PageVo<Room> findRoomByPage(PageVo<Room> pageVo, RoomAndRoomLevel roomAndRoomLevel);
 
     /**
+     * 分页查询，根据Room
+     * @param pageVo
+     * @param room
+     * @return
+     */
+    public PageVo<Room> findRoomByPage(PageVo<Room> pageVo,Room room);
+
+    /**
      * 添加房间，成功返回true
      * @param room
      * @return
@@ -57,5 +65,12 @@ public interface RoomBiz {
      * @return
      */
     public Room getRoomByName(String name);
+
+    /**
+     * 报表查询房间
+     * @param name
+     * @return
+     */
+    public Room findRoomForReoprtByName(String name);
 
 }

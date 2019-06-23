@@ -62,6 +62,25 @@ function iframeCallback(form, callback) {
     _iframeResponse($iframe[0], callback || DWZ.ajaxDone);
 }
 
+function iframeCallback2(form, callback) {
+    var $form = $(form), $iframe = $("#callbackframe");
+    if (!$form.valid()) {
+        return false;
+    }
+
+    if ($iframe.size() == 0) {
+        $iframe = $('<iframe id="callbackframe" name="callbackframe" src="about:blank" style="display:none"></iframe>').appendTo('body');
+    }
+    if (!form.ajax) {
+        $form.append('<input type="hidden" name="ajax" value="1" />');
+    }
+    form.target = 'callbackframe';
+
+    $form.find(':focus').blur();
+
+    // _iframeResponse($iframe[0], callback || DWZ.ajaxDone);
+}
+
 function _iframeResponse(iframe, callback, dataType) {
     var $iframe = $(iframe), $document = $(document);
 
