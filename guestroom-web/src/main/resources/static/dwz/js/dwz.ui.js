@@ -220,7 +220,14 @@ function initUI($p){
 			id=id+"_pagerForm";
 			var arr = $("#"+id).serializeArray();
 			var url=$(this).attr("href");
-			$.ajax({
+			var formid=$(this).attr("formId");
+			var $form = $("#"+formid);
+			$.each(arr,function(i,obj){
+				$form.find("[name='"+obj["name"]+"']").val(obj["value"])
+			})
+			$form.submit();
+
+			/*$.ajax({
 				url:url,
 				type:"post",
 				async:true,
@@ -228,19 +235,16 @@ function initUI($p){
 				data:arr,
 				processData:false,
 				success:function(data,status,xhr){
-					console.log(data)
-					console.log(xhr.getAllResponseHeaders())
-					console.log(xhr.response)
 					downFlie(data,"abc.txt");
 				},
 				error:function () {
 
-				}/*,
+				}/!*,
 				xhr:function(a){
 					console.log(a)
 					console.log(this)
-				}*/
-			});
+				}*!/
+			});*/
 			return false;
 		});
 	})

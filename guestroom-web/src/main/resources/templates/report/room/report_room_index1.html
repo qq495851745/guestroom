@@ -1,5 +1,5 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="report_room_index_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/report/room/index" method="post">
+    <form id="report_room_index1_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/report/room/index1" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">
@@ -23,9 +23,9 @@
     </form>
 </div>
 <div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
-     xmlns:th="http://www.thymeleaf.org" id="report_room_index_pageContent">
+     xmlns:th="http://www.thymeleaf.org" id="report_room_index1_pageContent">
     <div class="panelBar">
-        <form action="guestroom/report/room/download" method="post" id="download_report" target="_blank">
+        <form action="guestroom/report/room/download1" method="post" id="download_report_1" target="_blank">
             <input type="hidden" name="room.name" value="" />
         </form>
         <ul class="toolBar">
@@ -33,7 +33,7 @@
             </li>
             <li><a class="delete" href="guestroom/declarationForm/{sid_obj}" target="ajaxTodo"
                    title="确定要删除吗?" _method="delete"><span>删除</span></a></li>-->
-            <li><a class="add deal"   href="#" formId="download_report" target="report" mask="true"><span>报表下载</span></a>
+            <li><a class="add deal"   href="#" formId="download_report_1" target="report" mask="true"><span>报表下载</span></a>
             </li>
 
             <li class="line">line</li>
@@ -42,7 +42,7 @@
         </ul>
 
     </div>
-    <table class="table" width="99%" layoutH="100" id="bt_room_report_room_table" >
+    <table class="table" width="99%" layoutH="100" id="bt_room_report_room_table_1" >
         <thead>
         <tr >
             <th width="80">序号</th>
@@ -72,13 +72,13 @@
 
         </tbody>
         <script type="text/javascript">
-            $("#bt_room_report_room_table").find("th,td").css({"text-align": "center"});
+            $("#bt_room_report_room_table_1").find("th,td").css({"text-align": "center"});
         </script>
     </table>
     <div class="panelBar">
         <div class="pages">
             <span>显示</span>
-            <select id="bt_room_report_room_sel" class="combox" name="numPerPage"
+            <select id="bt_room_report_room_sel_1" class="combox" name="numPerPage"
                     onchange="navTabPageBreak({numPerPage:this.value,pageNum:1})">
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -98,7 +98,7 @@
     $(window).trigger("resize");
     //消除分页错误
     setTimeout(function () {
-        var len = $("#bt_room_report_room_sel").parent().find("a").size();
+        var len = $("#bt_room_report_room_sel_1").parent().find("a").size();
         if (!len)
             setTimeout(arguments.callee, 100);
         else {
@@ -115,9 +115,9 @@
                     $(this).find("span").html("房间" + "<b style='color: red'>" + t + "</b>报表");
                 })
             })*/
-            $("#bt_room_report_room_sel").css({display: "block"});
-            $("#bt_room_report_room_sel").prev().css({display: "none"});
-            $("#bt_room_report_room_sel").val($("#bt_room_report_room_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
+            $("#bt_room_report_room_sel_1").css({display: "block"});
+            $("#bt_room_report_room_sel_1").prev().css({display: "none"});
+            $("#bt_room_report_room_sel_1").val($("#bt_room_report_room_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
 
         }
     }, 1);

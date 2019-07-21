@@ -30,4 +30,5 @@ public interface DeclarationFormDao extends JpaRepository<DeclarationForm,Intege
     @Modifying
     @Query("update DeclarationForm  df set df.declarationFormStatus.id = :statusId where df.id=:id")
     public void updateDeclarationForm2(int statusId,int id);
+
 }

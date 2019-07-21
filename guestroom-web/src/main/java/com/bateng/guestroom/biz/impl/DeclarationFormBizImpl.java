@@ -28,8 +28,28 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     }
 
     @Override
+    public PageVo<DeclarationForm> findDeclarationFormByPage4(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm) {
+        return declarationFormDao.findDeclarationFormByPage4(pageVo,declarationForm);
+    }
+
+    @Override
+    public PageVo<DeclarationForm> findDeclarationFormByPage1(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm) {
+        return declarationFormDao.findDeclarationFormByPage1(pageVo,declarationForm);
+    }
+
+    @Override
     public List<DeclarationForm> findDeclarationForms(DeclarationForm declarationForm) {
         return declarationFormDao.findDeclarationForms(declarationForm);
+    }
+
+    @Override
+    public List<DeclarationForm> findDeclarationForms1(DeclarationForm declarationForm) {
+        return declarationFormDao.findDeclarationForms1(declarationForm);
+    }
+
+    @Override
+    public List<DeclarationForm> findDeclarationForms4(DeclarationForm declarationForm) {
+        return declarationFormDao.findDeclarationForms4(declarationForm);
     }
 
     @Override

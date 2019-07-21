@@ -94,6 +94,19 @@ public class DeclarationForm {
     private Date endDate;//实际最后完成并审核通过时间
 
 
+    @Transient
+    private Date time01;//用于搜索条件
+
+    @Transient
+    private Date time02;//用于搜索条件
+
+    @Transient
+    private int count;//统计总数
+
+    @Transient
+    private Long count01;//起始次数
+    @Transient
+    private Long count02;//最后次数
 
     /*@ManyToOne
     @JoinColumn(name = "project_user_id")
@@ -265,5 +278,45 @@ public class DeclarationForm {
 
     public void setForNameOption(RoomOption forNameOption) {
         this.forNameOption = forNameOption;
+    }
+
+    public Date getTime01() {
+        return time01;
+    }
+
+    public void setTime01(Date time01) {
+        this.time01 = time01;
+    }
+
+    public Date getTime02() {
+        return time02;
+    }
+
+    public void setTime02(Date time02) {
+        this.time02 = time02;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public Long getCount01() {
+        return count01;
+    }
+
+    public void setCount01(Long count01) {
+        this.count01 = count01;
+    }
+
+    public Long getCount02() {
+        return count02;
+    }
+
+    public void setCount02(Long count02) {
+        this.count02 = count02;
     }
 }

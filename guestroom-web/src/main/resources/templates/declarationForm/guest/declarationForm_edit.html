@@ -6,39 +6,38 @@
     <div class="pageContent">
         <div class="pageFormContent" layoutH="97">
             <dl class="nowrap">
-                <dt>名称：</dt>
+                <dt>报修房号:</dt>
                 <dd>
-                    <input name="formName" type="text" th:value="${declarationForm.formName}"  value="" class="required" maxlength="50"/>
-                </dd>
-            </dl>
-            <dl class="nowrap">
-                <dt>报修描述：</dt>
-                <dd>
-                    <input name="description" type="text" th:value="${declarationForm.description}"  value="" class="required" maxlength="50"/>
-                </dd>
-            </dl>
-            <dl class="nowrap">
-                <dt>最晚完成时间：</dt>
-                <dd>
-                    <input type="text" name="finishDate" class="date textInput readonly valid" datefmt="yyyy-MM-dd HH:mm:ss" defaulttime="23:59:59" readonly="true" th:value="${#dates.format(declarationForm.finishDate,'yyyy-MM-dd HH:mm:ss')}">
-                </dd>
-            </dl>
-            <dl class="nowrap">
-                <dt>报修的房间:</dt>
-                <dd>
-                    <input name="room.id" value="" th:value="${declarationForm.room.id}" type="hidden" class="required"/>
-                    <input class="required readonly" th:value="${declarationForm.room.name}" disabled="disabled" name="room.name" type="text"  lookupGroup="room" />
+                    <input name="room.id" value="0" th:value="${declarationForm.room.id}" type="hidden" />
+                    <input class="required" th:value="${declarationForm.room.name}"  name="room.name" type="text"  lookupGroup="room" />
                     <a class="btnLook" href="/guestroom/declarationForm/room" lookupGroup="room" >选择报修的房间</a>
                 </dd>
             </dl>
             <dl class="nowrap">
-                <dt>房间的报修部位:</dt>
+                <dt>报修位置:</dt>
                 <dd>
-                    <input name="roomOption.id" th:value="${declarationForm.roomOption.id}" value="" type="hidden" class="required"/>
+                    <input name="roomOption.id" value="" type="hidden" class="required"/>
                     <input class="required readonly" th:value="${declarationForm.roomOption.name}" disabled="disabled" name="roomOption.name" type="text"  lookupGroup="roomOption" />
                     <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="roomOption" >选择房间报修部位</a>
                 </dd>
             </dl>
+            <dl class="nowrap">
+                <dt>报修工程内容：</dt>
+                <dd>
+                    <input name="forNameOption.id" value="" type="hidden" />
+                    <input name="forNameOption.name" th:value="${declarationForm.forNameOption.name}" type="text"  value="" class="required" maxlength="50" lookupGroup="forNameOption"/>
+                    <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="forNameOption" >选择工程报修内容</a>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>具体描述：</dt>
+                <dd>
+                    <input name="description" th:value="${declarationForm.description}" type="text"  value=""  maxlength="50"/>
+                </dd>
+            </dl>
+
+
+
             <dl class="nowrap">
                 <dt>选择上传图片</dt>
                 <dd style="position: relative">
@@ -57,8 +56,6 @@
                     </div>
                 </dd>
             </dl>
-
-
 
         </div>
         <div class="formBar">
