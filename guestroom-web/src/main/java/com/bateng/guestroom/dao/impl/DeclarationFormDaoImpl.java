@@ -108,6 +108,13 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
             params.put("flag",declarationForm.getFlag());
         }
 
+        if(declarationForm.getRoomOption()!=null && !declarationForm.getRoomOption().getName().equals("")){
+            sb.append(" and df.roomOption.name like :roomOptionName");
+            params.put("roomOptionName","%"+declarationForm.getRoomOption().getName()+"%");
+
+        }
+
+
         if(declarationForm.getFormName() !=null && !declarationForm.getFormName().equals("")){
             sb.append(" and df.formName like :formName");
             params.put("formName","%"+declarationForm.getFormName()+"%");
@@ -125,18 +132,18 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
 
         //获取报修内容数据
         if(declarationForm.getForNameOption()!=null &&declarationForm.getForNameOption().getName()!=null && !declarationForm.getForNameOption().getName().equals("")){
-            sb.append(" and df.forNameOption.name = :forNameOptionName");
-            params.put("forNameOptionName",declarationForm.getForNameOption().getName());
+            sb.append(" and df.forNameOption.name like :forNameOptionName");
+            params.put("forNameOptionName","%"+declarationForm.getForNameOption().getName()+"%");
         }
 
         //根据报修时间搜索
         if(declarationForm.getTime01()!=null){
-            sb.append("  and df.createDate >= :time01");
+            sb.append("  and df.actualDate >= :time01");
             params.put("time01",declarationForm.getTime01());
         }
 
         if(declarationForm.getTime02() != null){
-            sb.append("  and df.createDate <= :time02");
+            sb.append("  and df.actualDate <= :time02");
             params.put("time02",declarationForm.getTime02());
         }
 

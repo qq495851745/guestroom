@@ -6,12 +6,15 @@ import com.bateng.guestroom.biz.DeclarationFormBiz;
 import com.bateng.guestroom.biz.RepairFormBiz;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.config.controller.BaseController;
+import com.bateng.guestroom.config.interceptor.DatePropertyEditor;
+import com.bateng.guestroom.config.interceptor.DatePropertyEditor2;
 import com.bateng.guestroom.config.util.FastDFSClient;
 import com.bateng.guestroom.entity.*;
 import com.sun.org.apache.regexp.internal.REUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,7 +69,9 @@ public class RepairFormController extends BaseController {
             repairFormPhotos.add(repairFormPhoto);
         }
         repairForm.setRepairFormPhotos(repairFormPhotos);
+        if(repairForm.getCreateDate()==null)
         repairForm.setCreateDate(new Date());
+
         repairForm.setUser1((User) session.getAttribute("user"));
 
 
@@ -94,6 +99,9 @@ public class RepairFormController extends BaseController {
         if (id != 0)
             repairForm.setRepairForm(new RepairForm(id));
         repairFormBiz.saveRepairForm(repairForm);
+        //更新最后完成时间
+        declarationFormBiz.updateFinishDate(repairForm.getDeclarationForm().getId(),repairForm.getCreateDate());
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
         jsonObject.put("callbackType", "closeCurrent");
@@ -154,6 +162,11 @@ public class RepairFormController extends BaseController {
         jsonObject.put("callbackType", "closeCurrent");
         jsonObject.put("navTabId", "w_16");
         return jsonObject.toJSONString();
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        binder.registerCustomEditor(Date.class,"createDate",new DatePropertyEditor());
     }
 
     public DeclarationFormBiz getDeclarationFormBiz() {

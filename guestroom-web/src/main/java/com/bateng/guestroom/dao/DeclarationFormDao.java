@@ -13,6 +13,11 @@ import java.util.Date;
 @Repository
 public interface DeclarationFormDao extends JpaRepository<DeclarationForm,Integer>, DeclarationFormRepository {
 
+
+    @Modifying
+    @Query("update  DeclarationForm  df set df.finishDate=:finishDate where df.id = :declarationFormId")
+    public void updateFinishDate(Integer declarationFormId,Date finishDate);
+
     //修改删除标记
     @Modifying
     @Query("update DeclarationForm df set df.flag=:flag where df.id=:id")

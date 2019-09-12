@@ -21,6 +21,13 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     private DeclarationFormDao declarationFormDao;
     @Autowired
     private DeclarationFormPhotoDao declarationFormPhotoDao;
+
+    @Override
+    @Transactional
+    public void updateFinishDate(Integer declarationFormId, Date finishDate) {
+        declarationFormDao.updateFinishDate(declarationFormId,finishDate);
+    }
+
     @Override
     public PageVo<DeclarationForm> findDeclarationFormByPage(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm) {
 

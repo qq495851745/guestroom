@@ -6,6 +6,7 @@ import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
 import com.bateng.guestroom.config.constant.StatusCodeDWZ;
 import com.bateng.guestroom.config.controller.BaseController;
 import com.bateng.guestroom.config.interceptor.DatePropertyEditor;
+import com.bateng.guestroom.config.interceptor.DatePropertyEditor2;
 import com.bateng.guestroom.config.interceptor.MD5PropertyEditor;
 import com.bateng.guestroom.config.util.FastDFSClient;
 import com.bateng.guestroom.entity.*;
@@ -59,6 +60,9 @@ public class DeclarationFormController  extends BaseController {
     @RequestMapping(value = "/declarationForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public String add(DeclarationForm declarationForm, HttpSession session, @RequestParam("photo") MultipartFile[] photos) throws Exception{
+        //修正实际发生时间。
+        if(declarationForm.getActualDate()==null)
+            declarationForm.setActualDate(declarationForm.getCreateDate());
         //验证房号填写正确
         Room room=roomBiz.getRoomByName(declarationForm.getRoom().getName());
         if(room==null){
@@ -314,6 +318,9 @@ public class DeclarationFormController  extends BaseController {
     @InitBinder
     public void initBinder(WebDataBinder binder){
         binder.registerCustomEditor(Date.class,"finishDate",new DatePropertyEditor());
+        binder.registerCustomEditor(Date.class,"time01",new DatePropertyEditor2());
+        binder.registerCustomEditor(Date.class,"time02",new DatePropertyEditor2());
+        binder.registerCustomEditor(Date.class,"actualDate",new DatePropertyEditor2());
     }
 
 

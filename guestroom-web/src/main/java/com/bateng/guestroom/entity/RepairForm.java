@@ -31,6 +31,7 @@ public class RepairForm {
     private DeclarationForm declarationForm;
 
     @Column(name = "createdate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
     @JoinColumn(name = "appoint_form_id")

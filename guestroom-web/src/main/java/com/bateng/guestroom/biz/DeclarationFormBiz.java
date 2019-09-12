@@ -3,9 +3,19 @@ package com.bateng.guestroom.biz;
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.PageVo;
 import org.dom4j.dtd.Decl;
+
+import java.util.Date;
 import java.util.List;
 
 public interface DeclarationFormBiz {
+
+
+    /**
+     * 根据ID，更新完成时间
+     * @param declarationFormId
+     * @param finishDate
+     */
+    public void updateFinishDate(Integer declarationFormId, Date finishDate);
     /**
      * 分页查询
      * @param pageVo

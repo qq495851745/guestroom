@@ -6,7 +6,30 @@
             <table class="searchContent">
                 <tr>
                     <td>
-                        名称：<input type="text" name="formName" value="" th:value="${declarationForm.formName}"  />
+                        房号：<input type="text" size="10px" name="room.name" value="" th:if="${declarationForm.room != null}" th:value="${declarationForm.room.name}"  /><input type="text" name="room.name"  size="10px"value="" th:if="${declarationForm.room == null}"   />
+                    </td>
+                    <td>
+                        报修类别:
+                        <input name="roomOption.id" value="" type="hidden" />
+                        <input class="" size="10px"  name="roomOption.name" type="text"  lookupGroup="roomOption" th:if="${declarationForm.roomOption==null}"/>
+                        <input class="" size="10px"  name="roomOption.name" type="text"  lookupGroup="roomOption" th:if="${declarationForm.roomOption!=null}" th:value="${declarationForm.roomOption.name}"/>
+                        <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="roomOption" >选择房间报修部位</a>
+
+                    </td>
+                    <td>
+                        报修工程内容：  <input name="forNameOption.id" value="" type="hidden" />
+                        <input name="forNameOption.name" size="10px" type="text"  value="" class="" maxlength="50" lookupGroup="forNameOption" th:if="${declarationForm.forNameOption==null}"/>
+                        <input name="forNameOption.name" size="10px" type="text"  value="" class="" maxlength="50" lookupGroup="forNameOption" th:if="${declarationForm.forNameOption!=null}" th:value="${declarationForm.forNameOption.name}"/>
+                        <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="forNameOption" >选择工程报修内容</a>
+                    </td>
+                    <td>
+                        报修时间范围从：
+                        <input type="text" name="time01" th:value="${#dates.format(declarationForm.time01, 'yyyy-MM-dd')}" class="date" readonly="true"/>
+                        <!--<a class="inputDateButton" href="javascript:;">选择</a>-->
+                        -到：
+                        <input type="text" name="time02" th:value="${#dates.format(declarationForm.time02, 'yyyy-MM-dd')}" class="date" readonly="true"/>
+                        <!--<a class="inputDateButton" href="javascript:;">选择</a>-->
+
                     </td>
 
 
@@ -43,11 +66,11 @@
         <tr >
             <th width="80">序号</th>
             <th width="120">房号</th>
-            <th width="120">报修位置</th>
+            <th width="120">报修类别</th>
             <th width="120">报修内容</th>
             <th width="120">报修描述</th>
             <th width="120">报修人(真实姓名)</th>
-            <th width="120">创建时间</th>
+            <th width="120">报修创建(实际发生)时间</th>
             <!--<th width="120">最晚完成时间</th>-->
             <th width="120">状态</th>
         </tr>
@@ -60,7 +83,7 @@
             <td th:text="${declarationForm.forNameOption.name}"></td>
             <td th:text="${declarationForm.description}"></td>
             <td th:text="${declarationForm.user.username+'('+declarationForm.user.realName+')'}"></td>
-            <td th:text="${#dates.format(declarationForm.createDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(declarationForm.actualDate,'yyyy-MM-dd HH:mm:ss')}"></td>
             <!--<td th:text="${#dates.format(declarationForm.finishDate,'yyyy-MM-dd HH:mm:ss')}"></td>-->
             <td th:text="${declarationForm.declarationFormStatus.status}"></td>
         </tr>

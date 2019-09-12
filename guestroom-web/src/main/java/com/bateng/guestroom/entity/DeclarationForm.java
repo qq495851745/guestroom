@@ -37,7 +37,7 @@ public class DeclarationForm {
 
     @ManyToOne
     @JoinColumn(name = "roomoption_id")
-    private RoomOption roomOption;//关联到房间某个地方
+    private RoomOption roomOption;//关联到房间某个地方   报修类别
 
     @ManyToOne
     @JoinColumn(name = "fornameoption_id")
@@ -64,6 +64,10 @@ public class DeclarationForm {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dupdatedate")
     private Date updateDate = new Date();//更新时间
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "actualdate")
+    private Date actualDate;//实际发生时间
 
     @ManyToOne
     @JoinColumn(name = "dfstatus")
@@ -111,6 +115,14 @@ public class DeclarationForm {
     /*@ManyToOne
     @JoinColumn(name = "project_user_id")
     private User projectUser;//维修人*/
+
+    public Date getActualDate() {
+        return actualDate;
+    }
+
+    public void setActualDate(Date actualDate) {
+        this.actualDate = actualDate;
+    }
 
     /**
      * 状态
