@@ -1,0 +1,71 @@
+<h2 class="contentTitle">添加用户</h2>
+<form method="post" action="guestroom/user" class="pageForm required-validate" onsubmit="return iframeCallback(this, navTabAjaxDone);">
+    <div class="pageContent">
+        <div class="pageFormContent" layoutH="97">
+            <dl class="nowrap">
+                <dt>用户名：</dt>
+                <dd>
+                    <input name="username" type="text"  value="" class="required" maxlength="50"/>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>真实姓名：</dt>
+                <dd>
+                    <input name="realName" type="text"  value="" class="required" maxlength="50"/>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>密码：</dt>
+                <dd>
+                    <input id="user_add_pwd" type="password" name="password" class="required alphanumeric" minlength="6" maxlength="20" alt="字母、数字、下划线 6-20位"/>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>确认密码：</dt>
+                <dd>
+                    <input type="password" name="repassword" class="required" equalto="#user_add_pwd"/>
+                </dd>
+            </dl>
+
+            <dl class="nowrap">
+                <dt>角色权限:</dt>
+                <dd>
+                    <input name="role.id" value="" type="hidden" class="required"/>
+                    <input class="required readonly" disabled="disabled" name="role.name" type="text"  lookupGroup="role" />
+                    <a class="btnLook" href="guestroom/role" lookupGroup="role" >查找带回</a>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>用户层级:</dt>
+                <dd>
+                    <input name="userLevel.id" value="" type="hidden" class="required"/>
+                    <input class="required readonly" disabled="disabled" name="userLevel.name" type="text"  lookupGroup="userLevel" />
+                    <a class="btnLook" href="guestroom/userLevel/lookup" lookupGroup="userLevel" >查找带回</a>
+                </dd>
+            </dl>
+
+
+
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">保存</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button class="close" type="button">关闭</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</form>
+
+

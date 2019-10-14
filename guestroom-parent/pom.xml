@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>../guestroom-web</module>
+        <module>../guestroom-mobile</module>
     </modules>
 
     <name>guestroom-parent</name>

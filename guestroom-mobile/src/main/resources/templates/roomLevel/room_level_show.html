@@ -1,0 +1,103 @@
+<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
+    <form id="pagerForm" onsubmit="return divSearch(this, 'roomLevelBox');" action="/guestroom/roomLevel/show" method="post">
+        <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
+        <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+        <input type="hidden" name="roomLevel.id" th:value="${roomLevel.roomLevel.id}"   value=""/>
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        名称：<input type="text" name="name" value="" th:value="${roomLevel.name}"/>
+                    </td>
+                    <td>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">检索</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
+     xmlns:th="http://www.thymeleaf.org">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add" th:href="'guestroom/roomLevel/toAdd/'+${roomLevel.roomLevel.id}"  href="guestroom/roomLevel/toAdd/"  target="dialog" mask="true"><span>添加房间项目</span></a>
+            </li>
+            <li><a class="delete" href="guestroom/roomLevel/del/{sid_obj}" target="ajaxTodo"
+                   title="确定要删除吗?"><span>删除</span></a></li>
+            <li><a class="edit" href="guestroom/roomLevel/toEdit/{sid_obj}" target="dialog"
+                   mask="true"><span>修改</span></a></li>
+            <li class="line">line</li>
+            <!--<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
+                   title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+        </ul>
+    </div>
+    <table class="table" width="99%" layoutH="170" id="bt_room_level_table" >
+        <thead>
+        <tr>
+            <th width="80">序号</th>
+            <th width="120">选项名称</th>
+            <th width="120">选项描述</th>
+            <th width="120">最近修改时间</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="roomLevel:${pageVo.contents}" th:attr="rel=${roomLevel.id}">
+            <td th:text="${roomLevelStat.count}"></td>
+            <td th:text="${roomLevel.name}"></td>
+            <td th:text="${roomLevel.des}"></td>
+            <td th:text="${roomLevel.updateDate}"></td>
+        </tr>
+
+
+        </tbody>
+        <script type="text/javascript">
+            $("#bt_room_level_table").find("th,td").css({"text-align": "center"});
+        </script>
+    </table>
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span>
+            <select id="bt_room_level_sel" class="combox" name="numPerPage"
+                    onchange="navTabPageBreak({numPerPage:this.value,pageNum:1}, 'roomLevelBox')">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+            <span th:text="${'条，共'+pageVo.totalCount+'条'}">条，共50条</span>
+        </div>
+
+        <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
+             class="pagination" rel="roomLevelBox" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(window).trigger("resize");
+    //消除分页错误
+    setTimeout(function () {
+        var len = $("#bt_room_level_sel").parent().find("a").size();
+        if (!len)
+            setTimeout(arguments.callee, 100);
+        else {
+            displayText({"treeId":"btroomLevelTree","relId":"roomLevelBox"});
+            $("#bt_room_level_sel").css({display: "block"});
+            $("#bt_room_level_sel").prev().css({display: "none"});
+            $("#bt_room_level_sel").val($("input[name=\"numPerPage\"]").val());
+            //消除表格显示格式
+            len = $("#roomLevelBox").find(".gridScroller").size();
+            if (len)
+                $("#roomLevelBox").find(".gridScroller").css({height: "auto"})
+            else
+                setTimeout(arguments.callee, 100);
+        }
+    }, 1);
+
+
+</script>

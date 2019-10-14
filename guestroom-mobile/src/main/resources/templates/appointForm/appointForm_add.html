@@ -1,0 +1,115 @@
+<h2 class="contentTitle">委派报修单</h2>
+<form xmlns:th="http://www.thymeleaf.org" method="post" action="guestroom/appointForm" class="pageForm required-validate"
+      enctype="multipart/form-data" onsubmit="return iframeCallback(this, navTabAjaxDone);" id="appointForm_add_form">
+    <input type="hidden" name="declarationForm.id" value="" th:value="${declarationForm.id}"/>
+    <div class="pageContent">
+        <div class="pageFormContent" layoutH="97">
+            <dl class="nowrap">
+                <dt>指派给维修人:</dt>
+                <dd>
+                    <input name="user1.id" value="" type="hidden" class="required"/>
+                    <input class="required readonly" value="" disabled="disabled" name="user1.name" type="text"  lookupGroup="user1" />
+                    <a class="btnLook" href="guestroom/declarationFrom/appointForm/user" lookupGroup="user1" >选择维修人</a>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>委派描述：</dt>
+                <dd>
+                    <input name="description"  type="text"  value="" maxlength="50"/>
+                </dd>
+            </dl>
+            <div class="row">
+                <div class="col-md-12">---------------------报修单详情如下------------------------------</div>
+            </div>
+            <dl class="nowrap">
+                <dt>报修单名称：</dt>
+                <dd>
+                    <input name="formName"  type="text" th:value="${declarationForm.formName}"  value="" class=" readonly" maxlength="50"/>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>报修描述：</dt>
+                <dd>
+                    <input name="des" type="text" th:value="${declarationForm.description}"  value="" class=" readonly" maxlength="50"/>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>报修的房间:</dt>
+                <dd>
+                    <input name="room.id" value="" th:value="${declarationForm.room.id}" type="hidden" class="required"/>
+                    <input class=" readonly" th:value="${declarationForm.room.name}" disabled="disabled" name="room.name" type="text"  lookupGroup="room" />
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>房间的报修部位:</dt>
+                <dd>
+                    <input name="roomOption.id" th:value="${declarationForm.roomOption.id}" value="" type="hidden" class="required"/>
+                    <input class=" readonly" th:value="${declarationForm.roomOption.name}" disabled="disabled" name="roomOption.name" type="text"  lookupGroup="roomOption" />
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>照片</dt>
+                <dd style="position: relative">
+                    <th:block th:each="photo:${declarationForm.declarationFormPhotos}">
+                        <div class="upload-wrap" data-name="photo">
+                            <input type="file" accept="image/*" class="valid" data-multifile="multifile" style="left: 0px;"/>
+                            <div class="thumbnail">
+                                <img src="" th:attr="src=${photoUrl+photo.path}" data-weight="0" data-height="0" width="80px" height="80px" />
+                            </div>
+                        </div>
+
+                    </th:block>
+                </dd>
+                <script type="text/javascript">
+                    var $form=$("#appointForm_add_form");
+                    $form.on({
+                        "click": function () {
+                            return false;
+                        }, "mouseover": function () {
+                            $(this).parent().parent().find(">img").remove();
+                            var $img = $(this).next().find("img").clone();
+                            //$img=$("<div style='border: 10px solid red; width: 200px;height: 200px'></div>")
+                            $img.removeAttr("width");
+                            $img.removeAttr("height");
+                            $img.css({
+                                position: "absolute",
+                                "top": "" + $(this).parent().parent().innerHeight() + "px",
+                                "left": "0px"
+                            });
+                            $(this).parent().after($img);
+                        }
+                        }
+                    ,":file");
+                </script>
+
+            </dl>
+
+
+
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">委派</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button class="close" type="button">关闭</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+</form>
+
+
+

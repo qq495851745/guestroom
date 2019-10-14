@@ -1,0 +1,115 @@
+<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
+    <form id="pagerForm" onsubmit="return divSearch(this, 'declarationForm_add_lookup_room_box');" action="guestroom/declarationForm/roomLevel/room/show" method="post">
+        <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
+        <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+        <input type="hidden" name="roomLevel.id" th:value="${roomAndRoomLevel.roomLevel.id}"   value=""/>
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        名称：<input type="text" name="room.name" value="" th:if="${roomAndRoomLevel.room!=null}" th:value="${roomAndRoomLevel.room.name}"/>
+                             <input type="text" name="room.name" value="" th:unless="${roomAndRoomLevel.room!=null}"/>
+                    </td>
+                    <td>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">检索</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
+     xmlns:th="http://www.thymeleaf.org">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add"  href="javascript:void(0)" title="房间选择"   id="declarationForm_add_lookup_room_show_a"><span>选择</span></a>
+            </li>
+
+            <!--<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
+                   title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+        </ul>
+    </div>
+    <table class="table" width="99%" layoutH="170" id="declaration_add_lookup_room_show_table" >
+        <thead>
+        <tr>
+            <th width="80">序号</th>
+            <th width="120">房号</th>
+            <th width="120">房间描述</th>
+            <th width="120">最近修改时间</th>
+            <th width="120">所属层级</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="room:${pageVo.contents}" th:attr="rel=${room.id}">
+            <td th:text="${roomStat.index+1}"></td>
+            <td th:text="${room.name}"></td>
+            <td th:text="${room.des}"></td>
+            <td th:text="${room.updateDate}"></td>
+            <td >
+                <th:block th:each="rls:${room.roomAndRoomLevels}">
+                    <span th:if="${rlsStat.index != 0}">,</span>
+                    <span th:text="${rls.roomLevel.name}"></span>
+                </th:block>
+
+            </td>
+        </tr>
+
+
+        </tbody>
+        <script type="text/javascript">
+            $("#declaration_add_lookup_room_show_table").find("th,td").css({"text-align": "center"});
+        </script>
+    </table>
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span>
+            <select id="declaration_add_lookup_room_show_sel" class="combox" name="numPerPage"
+                    onchange="dialogPageBreak({numPerPage:this.value,pageNum:1}, 'declarationForm_add_lookup_room_box')">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+            <span th:text="${'条，共'+pageVo.totalCount+'条'}">条，共50条</span>
+        </div>
+
+        <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
+             class="pagination" rel="roomBox" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(window).trigger("resize");
+    //消除分页错误
+    setTimeout(function () {
+        var len = $("#declaration_add_lookup_room_show_sel").parent().find("a").size();
+        if (!len)
+            setTimeout(arguments.callee, 100);
+        else {
+             //获取选择项
+            var $table=$("#declarationForm_add_lookup_room_box").find(".gridTbody");
+            $table.find("tr").on("click",function () {
+                var id=$(this).attr("rel");
+                var name=$(this).find(">td:eq(1)").text()
+                var json='{"id":'+id+',"name":"'+name+'"}'
+                $("#declarationForm_add_lookup_room_show_a").attr("onclick","$.bringBack("+json+")")
+            })
+            $("#declaration_add_lookup_room_show_sel").css({display: "block"});
+            $("#declaration_add_lookup_room_show_sel").prev().css({display: "none"});
+            $("#declaration_add_lookup_room_show_sel").val($("input[name=\"numPerPage\"]").val());
+            //消除表格显示格式
+            len = $("#declarationForm_add_lookup_room_box").find(".gridScroller").size();
+            if (len)
+                $("#declarationForm_add_lookup_room_box").find(".gridScroller").css({height: "auto"})
+            else
+                setTimeout(arguments.callee, 100);
+        }
+    }, 1);
+
+
+</script>

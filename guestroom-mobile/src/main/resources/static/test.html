@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css" rel="stylesheet"/>
+    <link href="jquery.mobile-1.4.5/meanmenu/meanmenu.css" rel="stylesheet"/>
+    <script src="dwz/js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+<body>
+<!-- 代码部分begin -->
+<header>
+    <nav>
+        <ul>
+            <li><a href="#">Top Level Link1</a>
+                <ul>
+                    <li><a href="#">Second Level Link</a>
+                        <ul>
+                            <li><a href="#">Third Level Link</a></li>
+                            <li><a href="#">Third Level Link</a></li>
+                            <li><a href="#">Third Level Link</a>
+                                <ul>
+                                    <li><a href="#">Fourth Level Link</a></li>
+                                    <li><a href="#">Fourth Level Link</a></li>
+                                    <li><a href="#">Fourth Level Link with extra long name so it wraps</a>
+                                        <ul>
+                                            <li><a href="#">Fifth Level Link</a></li>
+                                            <li><a href="#">Fifth Level Link</a></li>
+                                            <li><a href="#">Fifth Level Link</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Second Level Link</a></li>
+                    <li><a href="#">Second Level Link</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Top Level Link2</a>
+                <ul>
+                    <li><a href="#">Second Level Link</a>
+                        <ul>
+                            <li><a href="#">Third Level Link</a></li>
+                            <li><a href="#">Third Level Link</a></li>
+                            <li><a href="#">Third Level Link</a>
+                                <ul>
+                                    <li><a href="#">Fourth Level Link</a></li>
+                                    <li><a href="#">Fourth Level Link</a></li>
+                                    <li><a href="#">Fourth Level Link with extra long name so it wraps</a>
+                                        <ul>
+                                            <li><a href="#">Fifth Level Link</a></li>
+                                            <li><a href="#">Fifth Level Link</a></li>
+                                            <li><a href="#">Fifth Level Link</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Second Level Link</a></li>
+                    <li><a href="#">Second Level Link</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Top Level Link3</a></li>
+            <li><a href="#">Top Level Link4</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!--<section>
+    <article>
+        <h1>请把浏览器分辨率调低一些观看，建议：在谷歌浏览器手机模式下浏览</h1>
+    </article>
+</section>-->
+
+<script src="dwz/js/jquery-1.11.3.js" type="text/javascript"></script>
+<script src="jquery.mobile-1.4.5/meanmenu/meanmenu.js" type="text/javascript"></script>
+<script>
+    jQuery(document).ready(function () {
+        jQuery('header nav').meanmenu();
+    });
+</script>
+<!-- 代码部分end -->
+<div data-role="page" id="pageone">
+    <div data-role="header">
+        <h1>欢迎来到我的主页</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <p>点击链接查看淡入效果 (页面从右至左淡入)。</p>
+        <a href="#pagetwo" data-transition="slide">淡入第二个页面</a>
+    </div>
+
+    <div data-role="footer">
+        <h1>底部文本</h1>
+    </div>
+</div>
+
+<div data-role="page" id="pagetwo">
+    <div data-role="header">
+        <h1>欢迎来到我的主页</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <p>点击链接查看相反方向的淡入效果 (页面从左至右淡入)。</p>
+        <a href="#pageone" data-transition="slide" data-direction="reverse">淡入第一个页面(reversed)</a>
+    </div>
+
+    <div data-role="footer">
+        <h1>底部文本</h1>
+    </div>
+</div>
+
+
+</body>
+</html>

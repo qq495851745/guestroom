@@ -1,0 +1,103 @@
+<div class="pageHeader">
+    <div class="searchBar">
+        <div class="subBar">
+            <ul>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="button" multLookup="room_room_level_lookup_tree_room_level" warn="请选择">选择带回</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="pageContent">
+    <div class="pageFormContent" layoutH="58">
+    <ul class="tree treeFolder treeCheck expand" id="room_room_level_lookup_tree" >
+
+    </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    btTreeBox({
+        option: "room_room_level_lookup_tree_option",
+        treeId: "room_room_level_lookup_tree",
+        url: "ajax/roomLevel/findAll",
+        name: "room_room_level_lookup_tree_room_level"
+    });
+    //默认选中
+    (function ($) {
+        try {
+            var $tree = $("#btroomTree");
+            var $sel = $tree.find(".selected");
+            var $li = $sel.parent();
+            var id = $li.attr("bttree");
+            id = id.match(/\d+$/g)[0];//获取选中的层级
+        }catch (e) {
+            console.log(e);
+            id=1;
+        }
+
+
+        window.setTimeout(function () {
+            var $input = $("#room_room_level_lookup_tree").find("input[name='room_room_level_lookup_tree_room_level'][value*='{\"id\":"+id+",']");
+            var size = $input.size();
+            if (!size)
+                window.setTimeout(arguments.callee, 1);
+            else {
+                var ckbox = $input.parent();
+                ckbox.removeClass("unchecked").addClass("checked");
+                $input.attr("checked", "checked");//默认勾选层级
+                var $li = $input.parents("li:first");
+                var events1 = $._data($li.find("a").get(0), "events");
+                var events2=$._data(ckbox.get(0),"events");
+                if (!events1 || !events2)//判断默认事件已经加载
+                    window.setTimeout(arguments.callee, 1);
+                else {
+                   /* //取消默认事件
+                    var $aAll=$("#room_room_level_lookup_tree a");
+                    var $ckboxAll=$("#room_room_level_lookup_tree div.ckbox");
+                    $aAll.add($ckboxAll).off("click");
+
+                    $aAll.add($ckboxAll).on("click",function(){//超链接事件
+                          var $this=$(this);
+                          var ckbox=$this.parent().find(".ckbox");
+                          var $input=$this.parent().find("input");
+                          var checked=ckbox.hasClass("checked");
+                          if(checked){
+                              ckbox.removeClass("checked");
+                              ckbox.addClass("unchecked");
+                              $input.removeAttr("checked");
+                          }else{
+                              ckbox.removeClass("unchecked");
+                              ckbox.addClass("checked");
+                              $input.attr("checked","checked");
+                          }
+
+                    });
+
+
+
+                    $li.find("a").add(ckbox).off("click");//解绑事件
+                    $li.find("a").add(ckbox).on("click", function () {
+                        ckbox.removeClass("unchecked").addClass("checked");
+                        $input.attr("checked", "checked");//默认勾选层级
+                        alertMsg.warn("正在添加的房间所属此层级为必选，不可取消");
+                    });*/
+                     //默认选项
+                    var val=$("#room_add_roomLevel_id").val();
+                    var vals=val.split(",");
+                    $.each(vals,function (i,n) {
+                        $input = $("#room_room_level_lookup_tree").find("input[name='room_room_level_lookup_tree_room_level'][value*='{\"id\":"+n+",']");
+                        $input.attr("checked","checked");
+                        $input.parent().removeClass("unchecked").addClass("checked");
+                    })
+                }
+            }
+        }, 1);
+    })(jQuery);
+</script>

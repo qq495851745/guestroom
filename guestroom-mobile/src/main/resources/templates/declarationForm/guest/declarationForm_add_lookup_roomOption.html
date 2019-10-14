@@ -1,0 +1,66 @@
+<div class="pageContent">
+    <div class="pageFormContent" layoutH="58">
+        <ul class="tree collapse" id="declarationForm_add_lookup_roomOption_tree">
+            <!--<li><a href="javascript:">北京</a>
+                <ul>
+                    <li><a href="javascript:" onclick="$.bringBack({id:'1', districtName:'东城', cityName:'北京'})">东城</a></li>
+                    <li><a href="javascript:" onclick="$.bringBack({id:'2', districtName:'西城', cityName:'北京'})">西城</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:">上海</a>
+                <ul>
+                    <li><a href="javascript:" onclick="$.bringBack({id:'1', districtName:'崇明', cityName:'上海'})">崇明</a>
+                        <ul>
+                            <li><a>南昌</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="javascript:" onclick="$.bringBack({id:'2', districtName:'黄浦', cityName:'上海'})">黄浦</a></li>
+                </ul>
+            </li>-->
+        </ul>
+    </div>
+    <script type="text/javascript">
+             $.ajax({
+                 url:"ajax/option/findAll",
+                 dataType:"json",
+                 type:"post",
+                 async:false,
+                 success:function(data){
+                     var $root=$("#declarationForm_add_lookup_roomOption_tree");
+                     $.each(data,function(i,obj){
+                        var $li = $("<li><a href='javascript:void(0)'></a></li>");
+                            $li.attr("id",obj.id);
+                            $li.attr("pid",obj.pid);
+                            $li.find(">a").text(obj.name);
+                            $li.find(">a").attr('onclick','$.bringBack({id:'+obj.id+',name:"'+obj.name+'"})')
+                        //查找父亲
+                         var $pli=$root.find("li[id="+obj.pid+"]");
+                         if($pli.size()==0){//父亲不存在
+                             $root.append($li);
+                         }else{
+                             var $ul = $pli.find(">ul");//查找是否有子li
+                             if($ul.size() == 0){//没找到
+                                 $pli.append("<ul></ul>");
+                             }
+                             $pli.find(">ul").append($li);
+                         }
+
+                         //找是否有儿子
+                         var $cli =$root.find("li[pid="+obj.id+"]")
+                         if($cli.size() != 0){//有
+                             $li.append("<ul></ul>")
+                             $li.find("ul").append($cli)
+                         }
+
+
+                     })
+                 }
+             })
+    </script>
+
+    <div class="formBar">
+        <ul>
+            <li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>
+        </ul>
+    </div>
+</div>

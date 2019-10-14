@@ -1,0 +1,181 @@
+<h2 class="contentTitle">添加审核记录</h2>
+<form xmlns:th="http://www.thymeleaf.org" method="post" action="guestroom/guest/repairForm" class="pageForm required-validate"
+      enctype="multipart/form-data" onsubmit="return iframeCallback(this, navTabAjaxDone);" >
+    <input type="hidden" name="declarationForm.id" value="" th:value="${declarationForm.id}"/>
+    <div class="pageContent">
+        <div class="pageFormContent" layoutH="97">
+
+            <dl class="nowrap">
+                <dt>审核情况说明：</dt>
+                <dd>
+                    <input name="description"  type="text"  value="" maxlength="50"/>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>审核:</dt>
+                <dd>
+                    <input type="radio" name="declarationFormStatus.id" value="4" checked="checked"/>审核通过
+                    <input type="radio" name="declarationFormStatus.id" value="5"/>审核不通过，返工
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>选择上传图片</dt>
+                <dd style="position: relative">
+                    <div class="upload-wrap" data-name="photo">
+                        <input type="file" name="photo" accept="image/*" class="valid" data-multifile="multifile"  style="left: 0px;" >
+                    </div>
+                </dd>
+            </dl>
+
+            <div class="row">
+                <div class="col-md-12">---------------------报修单详情如下------------------------------</div>
+            </div>
+            <dl class="nowrap">
+                <dt>报修单名称：</dt>
+                <dd>
+                    <!--<input   type="text" th:value="${declarationForm.formName}"  value="" class=" readonly" maxlength="50"/>-->
+                    <p th:text="${declarationForm.formName}"></p>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>报修描述：</dt>
+                <dd>
+                    <!--<input  type="text" th:value="${declarationForm.description}"  value="" class=" readonly" maxlength="50"/>-->
+                    <p th:text="${declarationForm.description}"></p>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>报修的房间:</dt>
+                <dd>
+                    <!--<input  value="" th:value="${declarationForm.room.id}" type="hidden" class="required"/>
+                    <input class=" readonly" th:value="${declarationForm.room.name}" disabled="disabled" name="room.name" type="text"  lookupGroup="room" />-->
+                    <p th:text="${declarationForm.room.name}"></p>
+                </dd>
+            </dl>
+            <dl class="nowrap">
+                <dt>房间的报修部位:</dt>
+                <dd>
+                    <!--<input  th:value="${declarationForm.roomOption.id}" value="" type="hidden" class="required"/>
+                    <input class=" readonly" th:value="${declarationForm.roomOption.name}" disabled="disabled" name="roomOption.name" type="text"  lookupGroup="roomOption" />-->
+                    <p th:text="${declarationForm.roomOption.name}"></p>
+                </dd>
+            </dl>
+            <dl class="nowrap repairForm_add_form_photo" >
+                <dt>照片</dt>
+                <dd style="position: relative">
+                    <th:block th:each="photo:${declarationForm.declarationFormPhotos}">
+                        <div class="upload-wrap" data-name="photo">
+                            <input type="file" accept="image/*" class="valid" data-multifile="multifile" style="left: 0px;"/>
+                            <div class="thumbnail">
+                                <img src="" th:attr="src=${photoUrl+photo.path}" data-weight="0" data-height="0" width="80px" height="80px" />
+                            </div>
+                        </div>
+
+                    </th:block>
+                </dd>
+
+
+            </dl>
+            <div class="row">
+                <div class="col-md-12">---------------------维修与审核记录详情如下------------------------------</div>
+            </div>
+            <th:block th:each="repairForm:${repairForms}">
+                <div class="row">
+                    <div class="col-md-12">----------------------------<b th:if="${repairForm.type == 1}" th:text="${repairFormStat.index+1}+'.维修记录'"></b><b th:if="${repairForm.type == 2}" th:text="${repairFormStat.index+1}+'上一次维修审核结果'"></b>--------------------------------------</div>
+                </div>
+                <dl class="nowrap">
+                    <dt th:if="${repairForm.type == 1}">维修时间：</dt>
+                    <dt th:if="${repairForm.type == 2}">审核时间：</dt>
+                    <dd th:text="${#dates.format(repairForm.createDate,'yyyy-MM-dd HH:mm:ss')}"></dd>
+                </dl>
+                <dl class="nowrap">
+                    <dt th:if="${repairForm.type == 1}">维修情况说明：</dt>
+                    <dt th:if="${repairForm.type == 2}">审核情况说明：</dt>
+                    <dd>
+                        <!--<textarea name="textarea4" readonly="true" cols="40" rows="4" class="textInput readonly" th:text="${repairForm.description}"></textarea>-->
+                        <p th:text="${repairForm.description}"></p>
+                    </dd>
+                </dl>
+                <dl class="nowrap" th:if="${repairForm.type == 2}">
+                    <dt>上一次维修审核结果：</dt>
+                    <dd th:text="${repairForm.declarationFormStatus.status}"></dd>
+                </dl>
+                <dl class="nowrap">
+                    <dt th:if="${repairForm.type == 1}">维修人：</dt>
+                    <dt th:if="${repairForm.type == 2}">审核人：</dt>
+                    <dd>
+                        <!--<input th:if="${repairForm.type == 2}" class="readonly" th:value="${repairForm.user2.realName}"  type="text"  value="" maxlength="50"/>
+                        <input th:if="${repairForm.type == 1}" class="readonly" th:value="${repairForm.user1.realName}"  type="text"  value="" maxlength="50"/>-->
+                        <p th:if="${repairForm.type == 2}" th:text="${repairForm.user2.realName}"></p>
+                        <p th:if="${repairForm.type == 1}" th:text="${repairForm.user1.realName}" ></p>
+                    </dd>
+                </dl>
+                <dl class="nowrap repairForm_guest_repairForm_add_photo" >
+                    <dt>照片</dt>
+                    <dd style="position: relative">
+                        <th:block th:each="photo:${repairForm.repairFormPhotos}">
+                            <div class="upload-wrap" data-name="photo">
+                                <input type="file" accept="image/*" class="valid" data-multifile="multifile" style="left: 0px;"/>
+                                <div class="thumbnail">
+                                    <img src="" th:attr="src=${photoUrl+photo.path}" data-weight="0" data-height="0" width="80px" height="80px" />
+                                </div>
+                            </div>
+
+                        </th:block>
+                    </dd>
+
+                </dl>
+
+            </th:block>
+
+
+        </div>
+        <script type="text/javascript">
+           /* var $form=$(".repairForm_guest_repairForm_add_photo");
+            $form.on({
+                    "click": function () {
+                        return false;
+                    }, "mouseover": function () {
+                        $(this).parent().parent().find(">img").remove();
+                        var $img = $(this).next().find("img").clone();
+                        //$img=$("<div style='border: 10px solid red; width: 200px;height: 200px'></div>")
+                        $img.removeAttr("width");
+                        $img.removeAttr("height");
+                        $img.css({
+                            position: "absolute",
+                            "top": "" + $(this).parent().parent().innerHeight() + "px",
+                            "left": "0px"
+                        });
+                        $(this).parent().after($img);
+                    },"mouseout":function () {
+                        $(this).parent().parent().find(">img").remove();
+                    }
+                }
+                ,":file");*/
+        </script>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">提交审核</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button class="close" type="button">关闭</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+</form>
+
+
+

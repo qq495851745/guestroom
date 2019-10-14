@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://10.121.0.81:3306/guestroom?serverTimezone=GMT&characterEncoding=utf-8
+    url: jdbc:mysql://192.168.230.128:3306/guestroom?serverTimezone=GMT&characterEncoding=utf-8
+    username: root
+    password: 123456@abcABC
+    type: com.alibaba.druid.pool.DruidDataSource
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+server:
+  port: 80
+  tomcat:
+    accept-count: 200
+    max-threads: 200
+logging:
+  path: /usr/java/logger

@@ -1,0 +1,49 @@
+<div class="pageContent">
+    <div class="pageFormContent" layoutH="58">
+        <ul class="tree expand" id="user_lookup_user_level_tree">
+
+        </ul>
+    </div>
+
+    <div class="formBar">
+        <ul>
+            <li>
+                <div class="button">
+                    <div class="buttonContent">
+                        <button class="close" type="button">关闭</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        $.ajax({
+            url: "guestroom/ajax/userLevel",
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                var $tree = $("#user_lookup_user_level_tree");
+                $.each(data, function (i, obj) {
+                    var id = "user_lookup_user_level_tree_" + obj.id;
+                    var pid = "user_lookup_user_level_tree_" + obj.pid;
+                    //var html="<li  treeid='"+id+"' treepid='"+pid+"'> <a href='javascript;' onclick='$.bringBack({id:'1', districtName:'东城', cityName:'北京'})'>"+obj.name+"</a><ul></ul></li>";
+                    var $html = $("<li treeid='" + id + "' treepid='" + pid + "'></li>");
+                    $html.append("<a href='javascript:void(0)' onclick='$.bringBack({\"id\":"+obj.id+",\"name\":\""+obj.name+"\"})'>" + obj.name + "</a>");
+                    $html.append("<ul></ul>");
+                    $tree.append($html);
+                })
+                $tree.find("li").each(function (i, obj) {
+                    var pid = $(this).attr("treepid");
+                    $("li[treeid='" + pid + "']>ul").append($(this));
+                })
+               $tree.find("ul").filter(function () {
+                    var len = $(this).find(">li").size();
+                    return len == 0;
+                }).remove()
+
+            }
+        })
+
+    </script>
+</div>

@@ -1,0 +1,133 @@
+<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/user/index" method="post">
+        <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
+        <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        用户名：<input type="text" name="username" value="" th:value="${user.username}" />
+                    </td>
+                    <td>
+                        用户层级:
+                        <input name="userLevel.id" value="" type="hidden" th:if="${user.userLevel!=null}"  th:value="${user.userLevel.id}"/>
+                        <input name="userLevel.id" value="" type="hidden" th:if="${user.userLevel==null}"  />
+                        <input   name="userLevel.name" type="text" readonly value="" th:if="${user.userLevel!=null}" th:value="${user.userLevel.name}"/>
+                        <input  name="userLevel.name" type="text" readonly value="" th:if="${user.userLevel==null}" />
+                        <a class="btnLook"  href="guestroom/user/userlevel/tolookup" lookupGroup="userLevel">查找带回</a>
+                    </td>
+                    <td>
+                        角色:
+                        <select name="role.id" id="user_index_role_id">
+                            <option value="-1">请选择角色</option>
+                        </select>
+                        <script type="text/javascript">
+                            $.ajax({
+                                url:"guestroom/role/ajax",
+                                type:"post",
+                                async:false,
+                                dataType:"json",
+                                success:function (data) {
+                                      $.each(data,function (i,obj) {
+                                           $("#user_index_role_id").append(" <option value=\""+obj.id+"\">"+obj.name+"</option>");
+                                      })
+                                }
+                            })
+                        </script>
+                        <script th:inline="javascript">
+                            var obj=[[${user}]]
+                            if(obj.role&&obj.role.id)
+                                $("#user_index_role_id").val(obj.role.id);
+                        </script>
+                    </td>
+                    <td>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">检索</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
+     xmlns:th="http://www.thymeleaf.org" id="user_index_pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add"   href="guestroom/user/toAdd"  target="navTab" mask="true"><span>添加用户</span></a>
+            </li>
+            <li><a class="delete" href="guestroom/user/{sid_obj}" target="ajaxTodo"
+                   title="确定要删除吗?" _method="delete"><span>删除</span></a></li>
+            <li><a class="edit" href="guestroom/user/{sid_obj}" target="navTab"
+                   mask="true"><span>修改</span></a></li>
+            <li class="line">line</li>
+            <!--<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
+                   title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="100" id="bt_user_table" >
+        <thead>
+        <tr >
+            <th width="80">序号</th>
+            <th width="120">用户名</th>
+            <th width="120">真实姓名</th>
+            <th width="120">角色名称</th>
+            <th width="120">所属用户层级</th>
+            <th width="120">最近修改时间</th>
+        </tr>
+        </thead>
+        <tbody >
+         <tr th:each="user:${pageVo.contents}" th:attr="rel=${user.id}">
+             <td th:text="${userStat.index+1}">1</td>
+             <td th:text="${user.username}">1</td>
+             <td th:text="${user.realName}"></td>
+             <td th:text="${user.role.name}">1</td>
+             <td th:text="${user.userLevel.name}">1</td>
+             <td th:text="${user.updateDate}">1</td>
+         </tr>
+
+
+        </tbody>
+        <script type="text/javascript">
+            $("#bt_user_table").find("th,td").css({"text-align": "center"});
+        </script>
+    </table>
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span>
+            <select id="bt_user_sel" class="combox" name="numPerPage"
+                    onchange="navTabPageBreak({numPerPage:this.value,pageNum:1})">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+            <span th:text="${'条，共'+pageVo.totalCount+'条'}">条，共50条</span>
+        </div>
+
+        <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
+             class="pagination" targettype="navTab"  totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(window).trigger("resize");
+    //消除分页错误
+    setTimeout(function () {
+        var len = $("#bt_user_sel").parent().find("a").size();
+        if (!len)
+            setTimeout(arguments.callee, 100);
+        else {
+            displayText({"relId":"user_index_pageContent"});
+            $("#bt_user_sel").css({display: "block"});
+            $("#bt_user_sel").prev().css({display: "none"});
+            $("#bt_user_sel").val($("#bt_user_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
+
+        }
+    }, 1);
+
+
+</script>

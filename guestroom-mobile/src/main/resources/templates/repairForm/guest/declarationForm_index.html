@@ -1,0 +1,147 @@
+<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/declarationForm/status" method="post">
+        <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
+        <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        房号：<input type="text" size="10px" name="room.name" value="" th:if="${declarationForm.room != null}" th:value="${declarationForm.room.name}"  /><input type="text" name="room.name"  size="10px"value="" th:if="${declarationForm.room == null}"   />
+                    </td>
+                    <td>
+                        报修类别:
+                        <input name="roomOption.id" value="" type="hidden" />
+                        <input class="" size="10px"  name="roomOption.name" type="text"  lookupGroup="roomOption" th:if="${declarationForm.roomOption==null}"/>
+                        <input class="" size="10px"  name="roomOption.name" type="text"  lookupGroup="roomOption" th:if="${declarationForm.roomOption!=null}" th:value="${declarationForm.roomOption.name}"/>
+                        <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="roomOption" >选择房间报修部位</a>
+
+                    </td>
+                    <td>
+                        报修工程内容：  <input name="forNameOption.id" value="" type="hidden" />
+                        <input name="forNameOption.name" size="10px" type="text"  value="" class="" maxlength="50" lookupGroup="forNameOption" th:if="${declarationForm.forNameOption==null}"/>
+                        <input name="forNameOption.name" size="10px" type="text"  value="" class="" maxlength="50" lookupGroup="forNameOption" th:if="${declarationForm.forNameOption!=null}" th:value="${declarationForm.forNameOption.name}"/>
+                        <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="forNameOption" >选择工程报修内容</a>
+                    </td>
+                    <td>
+                        报修时间范围从：
+                        <input type="text" name="time01" th:value="${#dates.format(declarationForm.time01, 'yyyy-MM-dd')}" class="date" readonly="true"/>
+                        <!--<a class="inputDateButton" href="javascript:;">选择</a>-->
+                        -到：
+                        <input type="text" name="time02" th:value="${#dates.format(declarationForm.time02, 'yyyy-MM-dd')}" class="date" readonly="true"/>
+                        <!--<a class="inputDateButton" href="javascript:;">选择</a>-->
+
+                    </td>
+
+
+                    <td>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">检索</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
+     xmlns:th="http://www.thymeleaf.org" id="bt_repairForm_guest_declarationForm_index_content">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add deal"   href="guestroom/repairForm/check/{sid_obj}"  target="navTab" mask="true"><span>查看/审核</span></a>
+            </li>
+            <!--<li><a class="delete" href="guestroom/declarationForm/{sid_obj}" target="ajaxTodo"
+                   title="确定要删除吗?" _method="delete"><span>删除</span></a></li>
+            <li><a class="edit" href="guestroom/declarationForm/{sid_obj}" target="navTab"
+                   mask="true"><span>修改</span></a></li>-->
+            <li class="line">line</li>
+            <!--<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
+                   title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="100" id="bt_repairForm_guest_declarationForm_index_table" >
+        <thead>
+        <tr >
+            <th width="80">序号</th>
+            <th width="120">报修单名称</th>
+            <th width="120">报修单描述</th>
+            <th width="120">报修房间号</th>
+            <th width="120">报修类别</th>
+            <th width="120">报修内容</th>
+            <th width="120">报修人(真实姓名)</th>
+            <th width="120">报修创建(实际发生)时间</th>
+            <th width="120">最晚完成时间</th>
+            <th width="120">状态</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="declarationForm:${pageVo.contents}" th:attr="rel=${declarationForm.id}">
+            <td th:text="${declarationFormStat.index+1}"></td>
+            <td th:text="${declarationForm.formName}"></td>
+            <td th:text="${declarationForm.description}"></td>
+            <td th:text="${declarationForm.room.name}"></td>
+            <td th:text="${declarationForm.roomOption.name}"></td>
+            <td th:text="${declarationForm.forNameOption.name}"></td>
+            <td th:text="${declarationForm.user.username+'('+declarationForm.user.realName+')'}"></td>
+            <td th:text="${#dates.format(declarationForm.actualDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(declarationForm.finishDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${declarationForm.declarationFormStatus.status}"></td>
+        </tr>
+
+
+        </tbody>
+        <script type="text/javascript">
+            $("#bt_repairForm_guest_declarationForm_index_table").find("th,td").css({"text-align": "center"});
+        </script>
+    </table>
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span>
+            <select id="bt_repairForm_guest_declarationForm_index_sel" class="combox" name="numPerPage"
+                    onchange="navTabPageBreak({numPerPage:this.value,pageNum:1})">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+            <span th:text="${'条，共'+pageVo.totalCount+'条'}">条，共50条</span>
+        </div>
+
+        <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
+             class="pagination" targettype="navTab" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(window).trigger("resize");
+    //消除分页错误
+    setTimeout(function () {
+        var len = $("#bt_repairForm_guest_declarationForm_index_sel").parent().find("a").size();
+        if (!len)
+            setTimeout(arguments.callee, 100);
+        else {
+            //displayText({"relId":"declaration_index_pageContent"});
+            var $sel = $("#bt_repairForm_guest_declarationForm_index_content").find(".gridTbody").find("tr");
+            $sel.on("click", function () {
+                var id = $(this).attr("rel");//获取rel属性 就是id
+                var $deal = $("#bt_repairForm_guest_declarationForm_index_content").find("a.deal");
+                var t = $(this).find("td:eq(1)").find("div").text();
+                $deal.each(function(i,obj){
+                    var text = $(this).attr("href");
+                    text = text.replace(/\/[^\/]+$/g, "/" + id);
+                    $(this).attr("href", text); //修改href属性
+                    $(this).find("span").html("查看/审核" + "<b style='color: red'>" + t + "</b>报修单")
+                })
+
+            })
+            $("#bt_repairForm_guest_declarationForm_index_sel").css({display: "block"});
+            $("#bt_repairForm_guest_declarationForm_index_sel").prev().css({display: "none"});
+            $("#bt_repairForm_guest_declarationForm_index_sel").val($("#bt_repairForm_guest_declarationForm_index_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
+
+        }
+    }, 1);
+
+
+</script>

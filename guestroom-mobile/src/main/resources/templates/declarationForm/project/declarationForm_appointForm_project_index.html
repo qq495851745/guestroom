@@ -1,0 +1,119 @@
+<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/project/appointForm" method="post">
+        <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
+        <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <td>
+                        名称：<input type="text" name="formName" value="" th:value="${declarationForm.formName}"  />
+                    </td>
+
+
+                    <td>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">检索</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
+     xmlns:th="http://www.thymeleaf.org" id="declaration_appointForm_project_index_pageContent">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="add deal"   href="guestroom/repairForm/declarationForm/{sid_obj}"  target="navTab" mask="true"><span>查看/处理</span></a>
+            </li>
+            <!--<li><a class="add deal" th:if="${flag != true}"   href="guestroom/appointForm/declarationForm/{sid_obj}"  target="navTab" mask="true"><span>查看/委派</span></a>
+            </li>-->
+            <!--
+            <li><a class="edit" href="guestroom/declarationForm/{sid_obj}" target="navTab"
+                   mask="true"><span>修改</span></a></li>-->
+            <li class="line">line</li>
+            <!--<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
+                   title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+        </ul>
+    </div>
+    <table class="table" width="100%" layoutH="100" id="bt_declarationForm_appointFrom_project_table" >
+        <thead>
+        <tr >
+            <th width="80">序号</th>
+            <th width="120">报修单名称</th>
+            <th width="120">报修单描述</th>
+            <th width="120">报修房间号</th>
+            <th width="120">报修部位</th>
+            <th width="120">报修人(真实姓名)</th>
+            <th width="120">状态</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr th:each="declarationForm:${pageVo.contents}" th:attr="rel=${declarationForm.id}">
+            <td th:text="${declarationFormStat.index+1}"></td>
+            <td th:text="${declarationForm.formName}"></td>
+            <td th:text="${declarationForm.description}"></td>
+            <td th:text="${declarationForm.room.name}"></td>
+            <td th:text="${declarationForm.roomOption.name}"></td>
+            <td th:text="${declarationForm.user.username+'('+declarationForm.user.realName+')'}"></td>
+            <td th:text="${declarationForm.declarationFormStatus.status}"></td>
+        </tr>
+
+
+        </tbody>
+        <script type="text/javascript">
+            $("#bt_declarationForm_appointFrom_project_table").find("th,td").css({"text-align": "center"});
+        </script>
+    </table>
+    <div class="panelBar">
+        <div class="pages">
+            <span>显示</span>
+            <select id="bt_declarationForm_appointForm_project_sel" class="combox" name="numPerPage"
+                    onchange="navTabPageBreak({numPerPage:this.value,pageNum:1})">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+            <span th:text="${'条，共'+pageVo.totalCount+'条'}">条，共50条</span>
+        </div>
+
+        <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
+             class="pagination" targettype="navTab" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(window).trigger("resize");
+    //消除分页错误
+    setTimeout(function () {
+        var len = $("#bt_declarationForm_appointForm_project_sel").parent().find("a").size();
+        if (!len)
+            setTimeout(arguments.callee, 100);
+        else {
+            //displayText({"relId":"declaration_project_index_pageContent"});
+            var $sel = $("#declaration_appointForm_project_index_pageContent").find(".gridTbody").find("tr");
+            $sel.on("click", function () {
+                var id = $(this).attr("rel");//获取rel属性 就是id
+                var $deal = $("#declaration_appointForm_project_index_pageContent").find("a.deal");
+                var t = $(this).find("td:eq(1)").find("div").text();
+                $deal.each(function(i,obj){
+                    var text = $(this).attr("href");
+                    text = text.replace(/\/[^\/]+$/g, "/" + id);
+                    $(this).attr("href", text); //修改href属性
+                    $(this).find("span").html(($(this).find("span").text().indexOf("处理")==-1?"查看/委派":"查看/处理") + "<b style='color: red'>" + t + "</b>报修单")
+                })
+
+            })
+            $("#bt_declarationForm_appointForm_project_sel").css({display: "block"});
+            $("#bt_declarationForm_appointForm_project_sel").prev().css({display: "none"});
+            $("#bt_declarationForm_appointForm_project_sel").val($("#bt_declarationForm_appointForm_project_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
+
+        }
+    }, 1);
+
+
+</script>

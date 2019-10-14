@@ -1,0 +1,65 @@
+<style type="text/css">
+    ul.rightTools {
+        float: right;
+        display: block;
+    }
+
+    ul.rightTools li {
+        float: left;
+        display: block;
+        margin-left: 5px
+    }
+</style>
+
+<div class="pageContent" style="padding:5px">
+    <div class="tabs">
+        <div class="tabsHeader">
+            <div class="tabsHeaderContent">
+                <ul>
+                    <li><a href="javascript:;"><span>房间设置</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="tabsContent">
+            <div>
+
+                <div layoutH="60"
+                     style="float:left; display:block; overflow:auto; width:240px; border:solid 1px #CCC; line-height:21px; background:#fff">
+                    <ul class="tree treeFolder " id="btroomTree">
+                        <!--<li bttree="option1"><a href="option/show" target="ajax" rel="jbsxBox">客房</a>
+                            <ul>
+                                <li bttree="option2"><a href="option/show" target="ajax" rel="jbsxBox">一级1</a>
+                                    <ul>
+                                        <li bttree="option4"><a href="option/show" target="ajax" rel="jbsxBox">二级1</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li bttree="option3"><a href="option/show" target="ajax" rel="jbsxBox">一级2</a></li>
+                            </ul>
+                        </li>-->
+                    </ul>
+                </div>
+
+                <div id="roomBox" class="unitBox" style="margin-left:246px;">
+                    <!--#include virtual="list1.html" -->
+                </div>
+
+            </div>
+
+        </div>
+        <!-- 加载数据-->
+         <script type="text/javascript">
+             btTree({option:"room",treeId:"btroomTree",url:"ajax/roomLevel/findAllForRoom"});
+
+         </script>
+        <div class="tabsFooter">
+            <div class="tabsFooterContent"></div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
