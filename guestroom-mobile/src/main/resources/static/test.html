@@ -10,14 +10,30 @@
     <link rel="stylesheet" href="jquery.mobile-1.4.5/meanmenu/meanmenu.css" media="all" />
     <script src="dwz/js/jquery-1.11.3.js" type="text/javascript"></script>
     <script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(document).on("tap","#two",function(){
+                console.log(new Date());
+                $.mobile.changePage("/two.html")
+                return false;
+            })
+        })
+    </script>
 </head>
 
 <body>
-<!-- 代码部分begin -->
-<header>
+
+<!-- 代码部分end -->
+
+<div data-role="page" id="pageone">
+
+
+    <!-- 代码部分begin -->
+<div data-role="header">
+    <h1>欢迎来到我的主页</h1>
     <nav>
         <ul>
-            <li><a href="#">Top Level Link1</a>
+            <li><a href="two" id="two">Top Level Link1two</a>
                 <ul>
                     <li><a href="#">Second Level Link</a>
                         <ul>
@@ -42,7 +58,7 @@
                     <li><a href="#">Second Level Link</a></li>
                 </ul>
             </li>
-            <li><a href="#">Top Level Link2</a>
+            <li><a href="#pageone">Top Level Link2</a>
                 <ul>
                     <li><a href="#">Second Level Link</a>
                         <ul>
@@ -71,20 +87,39 @@
             <li><a href="#">Top Level Link4</a></li>
         </ul>
     </nav>
-</header>
 
-<section>
-    <article>
-        <h1>请把浏览器分辨率调低一些观看，建议：在谷歌浏览器手机模式下浏览</h1>
-    </article>
-</section>
+</div>
+    <div data-role="main" class="ui-content">
+        <p>这是第二个页面12。点击以下链接跳转到第一个页面。</p>
+        <a href="#pagetwo">跳转到第一个页面</a>
+    </div>
 
-<script src="jquery.mobile-1.4.5/meanmenu/meanmenu.js"></script>
-<script>
-    jQuery(document).ready(function () {
-        jQuery('header nav').meanmenu();
-    });
-</script>
-<!-- 代码部分end -->
+    <div data-role="footer">
+        <h1>底部文本</h1>
+    </div>
+    <script src="jquery.mobile-1.4.5/meanmenu/meanmenu.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('nav').meanmenu();
+
+        });
+    </script>
+
+</div>
+<div data-role="page" id="pagetwo">
+    <div data-role="header">
+        <h1>欢迎来到我的主页</h1>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <p>这是第二个页面。点击以下链接跳转到第一个页面。</p>
+        <a href="#pagetwo">跳转到第一个页面</a>
+    </div>
+
+    <div data-role="footer">
+        <h1>底部文本</h1>
+    </div>
+</div>
+
 </body>
 </html>

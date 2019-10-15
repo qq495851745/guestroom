@@ -34,8 +34,17 @@ public class LoginController extends BaseController {
         session.setMaxInactiveInterval(60*10);
         addurl(model);
         user=userBiz.checkUser(user);
-        if(user==null)
+        //管理员不能从手机登录
+        //用户标记为2的是移动端账号
+        if(user==null || "admin".equals(user.getUsername()) || user.getFlag()!=2) {
+            if (user != null && "admin".equals(user.getUsername()))
+                model.addAttribute("message", "管理员暂时不支持手机登录!");
+            if (user == null)
+                model.addAttribute("message", "用户名或密码输入不正确！");
+            if(user!=null && user.getFlag()!=2)
+                model.addAttribute("message","请使用移动端账号登录手机");
             return "login";
+        }
         else {
             session.setAttribute("user",user);
             return "redirect:index";

@@ -72,74 +72,63 @@
 </head>
 
 <body>
-<!-- 代码部分begin -->
-<header class="fTree">
-    <nav>
-        <ul id="fTree"></ul>
 
-    </nav>
-</header>
-
-<script type="text/javascript">
-    $.ajax({
-        url: "ajax/menu/findMenus",
-        type: "post",
-        cache: false,
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            init(data);
-        }
-    });
-</script>
-
-
-
-<script>
-    jQuery(document).ready(function () {
-        jQuery('header nav').meanmenu();
-        $("nav.mean-nav a").on("click",function(){
-            var url = $(this).attr("href");
-            if(!$(this).hasClass("mean-expand") && !(url=="" || typeof(url)=="undefined")) {//去除关闭按钮
-                $("a.meanmenu-reveal.meanclose").click();
-                //发送ajax请求
-                 $.ajax({
-                     url:url,
-                     async:true,
-                     cache:false,
-                     type:"get",
-                     dataType:"html",
-                     success:function (data) {
-                         $("#mainPage").html(data)
-                     }
-
-                 })
-            }else{
-                if(url=="" || typeof(url)=="undefined")
-                 $(this).parent().find("a.mean-expand").click();//触发展开列表
-            }
-
-            return false;
-        })
-    });
-</script>
-<!-- 代码部分end -->
 <div data-role="page">
     <div data-role="header">
         <h1>欢迎来到我的主页</h1>
+        <nav>
+            <ul id="fTree"></ul>
+
+        </nav>
+        <!-- 代码部分begin -->
+
+        <script type="text/javascript">
+            $.ajax({
+                url: "ajax/menu/findMenus",
+                type: "post",
+                cache: false,
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    init(data);
+                }
+            });
+        </script>
+
+
+
+        <script>
+            jQuery(document).ready(function () {
+                jQuery('nav').meanmenu();
+                $("nav.mean-nav a").on("click",function(){
+                    var url = $(this).attr("href");
+                    if(!$(this).hasClass("mean-expand") && !(url=="" || typeof(url)=="undefined")) {//去除关闭按钮
+                        $("a.meanmenu-reveal.meanclose").click();
+                        //发送ajax请求
+                        $.ajax({
+                            url:url,
+                            async:true,
+                            cache:false,
+                            type:"get",
+                            dataType:"html",
+                            success:function (data) {
+                                $("#mainPage").html(data)
+                            }
+                        })
+                    }else{
+                        if(url=="" || typeof(url)=="undefined")
+                            $(this).parent().find("a.mean-expand").click();//触发展开列表
+                    }
+                    return false;
+                })
+            });
+        </script>
+        <!-- 代码部分end -->
     </div>
     <div data-role="main" class="ui-content" id="mainPage">
         <a href="">欢迎您！</a>
     </div>
 </div>
-<script type="text/javascript">
-    /*$(function(){
-        $("a").on("click",function(){
-            console.log("abc")
-            jQuery.mobile.changePage({url:"test.html"})
-            return false;
-        })
-    })*/
-</script>
+
 </body>
 </html>

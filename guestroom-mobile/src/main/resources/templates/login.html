@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
     <head>
 
@@ -54,6 +54,7 @@
                         		<div class="form-top-left">
                         			<h3>登录系统</h3>
                             		<p>请输入用户名和密码</p>
+                                    <p style="color: red" th:text="${message}"></p>
                         		</div>
                         		<div class="form-top-right">
                         			<i class="fa fa-lock"></i>

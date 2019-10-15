@@ -18,16 +18,22 @@ import java.util.List;
 public class TestController {
 
     @RequestMapping("/upload")
-public String test(@RequestParam("fm") MultipartFile file ){
+    public String test(@RequestParam("fm") MultipartFile file) {
         System.out.println(file.getOriginalFilename());
         System.out.println(file.getSize());
         System.out.println(file.getContentType());
         try {
-         String path=   FastDFSClient.uploadFile(file.getInputStream(),file.getOriginalFilename());
+            String path = FastDFSClient.uploadFile(file.getInputStream(), file.getOriginalFilename());
             System.out.println(path);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  "";
-}
+        return "";
+    }
+
+
+    @RequestMapping("/two")
+    public String test() {
+        return "login";
+    }
 }

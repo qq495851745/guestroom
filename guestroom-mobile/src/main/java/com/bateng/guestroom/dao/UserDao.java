@@ -5,6 +5,7 @@ import com.bateng.guestroom.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -15,7 +16,8 @@ public interface UserDao extends JpaRepository<User, Integer>, UserRepository {
 
     public User findByPasswordAndUsername(String password, String useranme);
 
-    public User findByPasswordAndUsernameAndFlag(String password, String username, int flag);
+    @Query("from User u where u.username =:username and u.password = :password and u.flag > :flag")
+    public User findByPasswordAndUsernameAndFlag(@Param("password") String password, @Param("username") String username, int flag);
 
     public List<User> findAllByUsername(String username);
 
