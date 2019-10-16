@@ -1,0 +1,50 @@
+
+
+<div data-role="page" id="declarationForm_guest_mobile_index" lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div data-role="header">
+        <h1>欢迎来到我的主页</h1>
+    </div>
+    <div data-role="panel" id="declarationForm_guest_mobile_index_overlayPanel" data-display="overlay">
+        <!--<h2>覆盖面板</h2>
+        <p>你可以使用按下 Esc 键、点击面板外部区域、通过滑动或点击下面按钮来关闭面板：</p>
+        <a href="a" id="test" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">关闭面板</a>
+    -->
+        <h4>查询条件设置</h4>
+        <form method="post" action="/guestroom/declarationForm/index">
+            <label for="fname">房号：</label>
+            <input type="text" name="room.name" value="" id="fname">
+            <input type="submit" data-inline="true" value="查询">
+        </form>
+        <a href="#declarationForm_guest_mobile_forNameOption_poupu" id="test" data-rel="popup"  class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">关闭面板</a>
+
+    </div>
+    <div data-role="popup" id="declarationForm_guest_mobile_forNameOption_poupu" style="top: 150px">
+
+    </div>
+    <div data-role="main" class="ui-content">
+        <ul data-role="listview" data-inset="true">
+            <li th:each="declarationForm:${pageVo.contents}">
+                <a href="#">
+                   <span th:text="${declarationForm.room.name}"></span>
+                    <span th:text="${declarationForm.forNameOption.name}"></span>
+                    <span th:text="${declarationForm.declarationFormStatus.status}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div data-role="footer">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#declarationForm_guest_mobile_index_overlayPanel" data-icon="check" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">查询</a>
+                </li>
+                <li><a href="#" data-icon="minus">更少</a></li>
+                <li><a href="#" data-icon="delete">删除</a></li>
+                <li><a href="#" data-icon="plus">喜爱</a></li>
+                <li><a href="#" data-icon="info">信息</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+

@@ -34,6 +34,7 @@ public class DeclarationFormController  extends BaseController {
     private RoomBiz roomBiz;
     @Autowired
     private RoomOptionBiz roomOptionBiz;
+
     @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET,RequestMethod.POST})
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
         User u= (User) session.getAttribute("user");
@@ -44,7 +45,7 @@ public class DeclarationFormController  extends BaseController {
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("declarationForm",declarationForm);
 
-        return "declarationForm/guest/declarationForm_index";
+        return "declarationForm/guest/mobile/declarationForm_guest_mobile_index";
     }
 
 

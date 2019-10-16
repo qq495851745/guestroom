@@ -15,6 +15,7 @@
             $(document).on("tap","#two",function(){
                 console.log(new Date());
                 $.mobile.changePage("/two.html")
+
                 return false;
             })
         })
@@ -37,7 +38,7 @@
                 <ul>
                     <li><a href="#">Second Level Link</a>
                         <ul>
-                            <li><a href="#">Third Level Link</a></li>
+                            <li><a href="two">Third Level Link1234</a></li>
                             <li><a href="#">Third Level Link</a></li>
                             <li><a href="#">Third Level Link</a>
                                 <ul>
@@ -101,6 +102,17 @@
     <script>
         jQuery(document).ready(function () {
             jQuery('nav').meanmenu();
+            $("nav.mean-nav a").on("click",function(){
+                var url = $(this).attr("href");
+                if(!$(this).hasClass("mean-expand") && !(url=="" || typeof(url)=="undefined")) {//去除关闭按钮
+                    $("a.meanmenu-reveal.meanclose").click();
+                    //发送ajax请
+                }else{
+                    if(url=="" || typeof(url)=="undefined")
+                        $(this).parent().find("a.mean-expand").click();//触发展开列表
+                }
+                return false;
+            })
 
         });
     </script>
