@@ -47,6 +47,7 @@ public class MenuBizImpl implements MenuBiz {
     @Override
     public String findMenusByUserIdAjax(int id) {
         User user = userDao.getOne(id);
+        user.getRole().getMenus().removeIf((t) -> t.getFlag()==1);
         return JSONObject.toJSONString(user.getRole().getMenus(), new SerializeFilter[]{
                 new PropertyFilter() {
                     @Override

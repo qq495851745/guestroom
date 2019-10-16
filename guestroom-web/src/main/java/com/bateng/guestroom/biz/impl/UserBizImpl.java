@@ -23,8 +23,8 @@ public class UserBizImpl implements UserBiz {
 
     @Override
     public User checkUser(User user) {
-        //return userDao.findByPasswordAndUsername(user.getPassword(),user.getUsername());
-        return  userDao.findByPasswordAndUsernameAndFlag(user.getPassword(),user.getUsername(),1);
+        return userDao.findByPasswordAndUsername(user.getPassword(),user.getUsername());
+//        return  userDao.findByPasswordAndUsernameAndFlag(user.getPassword(),user.getUsername(),1);
     }
 
     @Override

@@ -104,17 +104,7 @@
                     var url = $(this).attr("href");
                     if(!$(this).hasClass("mean-expand") && !(url=="" || typeof(url)=="undefined")) {//去除关闭按钮
                         $("a.meanmenu-reveal.meanclose").click();
-                        //发送ajax请求
-                        $.ajax({
-                            url:url,
-                            async:true,
-                            cache:false,
-                            type:"get",
-                            dataType:"html",
-                            success:function (data) {
-                                $("#mainPage").html(data)
-                            }
-                        })
+                        //发送ajax请
                     }else{
                         if(url=="" || typeof(url)=="undefined")
                             $(this).parent().find("a.mean-expand").click();//触发展开列表
