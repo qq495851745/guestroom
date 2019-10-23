@@ -50,7 +50,8 @@ public class Menu {
 
     @ManyToMany(mappedBy = "menus")
     private List<Role> roles;
-
+    @Column(name = "orderby1")
+    private int orderby1;//排序属性
 
     public Integer getId() {
         return id;
@@ -102,6 +103,14 @@ public class Menu {
 
     public Menu getMenu() {
         return menu;
+    }
+
+    public int getOrderby1() {
+        return orderby1;
+    }
+
+    public void setOrderby1(int orderby1) {
+        this.orderby1 = orderby1;
     }
 
     public void setMenu(Menu menu) {

@@ -46,4 +46,7 @@ public interface DeclarationFormRepository {
      */
     public List<DeclarationForm> findDeclarationForms4(DeclarationForm declarationForm);
 
+
+    public void test();
+
 }

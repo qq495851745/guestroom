@@ -15,6 +15,11 @@ public interface RoomOptionBiz {
     public String findRoomOptionAjax();
 
     /**
+     * 报修类别获取 获取所有有子元素的对象
+     */
+    public String findRoomOption1Ajax();
+
+    /**
      * 分页查找父亲下的所有儿子
      * @return
      */
@@ -62,6 +67,11 @@ public interface RoomOptionBiz {
      * @return
      */
     public List<RoomOption> findRoomOptionByName(String name);
+
+    /**
+     * 更新汉语拼音
+     */
+    public void updatePinyin();
 
 
 }

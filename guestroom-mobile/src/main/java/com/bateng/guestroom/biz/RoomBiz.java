@@ -73,4 +73,12 @@ public interface RoomBiz {
      */
     public Room findRoomForReoprtByName(String name);
 
+
+    /**
+     * 获取所有房间
+     * @return
+     * @param  flag 删除标记
+     */
+    public String findAllAjax(int flag);
+
 }

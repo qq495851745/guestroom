@@ -1,5 +1,10 @@
 package com.bateng.guestroom.biz.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.PascalNameFilter;
+import com.alibaba.fastjson.serializer.PropertyFilter;
+import com.alibaba.fastjson.serializer.SerializeFilter;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bateng.guestroom.biz.RoomBiz;
 import com.bateng.guestroom.dao.RoomAndRoomLevelDao;
 import com.bateng.guestroom.dao.RoomDao;
@@ -90,6 +95,21 @@ public class RoomBizImpl implements RoomBiz {
     public Room getRoomByName(String name) {
 
         return roomDao.findRoomByName(name);
+    }
+
+    @Override
+    public String findAllAjax(int flag) {
+        List<Room> rooms = roomDao.findRoomByFlag(flag);
+
+        return JSONObject.toJSONString(rooms,new SerializeFilter[]{
+                new PropertyFilter() {
+                    @Override
+                    public boolean apply(Object o, String s, Object o1) {
+
+                        return s.equals("name");
+                    }
+                }
+        }, SerializerFeature.DisableCircularReferenceDetect);
     }
 
     public RoomDao getRoomDao() {

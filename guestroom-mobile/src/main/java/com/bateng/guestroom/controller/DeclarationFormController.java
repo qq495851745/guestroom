@@ -53,15 +53,18 @@ public class DeclarationFormController  extends BaseController {
     //跳转添加页面
     @RequestMapping(value = "/declarationForm/toAdd",method = RequestMethod.GET)
     public String toAdd(){
-        return "declarationForm/guest/declarationForm_add";
+//        return "declarationForm/guest/declarationForm_add";
+          return  "declarationForm/guest/mobile/declarationForm_guest_mobile_add";
     }
 
 
+
     //做添加操作
-    @RequestMapping(value = "/declarationForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-    @ResponseBody
+    @RequestMapping(value = "/declarationForm",method = RequestMethod.POST)
     public String add(DeclarationForm declarationForm, HttpSession session, @RequestParam("photo") MultipartFile[] photos) throws Exception{
-        //修正实际发生时间。
+//        public String add(DeclarationForm declarationForm, HttpSession session) throws Exception{
+
+            //修正实际发生时间。
         if(declarationForm.getActualDate()==null)
             declarationForm.setActualDate(declarationForm.getCreateDate());
         //验证房号填写正确
@@ -105,12 +108,12 @@ public class DeclarationFormController  extends BaseController {
         declarationFormStatus.setId(1);
         declarationForm.setDeclarationFormStatus(declarationFormStatus);
         declarationFormBiz.saveDeclarationForm(declarationForm);
-        JSONObject jsonObject=new JSONObject();
+        /*JSONObject jsonObject=new JSONObject();
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
         jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
         jsonObject.put("navTabId", "w_14");
-        jsonObject.put("message", "报修单添加成功");
-        return jsonObject.toJSONString();
+        jsonObject.put("message", "报修单添加成功");*/
+        return "redirect:/index";
     }
 
     //添加报修单查询roomOption

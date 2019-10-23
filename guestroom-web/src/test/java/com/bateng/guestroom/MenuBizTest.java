@@ -21,7 +21,7 @@ public class MenuBizTest {
     @Test
     public void getMenuByIdTest(){
 
-
+            menuBiz.findMenus();
     }
 
 

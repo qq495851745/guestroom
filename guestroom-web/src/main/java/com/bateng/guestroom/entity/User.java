@@ -31,6 +31,9 @@ public class User  {
     @Column(name = "delflag")
     private int flag=1;//删除标记
 
+    @Column(name = "delete_role")
+    private int deleteRole;
+
     @Column(name = "createdate")
     @Temporal(TemporalType.DATE)
     private Date createDate;
@@ -110,5 +113,13 @@ public class User  {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public int getDeleteRole() {
+        return deleteRole;
+    }
+
+    public void setDeleteRole(int deleteRole) {
+        this.deleteRole = deleteRole;
     }
 }

@@ -10,19 +10,37 @@
         <a href="a" id="test" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">关闭面板</a>
     -->
         <h4>查询条件设置</h4>
-        <form method="post" action="/guestroom/declarationForm/index">
+        <form method="post" id="declarationForm_guest_mobile_index_form" action="/guestroom/declarationForm/index">
             <label for="fname">房号：</label>
-            <input type="text" name="room.name" value="" id="fname">
-            <input type="submit" data-inline="true" value="查询">
+            <input type="text" name="room.name" value="" id="fname" th:if="${declarationForm.room == null}"/>
+            <input type="text" name="room.name" value="" id="fname" th:if="${declarationForm.room != null}" th:value="${declarationForm.room.name}"/>
+            <label for="declarationForm_guest_mobile_index_form_roomOptionName">报修工程内容：</label>
+            <a href="#declarationForm_guest_mobile_forNameOption_poupu" id="declarationForm_guest_mobile_index_form_forNameOption_a" data-rel="popup" th:if="${declarationForm.forNameOption!=null}" >
+                <input type="text" name="forNameOption.name" readonly="readonly" value="" id="declarationForm_guest_mobile_index_form_roomOptionName" th:value="${declarationForm.forNameOption.name}"/>
+            </a>
+            <a href="#declarationForm_guest_mobile_forNameOption_poupu" id="declarationForm_guest_mobile_index_form_forNameOption_a" data-rel="popup" th:if="${declarationForm.forNameOption==null}" >
+                <input type="text" name="forNameOption.name" readonly="readonly" value="" id="declarationForm_guest_mobile_index_form_roomOptionName"/>
+            </a>
+
+            <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
+            <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+            <input type="submit" id="declarationForm_guest_mobile_index_submit" data-inline="true" value="查询"/>
+            <input type="reset" id="declarationForm_guest_mobile_index_reset" data-inline="true" value="清空"/>
         </form>
-        <a href="#declarationForm_guest_mobile_forNameOption_poupu" id="test" data-rel="popup"  class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">关闭面板</a>
+
 
     </div>
     <div data-role="popup" id="declarationForm_guest_mobile_forNameOption_poupu" style="top: 150px">
+        <form class="ui-filterable">
+            <input id="declarationForm_guest_mobile_forNameOption_poupu_filter" data-type="search">
+        </form>
+        <ul data-role="listview" id="declarationForm_guest_mobile_forNameOption_poupu_ul" data-filter="true" data-input="#declarationForm_guest_mobile_forNameOption_poupu_filter" data-autodividers="false" data-inset="true">
+
+        </ul>
 
     </div>
-    <div data-role="main" class="ui-content">
-        <ul data-role="listview" data-inset="true">
+    <div data-role="main" class="ui-content" >
+        <ul data-role="listview" data-inset="true" id="declarationForm_guest_mobile_forNameOption_poupu_main_ul">
             <li th:each="declarationForm:${pageVo.contents}">
                 <a href="#">
                    <span th:text="${declarationForm.room.name}"></span>
@@ -36,15 +54,97 @@
     <div data-role="footer">
         <div data-role="navbar">
             <ul>
-                <li><a href="#declarationForm_guest_mobile_index_overlayPanel" data-icon="check" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">查询</a>
+                <li><a href="#declarationForm_guest_mobile_index_overlayPanel" data-icon="search" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">查询</a>
                 </li>
-                <li><a href="#" data-icon="minus">更少</a></li>
-                <li><a href="#" data-icon="delete">删除</a></li>
-                <li><a href="#" data-icon="plus">喜爱</a></li>
-                <li><a href="#" data-icon="info">信息</a></li>
+                <li><a href="#" data-icon="forward" id="declarationForm_guest_mobile_index_preview" rel="1">上一页</a></li>
+                <li><a href="#" data-icon="back" id="declarationForm_guest_mobile_index_next" th:attr="rel=${pageVo.totalPages}">下一页</a></li>
+                <li><a href="/guestroom/declarationForm/toAdd" data-icon="plus">添加</a></li>
+                <li><a href="#" data-icon="info">详情</a></li>
             </ul>
         </div>
     </div>
+   <script type="text/javascript">
+       //首页
+       $(document).off("tap","#declarationForm_guest_mobile_index_preview");
+       $(document).on("tap","#declarationForm_guest_mobile_index_preview",function () {
+          var $pageNum= $("#declarationForm_guest_mobile_index_form").find("input[name='pageNum']");
+          var pageNum=$pageNum.val()-0;
+           pageNum = pageNum<=1?1:(pageNum-1);
+              $pageNum.val(pageNum);
+           $("#declarationForm_guest_mobile_index_form").submit();
+           return false;
+       })
 
+       //下一页
+       $(document).off("tap","#declarationForm_guest_mobile_index_next");
+       $(document).on("tap","#declarationForm_guest_mobile_index_next",function () {
+           var $pageNum= $("#declarationForm_guest_mobile_index_form").find("input[name='pageNum']");
+           var totalPages=$("#declarationForm_guest_mobile_index_next").attr("rel")-0;
+           var pageNum=$pageNum.val()-0;
+           pageNum = pageNum>=totalPages?totalPages:(pageNum+1);
+           $pageNum.val(pageNum);
+           $("#declarationForm_guest_mobile_index_form").submit();
+           return false;
+       })
+
+       //点击查询，清空分页
+       $(document).off("tap","#declarationForm_guest_mobile_index_submit");
+       $(document).on("tap","#declarationForm_guest_mobile_index_submit",function () {
+           $("#declarationForm_guest_mobile_index_form").find("input[name='pageNum']").val("1");
+           return true;
+       })
+
+       //点击清空
+       $(document).off("tap","#declarationForm_guest_mobile_index_reset");
+       $(document).on("tap","#declarationForm_guest_mobile_index_reset",function () {
+           $("#declarationForm_guest_mobile_index_form").find("input[name='pageNum']").val("1");
+           $("#fname").val("");
+           $("#declarationForm_guest_mobile_index_form_roomOptionName").val("");
+           return false;
+       })
+       
+       //控制报修内容查询条件操作.
+       $(document).off("tap","#declarationForm_guest_mobile_index_form_forNameOption_a");
+       $(document).on("tap","#declarationForm_guest_mobile_index_form_forNameOption_a",function(){
+
+               $("#declarationForm_guest_mobile_forNameOption_poupu_ul").html("");
+               $.ajax({
+                   url: "/ajax/option/findAll",
+                   async: false,
+                   cache: false,
+                   dataType: "json",
+                   type: "post",
+                   success: function (data) {
+                       $("document").off("remove", "#declarationForm_guest_mobile_forNameOption_poupu")
+                       var html = "";
+                       for (var i = 0; i < data.length; i++) {
+                           html += "<li data-filtertext=\"" + data[i]['pinyin'] + data[i]['name'] + "\"><a href='#'>" + data[i]['name'] + "</a></li>"
+                       }
+
+                       $("#declarationForm_guest_mobile_forNameOption_poupu_ul").append(html);
+                       $("#declarationForm_guest_mobile_forNameOption_poupu_ul").off("tap", "a");
+                       $("#declarationForm_guest_mobile_forNameOption_poupu_ul").on("tap", "a", function () {
+                           $("#declarationForm_guest_mobile_index_form_roomOptionName").val($(this).text())
+                           window.setTimeout(function () {
+                               $("#declarationForm_guest_mobile_forNameOption_poupu").popup("close");
+                           }, 700)
+                       })
+
+
+                   }
+
+
+               });
+               $("#declarationForm_guest_mobile_forNameOption_poupu_ul").listview("refresh");
+               $(document).off("input","#declarationForm_guest_mobile_forNameOption_poupu_filter");
+               $(document).on("input","#declarationForm_guest_mobile_forNameOption_poupu_filter",function (data) {
+                  var c = $("#declarationForm_guest_mobile_forNameOption_poupu_filter").val();
+                   $("#declarationForm_guest_mobile_forNameOption_poupu_ul>li").css("display","block")
+                   if(c!="")
+                   $("#declarationForm_guest_mobile_forNameOption_poupu_ul>li").filter(":not([data-filtertext*='"+c+"'])").css("display","none");
+               })
+
+       })
+   </script>
 </div>
 

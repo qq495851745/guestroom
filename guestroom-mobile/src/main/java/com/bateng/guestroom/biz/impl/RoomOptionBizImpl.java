@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.*;
 import com.bateng.guestroom.biz.RoomOptionBiz;
 import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
+import com.bateng.guestroom.config.util.PinyinUtil;
 import com.bateng.guestroom.dao.RoomOptionDao;
 import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.RoomOption;
@@ -26,6 +27,31 @@ public class RoomOptionBizImpl implements RoomOptionBiz {
     @Autowired
     private RoomOptionDao roomOptionDao;
 
+    /**
+     * 报修类别获取 获取所有有子元素的对象
+     */
+    @Override
+    public String findRoomOption1Ajax() {
+        List<RoomOption> roomOptions = roomOptionDao.findAllByFlag(1);
+        roomOptions.removeIf((t) -> t.getRoomOptions().size() == 0);
+        return JSONObject.toJSONString(roomOptions,new SerializeFilter[]{
+                new PropertyFilter() {
+                    @Override
+                    public boolean apply(Object o, String s, Object o1) {
+                        if(s.equals("id"))
+                            return  true;
+                        else if(s.equals("name"))
+                            return  true;
+                        else if(s.equals("pinyin"))
+                            return  true;
+                        else
+                            return  false;
+                    }
+                }
+        },SerializerFeature.DisableCircularReferenceDetect);
+
+    }
+
     @Override
     public String findRoomOptionAjax() {
         List<RoomOption> roomOptions = roomOptionDao.findAllByFlag(1);
@@ -40,6 +66,8 @@ public class RoomOptionBizImpl implements RoomOptionBiz {
                     return false;
                 else if (s.equals("desprition"))
                     return false;
+                else if (s.equals("roomOptions"))
+                    return  false;
                 else
                     return true;
             }
@@ -120,6 +148,18 @@ public class RoomOptionBizImpl implements RoomOptionBiz {
         List<RoomOption> list=roomOptionDao.findAllByPid(pId);
         return list.size()>0?true:false;
 
+    }
+
+    @Override
+    @Transactional
+    public void updatePinyin() {
+
+        List<RoomOption> roomOptions = roomOptionDao.findAll();
+        for(RoomOption roomOption : roomOptions){
+//        RoomOption roomOption=roomOptions.get(0);
+            String pinyin= PinyinUtil.toPinyinString(roomOption.getName());
+            roomOptionDao.updateRoomOptionByPinyin(pinyin,roomOption.getId());
+        }
     }
 
     @Override

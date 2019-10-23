@@ -1,5 +1,6 @@
 package com.bateng.guestroom.dao;
 
+import com.bateng.guestroom.dao.repository.RoomOptionRepository;
 import com.bateng.guestroom.entity.RoomOption;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,12 +14,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RoomOptionDao extends JpaRepository<RoomOption,Integer>, JpaSpecificationExecutor<RoomOption> {
+public interface RoomOptionDao extends JpaRepository<RoomOption,Integer>, JpaSpecificationExecutor<RoomOption>,RoomOptionRepository {
     /**
      * 根据删除标记查询所有客房选项
      * @param flag
      * @return
      */
+    @Query("from RoomOption  ro where ro.flag=?1 order by ro.pinyin asc ")
     public List<RoomOption> findAllByFlag(int flag);
 
     @Query("from RoomOption ro where  ro.roomOption.id=:pId and ro.flag=1")
@@ -46,6 +48,19 @@ public interface RoomOptionDao extends JpaRepository<RoomOption,Integer>, JpaSpe
      * @return
      */
     public List<RoomOption> findByName(String name);
+
+    /**
+     * 根据id更新拼音
+     * @param pinyin ,id
+     */
+    @Modifying
+    @Query(" update RoomOption  ro set ro.pinyin=?1 where ro.id=?2")
+    public void updateRoomOptionByPinyin(String pinyin , Integer id);
+
+
+
+
+
 
 
 }

@@ -71,6 +71,17 @@ public class RoomController extends BaseController {
         return "room/room_room_level_lookup";
     }
 
+    /**
+     * 做添加操作
+     * @return
+     */
+    @RequestMapping(value = "/ajax/findAll",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String findRooms(){
+
+        return  roomBiz.findAllAjax(1);
+    }
+
    //做添加操作
     @RequestMapping(value = "/room",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     @ResponseBody

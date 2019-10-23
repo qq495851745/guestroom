@@ -21,6 +21,9 @@ public interface RoomDao extends RoomRepository, JpaRepository<Room,Integer>, Jp
     public Room findRoomByName(String name);
 
 
+    public  List<Room> findRoomByFlag(int flag);
+
+
 
 
 

@@ -408,6 +408,11 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
         return query.getResultList();
     }
 
+    @Override
+    public void test() {
+
+    }
+
     public EntityManager getEntityManager() {
         return entityManager;
     }

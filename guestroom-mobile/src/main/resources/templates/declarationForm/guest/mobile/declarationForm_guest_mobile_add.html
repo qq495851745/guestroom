@@ -1,0 +1,232 @@
+
+<div data-role="page">
+
+    <div data-role="header">
+        <h1>报修单添加</h1>
+    </div>
+    <!-- 房号的弹框搜索-->
+    <div data-role="popup" id="declarationForm_guest_mobile_room_poupu" style="top: 150px">
+        <form class="ui-filterable">
+            <input id="declarationForm_guest_mobile_add_poupu_room_filter" data-type="search">
+        </form>
+        <ul data-role="listview" id="declarationForm_guest_mobile_add_room_poupu_ul" data-filter="true"
+            data-input="#declarationForm_guest_mobile_add_poupu_room_filter" data-autodividers="false"
+            data-inset="true">
+        </ul>
+
+    </div>
+
+    <!--报修类别的搜索弹框 start-->
+    <div data-role="popup" id="declarationForm_guest_mobile_roomOption_poupu" style="top: 150px">
+        <form class="ui-filterable">
+            <input id="declarationForm_guest_mobile_add_poupu_roomOption_filter" data-type="search">
+        </form>
+        <ul data-role="listview" id="declarationForm_guest_mobile_add_roomOption_poupu_ul" data-filter="true"
+            data-input="#declarationForm_guest_mobile_add_poupu_roomOption_filter" data-autodividers="false"
+            data-inset="true">
+
+        </ul>
+
+    </div>
+    <!--报修类别的搜索弹框 end-->
+
+    <!--报修工程内容搜索弹框 start-->
+    <div data-role="popup" id="declarationForm_guest_mobile_forNameOption_poupu" style="top: 150px">
+        <form class="ui-filterable">
+            <input id="declarationForm_guest_mobile_add_poupu_forNameOption_filter" data-type="search">
+        </form>
+        <ul data-role="listview" id="declarationForm_guest_mobile_add_forNameOption_poupu_ul" data-filter="true"
+            data-input="#declarationForm_guest_mobile_add_poupu_forNameOption_filter" data-autodividers="false"
+            data-inset="true">
+
+        </ul>
+
+    </div>
+    <!--报修工程内容搜索弹框 end-->
+
+    <div data-role="main" class="ui-content">
+        <form method="post" id="declarationForm_guest_mobile_add_form" action="/guestroom/declarationForm" enctype="multipart/form-data" data-ajax="false" >
+            <label for="declarationForm_guest_mobile_add_form_name">房号：</label>
+            <a href="#declarationForm_guest_mobile_room_poupu"
+               id="declarationForm_guest_mobile_add_form_room_a" data-rel="popup">
+                <input type="text" name="room.name" value="" id="declarationForm_guest_mobile_add_form_name"/>
+            </a>
+            <label for="declarationForm_guest_mobile_add_form_roomOption">报修类别：</label>
+            <a href="#declarationForm_guest_mobile_roomOption_poupu"
+               id="declarationForm_guest_mobile_add_form_roomOption_a" data-rel="popup">
+                <input type="text" name="roomOption.name" value="" id="declarationForm_guest_mobile_add_form_roomOption"/>
+                <input type="hidden" name="roomOption.id" value="" id="declarationForm_guest_mobile_add_form_roomOption_id"/>
+            </a>
+            <label for="declarationForm_guest_mobile_add_form_forNameOption">报修工程内容：</label>
+            <a href="#declarationForm_guest_mobile_forNameOption_poupu"
+               id="declarationForm_guest_mobile_add_form_forNameOption_a" data-rel="popup">
+                <input type="text" name="forNameOption.name" value="" id="declarationForm_guest_mobile_add_form_forNameOption"/>
+                <input type="hidden" name="forNameOption.id" value="" id="declarationForm_guest_mobile_add_form_forNameOption_id"/>
+            </a>
+            <label for="declarationForm_guest_mobile_add_form_description">报修说明：</label>
+            <input type="text" name="description" value="" id="declarationForm_guest_mobile_add_form_description"/>
+            <label for="declarationForm_guest_mobile_add_form_declarationFormPhotos">选择上传照片:</label>
+            <div class="upload-wrap" id="declarationForm_guest_mobile_add_form_declarationFormPhotos">
+            <input  type="file" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
+<!--
+            <input  type="file" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
+             <input  type="file" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
+-->
+
+            </div>
+            <input type="submit" data-inline="true" value="添加" id="declarationForm_guest_mobile_add_form_submit"/>
+            <input type="reset" data-inline="true" value="清空"/>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        /*$(document).off("tap","#declarationForm_guest_mobile_add_form_submit");
+        $(document).on("tap","#declarationForm_guest_mobile_add_form_submit",function () {
+            $("#declarationForm_guest_mobile_add_form").submit();
+            return false;
+        })*/
+          /*  房号的获取 start*/
+        $(document).off("tap", "#declarationForm_guest_mobile_add_form_room_a");
+        $(document).on("tap", "#declarationForm_guest_mobile_add_form_room_a", function () {
+            $("#declarationForm_guest_mobile_add_room_poupu_ul").html("");
+            $.ajax({
+                url: "/guestroom/ajax/findAll",
+                async: false,
+                cache: false,
+                dataType: "json",
+                type: "post",
+                success: function (data) {
+                    $("document").off("remove", "#declarationForm_guest_mobile_room_poupu");
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        html += "<li data-filtertext=\"" + data[i]['name'] + "\"><a href='#'>" + data[i]['name'] + "</a></li>"
+                    }
+                    $("#declarationForm_guest_mobile_add_room_poupu_ul").append(html);
+                    $("#declarationForm_guest_mobile_add_room_poupu_ul").off("tap", "a");
+                    $("#declarationForm_guest_mobile_add_room_poupu_ul").on("tap", "a", function () {
+                        $("#declarationForm_guest_mobile_add_form_name").val($(this).text())
+                        window.setTimeout(function () {
+                            $("#declarationForm_guest_mobile_room_poupu").popup("close");
+                        }, 700)
+                    })
+
+
+                }
+            });
+            $("#declarationForm_guest_mobile_add_room_poupu_ul").listview("refresh");
+            $(document).off("input", "#declarationForm_guest_mobile_add_poupu_room_filter");
+            $(document).on("input", "#declarationForm_guest_mobile_add_poupu_room_filter", function (data) {
+                var c = $("#declarationForm_guest_mobile_add_poupu_room_filter").val();
+                $("#declarationForm_guest_mobile_add_room_poupu_ul>li").css("display", "block");
+                if (c != "")
+                    $("#declarationForm_guest_mobile_add_room_poupu_ul>li").filter(":not([data-filtertext*='" + c + "'])").css("display", "none");
+            })
+        })
+        /**
+         * 房号获取 end
+         */
+
+       /* 报修类别获取 start*/
+          $(document).off("tap", "#declarationForm_guest_mobile_add_form_roomOption_a");
+          $(document).on("tap", "#declarationForm_guest_mobile_add_form_roomOption_a", function () {
+              $("#declarationForm_guest_mobile_add_roomOption_poupu_ul").html("");
+              $.ajax({
+                  url: "/ajax/option/findAll1",
+                  async: false,
+                  cache: false,
+                  dataType: "json",
+                  type: "post",
+                  success: function (data) {
+                      console.log(data)
+                      $("document").off("remove", "#declarationForm_guest_mobile_roomOption_poupu");
+                      var html = "";
+                      for (var i = 0; i < data.length; i++) {
+                          html += "<li data-filtertext=\""+data[i]['pinyin'] + data[i]['name'] + "\"><a href='#' data-id='"+data[i]["id"]+"'>" + data[i]['name'] + "</a></li>"
+                      }
+
+                      $("#declarationForm_guest_mobile_add_roomOption_poupu_ul").append(html);
+                      $("#declarationForm_guest_mobile_add_roomOption_poupu_ul").off("tap", "a");
+                      $("#declarationForm_guest_mobile_add_roomOption_poupu_ul").on("tap", "a", function () {
+                          $("#declarationForm_guest_mobile_add_form_roomOption").val($(this).text());
+                          $("#declarationForm_guest_mobile_add_form_roomOption_id").val($(this).attr("data-id"));
+                          window.setTimeout(function () {
+                              $("#declarationForm_guest_mobile_roomOption_poupu").popup("close");
+                          }, 700)
+                      })
+
+
+                  }
+              });
+              $("#declarationForm_guest_mobile_add_roomOption_poupu_ul").listview("refresh");
+              $(document).off("input", "#declarationForm_guest_mobile_add_poupu_roomOption_filter");
+              $(document).on("input", "#declarationForm_guest_mobile_add_poupu_roomOption_filter", function (data) {
+                  var c = $("#declarationForm_guest_mobile_add_poupu_roomOption_filter").val();
+                  $("#declarationForm_guest_mobile_add_roomOption_poupu_ul>li").css("display", "block");
+                  if (c != "")
+                      $("#declarationForm_guest_mobile_add_roomOption_poupu_ul>li").filter(":not([data-filtertext*='" + c + "'])").css("display", "none");
+              })
+          })
+        /*报修类别获取 end*/
+
+       /* 报修工程内容获取 start*/
+          $(document).off("tap", "#declarationForm_guest_mobile_add_form_forNameOption_a");
+          $(document).on("tap", "#declarationForm_guest_mobile_add_form_forNameOption_a", function () {
+              $("#declarationForm_guest_mobile_add_forNameOption_poupu_ul").html("");
+              $.ajax({
+                  url: "/ajax/option/findAll",
+                  async: false,
+                  cache: false,
+                  dataType: "json",
+                  type: "post",
+                  success: function (data) {
+                      $("document").off("remove", "#declarationForm_guest_mobile_forNameOption_poupu");
+                      var html = "";
+                      for (var i = 0; i < data.length; i++) {
+                          html += "<li data-filtertext=\""+data[i]['pinyin'] + data[i]['name'] + "\"><a href='#' data-id='"+data[i]["id"]+"'>" + data[i]['name'] + "</a></li>"
+                      }
+
+                      $("#declarationForm_guest_mobile_add_forNameOption_poupu_ul").append(html);
+                      $("#declarationForm_guest_mobile_add_forNameOption_poupu_ul").off("tap", "a");
+                      $("#declarationForm_guest_mobile_add_forNameOption_poupu_ul").on("tap", "a", function () {
+                          $("#declarationForm_guest_mobile_add_form_forNameOption").val($(this).text());
+                          $("#declarationForm_guest_mobile_add_form_forNameOption_id").val($(this).attr("data-id"));
+                          window.setTimeout(function () {
+                              $("#declarationForm_guest_mobile_forNameOption_poupu").popup("close");
+                          }, 700)
+                      })
+
+
+                  }
+              });
+              $("#declarationForm_guest_mobile_add_forNameOption_poupu_ul").listview("refresh");
+              $(document).off("input", "#declarationForm_guest_mobile_add_poupu_forNameOption_filter");
+              $(document).on("input", "#declarationForm_guest_mobile_add_poupu_forNameOption_filter", function (data) {
+                  var c = $("#declarationForm_guest_mobile_add_poupu_forNameOption_filter").val();
+                  $("#declarationForm_guest_mobile_add_forNameOption_poupu_ul>li").css("display", "block");
+                  if (c != "")
+                      $("#declarationForm_guest_mobile_add_forNameOption_poupu_ul>li").filter(":not([data-filtertext*='" + c + "'])").css("display", "none");
+              })
+          })
+        /*报修工程内容获取 end*/
+
+       /* 图片上传  start*/
+
+          $("div.upload-wrap").click(function () {
+              var op={maxW:80, maxH:80};
+              var $uploadWrap = $(this);
+              var $inputFiles = $uploadWrap.find('input[type=file]');
+              $inputFiles.each(function(index){
+                  var $inputFile = $(this).css({left:(op.maxW*index)+'px'});
+                  $inputFile.on('change', function () {
+                      var files = this.files;
+
+                          previewUploadImg($uploadWrap, files, op.maxW, op.maxH);
+
+                  });
+              })
+          });
+        /*图片上传 end*/
+
+    </script>
+</div>
+

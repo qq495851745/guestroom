@@ -34,6 +34,20 @@ public class DeclarationFormController  extends BaseController {
     private RoomBiz roomBiz;
     @Autowired
     private RoomOptionBiz roomOptionBiz;
+
+    @RequestMapping(value = "/declarationForm/index/all",method = {RequestMethod.GET,RequestMethod.POST})
+    public String indexAll(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
+//        User u= (User) session.getAttribute("user");
+
+//        declarationForm.setUser(u);//获取报修人
+        //查询报修单
+        pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
+        model.addAttribute("pageVo",pageVo);
+        model.addAttribute("declarationForm",declarationForm);
+
+        return "declarationForm/guest/declarationForm_index";
+    }
+
     @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET,RequestMethod.POST})
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
         User u= (User) session.getAttribute("user");

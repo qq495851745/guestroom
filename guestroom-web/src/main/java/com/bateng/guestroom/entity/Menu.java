@@ -38,7 +38,8 @@ public class Menu {
     @Column(name = "mrel")
     private String rel;//dwz属性
 
-
+    @Column(name = "orderby1")
+    private int orderby1;//排序属性
 
     @ManyToOne
     @JoinColumn(name = "pid")
@@ -138,6 +139,14 @@ public class Menu {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public int getOrderby1() {
+        return orderby1;
+    }
+
+    public void setOrderby1(int orderby1) {
+        this.orderby1 = orderby1;
     }
 
     @Override
