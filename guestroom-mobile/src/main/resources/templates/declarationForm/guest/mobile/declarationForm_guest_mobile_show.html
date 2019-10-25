@@ -1,0 +1,35 @@
+<div data-role="page" xmlns:th="http://www.thymeleaf.org">
+
+    <div data-role="header">
+        <h1>报修单查看</h1>
+    </div>
+    <div data-role="main" class="ui-content" id="declarationForm_guest_mobile_index_show">
+
+        <form action="/guestroom/declarationForm/index" method="get" >
+            <span>----------报修单详情-----------</span>
+            <label>房号：</label>
+            <input type="text" value="" readonly="readonly" th:value="${declarationForm.room.name}"/>
+            <label>报修类别：</label>
+            <input type="text" value="" readonly="readonly" th:value="${declarationForm.roomOption.name}"/>
+
+            <label>报修工程内容：</label>
+            <input type="text" value="" readonly="readonly" th:value="${declarationForm.forNameOption.name}"/>
+            <label>报修说明：</label>
+            <input type="text" value="" readonly="readonly" th:value="${declarationForm.description}"/>
+            <label>报修时间</label>
+            <input type="text" value="" readonly="readonly"
+                   th:value="${#dates.format(declarationForm.createDate,'yyyy-MM-dd HH:mm:ss')}"/>
+            <label>报修单状态</label>
+            <input type="text" value="" readonly="readonly"
+                   th:value="${declarationForm.declarationFormStatus.status}"/>
+            <!--<label >选择上传照片:</label>
+            <div class="upload-wrap" id="declarationForm_guest_mobile_add_form_declarationFormPhotos">
+                <input  type="file" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
+        </div>-->
+            <label>报修人</label>
+            <input type="text" value="" readonly="readonly"
+                   th:value="${declarationForm.user.realName}"/>
+            <input type="submit" value="返回"/>
+        </form>
+    </div>
+</div>

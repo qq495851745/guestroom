@@ -38,11 +38,11 @@ public class MenuBizImpl implements MenuBiz {
 
     @Override
     public List<Menu> findMenus() {
-        /*Menu menu = new Menu();
+        Menu menu = new Menu();
         menu.setFlag(1);
         Example<Menu> ex = Example.of(menu);
-        return menuDao.findAll(ex);*/
-        return menuDao.findAllByFlag1();
+        return menuDao.findAll(ex);
+//        return menuDao.findAllByFlag1();
     }
 
     @Override

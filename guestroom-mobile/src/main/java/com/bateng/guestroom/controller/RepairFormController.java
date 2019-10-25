@@ -34,27 +34,35 @@ public class RepairFormController extends BaseController {
     @Autowired
     private AppointFormBiz appointFormBiz;
 
+    /**
+     * flag 参数判断是查看新建状态的维修单，还是待本人维修的维修单
+     * @param id
+     * @param declarationForm
+     * @param model
+     * @return
+     */
     //跳转添加维修单
-    @RequestMapping(value = "/repairForm/declarationForm/{id}", method = {RequestMethod.GET})
-    public String toAdd(@PathVariable(required = false, value = "id") int id, DeclarationForm declarationForm, Model model) {
+    @RequestMapping(value = "/repairForm/declarationForm/{id}/{flag}", method = {RequestMethod.GET})
+    public String toAdd(@PathVariable(required = false, value = "id") int id, @PathVariable(value = "flag") int flag,DeclarationForm declarationForm, Model model) {
         declarationForm = declarationFormBiz.getDeclarationFormById(declarationForm.getId());
         model.addAttribute("declarationForm", declarationForm);
         model.addAttribute("repairForms", repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
         model.addAttribute("appointForm", appointFormBiz.findAppointFormsByDeclarationFormId(declarationForm.getId()));
         model.addAttribute("navId", "w_15");
+        model.addAttribute("flag",flag);
         addurl(model);
         //修改状态为已读
         /*DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
         declarationFormStatus.setId(2);
         declarationForm.setDeclarationFormStatus(declarationFormStatus);
         declarationFormBiz.updateStatus(declarationForm);*/
-        return "repairForm/project/repairForm_add";
+//        return "repairForm/project/repairForm_add";
+        return "declarationForm/project/mobile/declarationForm_project_mobile_show";
     }
 
     //做添加维修单
-    @RequestMapping(value = "/repairForm", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public String add(RepairForm repairForm, @RequestParam("photo") MultipartFile[] photos, HttpSession session) throws Exception {
+    @RequestMapping(value = "/repairForm", method = RequestMethod.POST)
+    public String add(RepairForm repairForm, @RequestParam("photo") MultipartFile[] photos, HttpSession session,String pathFlag) throws Exception {
 
         List<RepairFormPhoto> repairFormPhotos = new ArrayList<RepairFormPhoto>();
         for (MultipartFile photo : photos) {
@@ -102,12 +110,14 @@ public class RepairFormController extends BaseController {
         //更新最后完成时间
         declarationFormBiz.updateFinishDate(repairForm.getDeclarationForm().getId(),repairForm.getCreateDate());
 
-        JSONObject jsonObject = new JSONObject();
+        /*JSONObject jsonObject = new JSONObject();
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
         jsonObject.put("callbackType", "closeCurrent");
         jsonObject.put("message", "处理成功！");
         jsonObject.put("navTabId", "w_15");
-        return jsonObject.toJSONString();
+        return jsonObject.toJSONString();*/
+        session.setAttribute("pathFlag",pathFlag);
+        return "redirect:/index";
     }
 
     //审核报修单
@@ -119,13 +129,13 @@ public class RepairFormController extends BaseController {
         model.addAttribute("appointForm", appointFormBiz.findAppointFormsByDeclarationFormId(declarationForm.getId()));
         addurl(model);
 
-        return "repairForm/guest/repairForm_add";
+//        return "repairForm/guest/repairForm_add";
+        return "repairForm/guest/mobile/repairForm_guest_mobile_show";
     }
 
     //客房添加审核记录
-    @RequestMapping(value = "/guest/repairForm", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public String add(RepairForm repairForm, HttpSession session, @RequestParam("photo") MultipartFile[] photos) throws Exception {
+    @RequestMapping(value = "/guest/repairForm", method = RequestMethod.POST)
+    public String add(RepairForm repairForm, HttpSession session, @RequestParam("photo") MultipartFile[] photos,String pathFlag) throws Exception {
         //上传图片
         List<RepairFormPhoto> repairFormPhotos = new ArrayList<RepairFormPhoto>();
         for (MultipartFile photo : photos) {
@@ -156,12 +166,14 @@ public class RepairFormController extends BaseController {
         //更新报修单
 
         repairFormBiz.saveRepairForm2(repairForm);
-        JSONObject jsonObject = new JSONObject();
+        /*JSONObject jsonObject = new JSONObject();
         jsonObject.put("message", "审核处理完成");
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
         jsonObject.put("callbackType", "closeCurrent");
         jsonObject.put("navTabId", "w_16");
-        return jsonObject.toJSONString();
+        return jsonObject.toJSONString();*/
+       session.setAttribute("pathFlag",pathFlag);
+        return "redirect:/index";
     }
 
     @InitBinder

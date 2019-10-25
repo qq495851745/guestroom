@@ -225,7 +225,7 @@ public class DeclarationFormController  extends BaseController {
         list.add(3);
         list.add(6);
         declarationForm.setDeclarationFormStatusList(list);
-        declarationForm.setUser((User) session.getAttribute("user"));
+//        declarationForm.setUser((User) session.getAttribute("user"));
         pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("declarationForm",declarationForm);

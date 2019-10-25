@@ -39,10 +39,11 @@
         </ul>
 
     </div>
-    <div data-role="main" class="ui-content" >
+    <div data-role="main" class="ui-content" id="declarationForm_guest_mobile_index_main" >
+        <p>查询报修单</p>
         <ul data-role="listview" data-inset="true" id="declarationForm_guest_mobile_forNameOption_poupu_main_ul">
             <li th:each="declarationForm:${pageVo.contents}">
-                <a href="#">
+                <a href="" th:href="'/guestroom/declarationForm/'+${declarationForm.id}">
                    <span th:text="${declarationForm.room.name}"></span>
                     <span th:text="${declarationForm.forNameOption.name}"></span>
                     <span th:text="${declarationForm.declarationFormStatus.status}"></span>
@@ -59,7 +60,7 @@
                 <li><a href="#" data-icon="forward" id="declarationForm_guest_mobile_index_preview" rel="1">上一页</a></li>
                 <li><a href="#" data-icon="back" id="declarationForm_guest_mobile_index_next" th:attr="rel=${pageVo.totalPages}">下一页</a></li>
                 <li><a href="/guestroom/declarationForm/toAdd" data-icon="plus">添加</a></li>
-                <li><a href="#" data-icon="info">详情</a></li>
+                <!--<li><a href="#" data-icon="info">详情</a></li>-->
             </ul>
         </div>
     </div>
@@ -145,6 +146,13 @@
                })
 
        })
+
+       /*控制点击列表跳转 start*/
+      /* $(document).off("tap","#declarationForm_guest_mobile_forNameOption_poupu_main_ul a");
+       $(document).on("tap","#declarationForm_guest_mobile_forNameOption_poupu_main_ul a",function () {
+           console.log(new Date())
+       })*/
+       /*控制点击列表跳转 end*/
    </script>
 </div>
 

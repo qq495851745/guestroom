@@ -61,8 +61,8 @@
     <script src="dwz/js/dwz.print.js" type="text/javascript"></script>
 
     <script src="dwz/js/dwz.regional.zh.js" type="text/javascript"></script>-->
-    <script src="dwz/js/dwz.core.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.file.js" type="text/javascript"></script>
+    <!--<script src="dwz/js/dwz.core.js" type="text/javascript"></script>
+    <script src="dwz/js/dwz.file.js" type="text/javascript"></script>-->
     <style type="text/css">
         .upload-wrap {
             position: relative;
@@ -190,14 +190,15 @@
                     }
                     return true;
                 })
-                $("a[rel='w_26']").trigger("click");
+                var flag = '[[${session.pathFlag}]]';
+                    $("a[rel='"+flag+"']").trigger("click");
 
             });
         </script>
         <!-- 代码部分end -->
     </div>
     <div data-role="main" class="ui-content" id="mainPage">
-        <a href="">欢迎您！</a>
+        <a href="/img.html">欢迎您！</a>
     </div>
 </div>
 

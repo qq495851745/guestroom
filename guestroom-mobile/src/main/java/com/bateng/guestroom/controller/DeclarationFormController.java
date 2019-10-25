@@ -39,7 +39,7 @@ public class DeclarationFormController  extends BaseController {
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
         User u= (User) session.getAttribute("user");
 
-        declarationForm.setUser(u);//获取报修人
+//        declarationForm.setUser(u);//获取报修人
         //查询报修单
         pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
@@ -159,14 +159,16 @@ public class DeclarationFormController  extends BaseController {
         return  jsonObject.toJSONString();
     }
 
-    //跳转修改
+    //跳转查看详情
     @RequestMapping(value = "/declarationForm/{id}",method = RequestMethod.GET)
     public String toEdit(@PathVariable("id") int id,DeclarationForm declarationForm,Model model){
         declarationForm=declarationFormBiz.getDeclarationFormById(id);
         model.addAttribute("declarationForm",declarationForm);
         addurl(model);
-        return  "declarationForm/guest/declarationForm_edit";
+//        return  "declarationForm/guest/declarationForm_edit";
+        return "declarationForm/guest/mobile/declarationForm_guest_mobile_show";
     }
+
 
     //做修改
     @RequestMapping(value = "/declarationForm",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
@@ -215,11 +217,12 @@ public class DeclarationFormController  extends BaseController {
         list.add(3);
         list.add(6);
         declarationForm.setDeclarationFormStatusList(list);
-        declarationForm.setUser((User) session.getAttribute("user"));
+//        declarationForm.setUser((User) session.getAttribute("user"));
         pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("declarationForm",declarationForm);
-        return "repairForm/guest/declarationForm_index";
+        /*return "repairForm/guest/declarationForm_index";*/
+        return "repairForm/guest/mobile/repairForm_guest_mobile_index";
     }
 
 
@@ -250,7 +253,8 @@ public class DeclarationFormController  extends BaseController {
         } catch (Exception e) {
            model.addAttribute("flag",true);
         }
-        return "declarationForm/project/declarationForm_project_index";
+//        return "declarationForm/project/declarationForm_project_index";
+        return "declarationForm/project/mobile/declarationForm_project_index";
     }
 
 
@@ -270,7 +274,8 @@ public class DeclarationFormController  extends BaseController {
         pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("flag",true);
-        return "declarationForm/project/declarationForm_project_index";
+//        return "declarationForm/project/declarationForm_project_index";
+        return "declarationForm/project/mobile/declarationForm_project_index";
     }
 
 

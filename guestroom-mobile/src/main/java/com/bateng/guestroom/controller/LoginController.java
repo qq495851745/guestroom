@@ -22,48 +22,47 @@ public class LoginController extends BaseController {
     private UserBiz userBiz;
 
     //跳转登录页面
-    @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String index(Model model){
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String index(Model model) {
         addurl(model);
         return "login";
     }
 
-    @RequestMapping(value = "login",method = RequestMethod.POST)
-    public String login(User user, Model model, HttpServletRequest request){
-        HttpSession session= request.getSession();
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String login(User user, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
 //        session.setMaxInactiveInterval(60*10);
         addurl(model);
-        user=userBiz.checkUser(user);
+        user = userBiz.checkUser(user);
         //管理员不能从手机登录
         //用户标记为2的是移动端账号
-        if(user==null  || user.getFlag()!=2) {
-            if(user == null){
-                model.addAttribute("message","用户名或密码输入错误");
+        if (user == null || user.getFlag() != 2) {
+            if (user == null) {
+                model.addAttribute("message", "用户名或密码输入错误");
             }
-            if(user!=null && user.getFlag()!=2)
-                model.addAttribute("message","请联系管理员开通移动端权限");
+            if (user != null && user.getFlag() != 2)
+                model.addAttribute("message", "请联系管理员开通移动端权限");
             return "login";
-        }
-        else {
-            session.setAttribute("user",user);
+        } else {
+            session.setAttribute("user", user);
             return "redirect:index";
         }
     }
 
     @RequestMapping(value = "index")
-    public String toIndex(Model model){
+    public String toIndex(Model model, HttpSession session) {
         addurl(model);
-        return  "index";
+        User user = (User) session.getAttribute("user");
+        if (session.getAttribute("pathFlag") == null)
+            if (user.getRole().getId() == 2 || user.getRole().getId() == 1)
+                session.setAttribute("pathFlag", "w_26");
+        return "index";
     }
 
 
-
-
-
-
     //退出操作
-    @RequestMapping(value = "loginout",method = RequestMethod.GET)
-    public String loginout(Model model,HttpSession session){
+    @RequestMapping(value = "loginout", method = RequestMethod.GET)
+    public String loginout(Model model, HttpSession session) {
         addurl(model);
         session.invalidate();
         return "login";

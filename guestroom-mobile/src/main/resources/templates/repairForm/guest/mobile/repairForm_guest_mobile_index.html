@@ -1,0 +1,158 @@
+
+
+<div data-role="page" id="repairForm_guest_mobile_index" lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div data-role="header">
+        <h1>欢迎来到我的主页</h1>
+    </div>
+    <div data-role="panel" id="repairForm_guest_mobile_index_overlayPanel" data-display="overlay">
+        <!--<h2>覆盖面板</h2>
+        <p>你可以使用按下 Esc 键、点击面板外部区域、通过滑动或点击下面按钮来关闭面板：</p>
+        <a href="a" id="test" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left">关闭面板</a>
+    -->
+        <h4>查询条件设置</h4>
+        <form method="post" id="repairForm_guest_mobile_index_form" action="/guestroom/declarationForm/status">
+            <label for="fname">房号：</label>
+            <input type="text" name="room.name" value="" id="fname" th:if="${declarationForm.room == null}"/>
+            <input type="text" name="room.name" value="" id="fname" th:if="${declarationForm.room != null}" th:value="${declarationForm.room.name}"/>
+            <label for="repairForm_guest_mobile_index_form_roomOptionName">报修工程内容：</label>
+            <a href="#repairForm_guest_mobile_forNameOption_poupu" id="repairForm_guest_mobile_index_form_forNameOption_a" data-rel="popup" th:if="${declarationForm.forNameOption!=null}" >
+                <input type="text" name="forNameOption.name" readonly="readonly" value="" id="repairForm_guest_mobile_index_form_roomOptionName" th:value="${declarationForm.forNameOption.name}"/>
+            </a>
+            <a href="#repairForm_guest_mobile_forNameOption_poupu" id="repairForm_guest_mobile_index_form_forNameOption_a" data-rel="popup" th:if="${declarationForm.forNameOption==null}" >
+                <input type="text" name="forNameOption.name" readonly="readonly" value="" id="repairForm_guest_mobile_index_form_roomOptionName"/>
+            </a>
+
+            <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
+            <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
+            <input type="submit" id="repairForm_guest_mobile_index_submit" data-inline="true" value="查询"/>
+            <input type="reset" id="repairForm_guest_mobile_index_reset" data-inline="true" value="清空"/>
+        </form>
+
+
+    </div>
+    <div data-role="popup" id="repairForm_guest_mobile_forNameOption_poupu" style="top: 150px">
+        <form class="ui-filterable">
+            <input id="repairForm_guest_mobile_forNameOption_poupu_filter" data-type="search">
+        </form>
+        <ul data-role="listview" id="repairForm_guest_mobile_forNameOption_poupu_ul" data-filter="true" data-input="#repairForm_guest_mobile_forNameOption_poupu_filter" data-autodividers="false" data-inset="true">
+
+        </ul>
+
+    </div>
+    <div data-role="main" class="ui-content" id="repairForm_guest_mobile_index_main" >
+        <p>审核报修单</p>
+        <ul data-role="listview" data-inset="true" id="repairForm_guest_mobile_forNameOption_poupu_main_ul">
+            <li th:each="declarationForm:${pageVo.contents}">
+                <a href="" th:href="'/guestroom/repairForm/check/'+${declarationForm.id}">
+                   <span th:text="${declarationForm.room.name}"></span>
+                    <span th:text="${declarationForm.forNameOption.name}"></span>
+                    <span th:text="${declarationForm.declarationFormStatus.status}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div data-role="footer">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#repairForm_guest_mobile_index_overlayPanel" data-icon="search" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">查询</a>
+                </li>
+                <li><a href="#" data-icon="forward" id="repairForm_guest_mobile_index_preview" rel="1">上一页</a></li>
+                <li><a href="#" data-icon="back" id="repairForm_guest_mobile_index_next" th:attr="rel=${pageVo.totalPages}">下一页</a></li>
+                <!--<li><a href="/guestroom/declarationForm/toAdd" data-icon="plus">添加</a></li>-->
+                <!--<li><a href="#" data-icon="info">详情</a></li>-->
+            </ul>
+        </div>
+    </div>
+   <script type="text/javascript">
+       //首页
+       $(document).off("tap","#repairForm_guest_mobile_index_preview");
+       $(document).on("tap","#repairForm_guest_mobile_index_preview",function () {
+          var $pageNum= $("#repairForm_guest_mobile_index_form").find("input[name='pageNum']");
+          var pageNum=$pageNum.val()-0;
+           pageNum = pageNum<=1?1:(pageNum-1);
+              $pageNum.val(pageNum);
+           $("#repairForm_guest_mobile_index_form").submit();
+           return false;
+       })
+
+       //下一页
+       $(document).off("tap","#repairForm_guest_mobile_index_next");
+       $(document).on("tap","#repairForm_guest_mobile_index_next",function () {
+           var $pageNum= $("#repairForm_guest_mobile_index_form").find("input[name='pageNum']");
+           var totalPages=$("#repairForm_guest_mobile_index_next").attr("rel")-0;
+           var pageNum=$pageNum.val()-0;
+           pageNum = pageNum>=totalPages?totalPages:(pageNum+1);
+           $pageNum.val(pageNum);
+           $("#repairForm_guest_mobile_index_form").submit();
+           return false;
+       })
+
+       //点击查询，清空分页
+       $(document).off("tap","#repairForm_guest_mobile_index_submit");
+       $(document).on("tap","#repairForm_guest_mobile_index_submit",function () {
+           $("#repairForm_guest_mobile_index_form").find("input[name='pageNum']").val("1");
+           return true;
+       })
+
+       //点击清空
+       $(document).off("tap","#repairForm_guest_mobile_index_reset");
+       $(document).on("tap","#repairForm_guest_mobile_index_reset",function () {
+           $("#repairForm_guest_mobile_index_form").find("input[name='pageNum']").val("1");
+           $("#fname").val("");
+           $("#repairForm_guest_mobile_index_form_roomOptionName").val("");
+           return false;
+       })
+       
+       //控制报修内容查询条件操作.
+       $(document).off("tap","#repairForm_guest_mobile_index_form_forNameOption_a");
+       $(document).on("tap","#repairForm_guest_mobile_index_form_forNameOption_a",function(){
+
+               $("#repairForm_guest_mobile_forNameOption_poupu_ul").html("");
+               $.ajax({
+                   url: "/ajax/option/findAll",
+                   async: false,
+                   cache: false,
+                   dataType: "json",
+                   type: "post",
+                   success: function (data) {
+                       $("document").off("remove", "#declarationForm_guest_mobile_forNameOption_poupu")
+                       var html = "";
+                       for (var i = 0; i < data.length; i++) {
+                           html += "<li data-filtertext=\"" + data[i]['pinyin'] + data[i]['name'] + "\"><a href='#'>" + data[i]['name'] + "</a></li>"
+                       }
+
+                       $("#repairForm_guest_mobile_forNameOption_poupu_ul").append(html);
+                       $("#repairForm_guest_mobile_forNameOption_poupu_ul").off("tap", "a");
+                       $("#repairForm_guest_mobile_forNameOption_poupu_ul").on("tap", "a", function () {
+                           $("#repairForm_guest_mobile_index_form_roomOptionName").val($(this).text())
+                           window.setTimeout(function () {
+                               $("#repairForm_guest_mobile_forNameOption_poupu").popup("close");
+                           }, 700)
+                       })
+
+
+                   }
+
+
+               });
+               $("#repairForm_guest_mobile_forNameOption_poupu_ul").listview("refresh");
+               $(document).off("input","#repairForm_guest_mobile_forNameOption_poupu_filter");
+               $(document).on("input","#repairForm_guest_mobile_forNameOption_poupu_filter",function (data) {
+                  var c = $("#repairForm_guest_mobile_forNameOption_poupu_filter").val();
+                   $("#repairForm_guest_mobile_forNameOption_poupu_ul>li").css("display","block")
+                   if(c!="")
+                   $("#repairForm_guest_mobile_forNameOption_poupu_ul>li").filter(":not([data-filtertext*='"+c+"'])").css("display","none");
+               })
+
+       })
+
+       /*控制点击列表跳转 start*/
+      /* $(document).off("tap","#declarationForm_guest_mobile_forNameOption_poupu_main_ul a");
+       $(document).on("tap","#declarationForm_guest_mobile_forNameOption_poupu_main_ul a",function () {
+           console.log(new Date())
+       })*/
+       /*控制点击列表跳转 end*/
+   </script>
+</div>
+

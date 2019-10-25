@@ -1,0 +1,103 @@
+<div data-role="page" xmlns:th="http://www.thymeleaf.org">
+
+    <div data-role="header">
+        <h1>报修单查看</h1>
+    </div>
+    <div data-role="main" class="ui-content" id="repairForm_guest_mobile_index_show">
+        <!--输入验证弹窗 start-->
+        <div data-role="popup" id="repairForm_guest_mobile_show_form_popup">
+            <p>带*号的为必填项！！</p>
+        </div>
+        <!--输入验证弹窗 end-->
+        <form method="post" id="repairForm_guest_mobile_show_form" action="/guestroom/guest/repairForm" enctype="multipart/form-data" data-ajax="false" >
+            <input type="hidden" name="declarationForm.id" value="" th:value="${declarationForm.id}"/>
+            <label for="repairForm_guest_mobile_add_form_description">审核情况说明*：</label>
+            <input type="text" name="description" value="" id="repairForm_guest_mobile_add_form_description"/>
+            <fieldset data-role="controlgroup">
+                <legend>审核*：</legend>
+                <label for="repairForm_guest_mobile_add_form_status_1">审核通过</label>
+                <input type="radio" name="declarationFormStatus.id" id="repairForm_guest_mobile_add_form_status_1"  value="4" checked="checked">
+                <label for="repairForm_guest_mobile_add_form_status_2">审核不通过，返工</label>
+                <input type="radio" id="repairForm_guest_mobile_add_form_status_2" name="declarationFormStatus.id"  value="5">
+            </fieldset>
+            <input type="hidden" name="pathFlag" value="w_30"/>
+            <a href="#repairForm_guest_mobile_show_form_popup" data-rel="popup" id="repairForm_guest_mobile_show_form_popup_a"> </a>
+            <!--跳转审核维修单-->
+            <input type="submit" data-inline="true" value="添加审核记录" id="repairForm_guest_mobile_show_form_submit"/>
+            <input type="reset" data-inline="true" value="清空"/>
+            <script type="text/javascript">
+                $(document).off("tap","#repairForm_guest_mobile_show_form_submit");
+                $(document).on("tap","#repairForm_guest_mobile_show_form_submit",function () {
+                    var val1 = $("#repairForm_guest_mobile_add_form_description").val();
+                    if(val1==""){
+                        $("#repairForm_guest_mobile_show_form_popup_a").click();
+                        return false;
+                    }
+
+                    return true;
+                })
+            </script>
+        </form>
+        <p>--------报修单详情如下------------</p>
+        <form action="/guestroom/declarationForm/status" method="get" >
+            <label>房号：</label>
+            <input type="text" value="" readonly="readonly" th:value="${declarationForm.room.name}"/>
+            <label>报修类别：</label>
+            <input type="text" value="" readonly="readonly" th:value="${declarationForm.roomOption.name}"/>
+
+            <label>报修工程内容：</label>
+            <input type="text" value="" readonly="readonly" th:value="${declarationForm.forNameOption.name}"/>
+            <label>报修说明：</label>
+            <input type="text" value="" readonly="readonly" th:value="${declarationForm.description}"/>
+            <label>报修时间</label>
+            <input type="text" value="" readonly="readonly"
+                   th:value="${#dates.format(declarationForm.createDate,'yyyy-MM-dd HH:mm:ss')}"/>
+            <label>报修单状态</label>
+            <input type="text" value="" readonly="readonly"
+                   th:value="${declarationForm.declarationFormStatus.status}"/>
+            <!--<label >选择上传照片:</label>
+            <div class="upload-wrap" id="declarationForm_guest_mobile_add_form_declarationFormPhotos">
+                <input  type="file" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
+        </div>-->
+            <label>报修人</label>
+            <input type="text" value="" readonly="readonly"
+                   th:value="${declarationForm.user.realName}"/>
+            <!--<input type="hidden" name="path" value="2"/>-->
+            <!-- 2代表返回审核维修单路径 -->
+            <input type="submit" value="返回"/>
+        </form>
+        <p>-----------维修与审核记录详情如下---------------</p>
+        <form action="/guestroom/declarationForm/status" method="get">
+        <th:block th:each="repairForm:${repairForms}">
+            <p>--------------------<b th:if="${repairForm.type == 1}" th:text="${repairFormStat.index+1}+'.维修记录'"></b><b th:if="${repairForm.type == 2}" th:text="${repairFormStat.index+1}+'上一次维修审核结果'"></b>-----------------------</p>
+            <label th:if="${repairForm.type == 1}" for="repairForm_guest_mobile_add_status_date">维修时间：</label>
+            <label th:if="${repairForm.type == 2}" for="repairForm_guest_mobile_add_status_date">审核时间：</label>
+            <input type="text" value="" readonly="readonly" id="repairForm_guest_mobile_add_status_date"
+                   th:value="${#dates.format(repairForm.createDate,'yyyy-MM-dd HH:mm:ss')}"/>
+
+            <label th:if="${repairForm.type == 1}" for="repairForm_guest_mobile_add_status_description">维修时间：</label>
+            <label th:if="${repairForm.type == 2}" for="repairForm_guest_mobile_add_status_description">审核时间：</label>
+            <input type="text" value="" readonly="readonly" id="repairForm_guest_mobile_add_status_description"
+                   th:value="${repairForm.description}"/>
+
+            <label  for="repairForm_guest_mobile_add_status_check">上一次维修审核结果：</label>
+            <input type="text" value="" readonly="readonly" id="repairForm_guest_mobile_add_status_check"
+                   th:value="${repairForm.declarationFormStatus.status}"/>
+
+            <label th:if="${repairForm.type == 1}" for="repairForm_guest_mobile_add_status_check_man">维修人：</label>
+            <label th:if="${repairForm.type == 2}" for="repairForm_guest_mobile_add_status_check_man">审核人：</label>
+            <input type="text" value="" readonly="readonly" id="repairForm_guest_mobile_add_status_check_man" th:if="${repairForm.type == 2}"
+                   th:value="${repairForm.user2.realName}"/>
+            <input type="text" value="" readonly="readonly" id="repairForm_guest_mobile_add_status_check_man" th:if="${repairForm.type == 1}"
+                   th:value="${repairForm.user1.realName}"/>
+            <label>照片：</label>
+            <th:block th:each="photo:${repairForm.repairFormPhotos}">
+                <img width="100px" height="100px" th:attr="src=${photoUrl+photo.path}"/>
+            </th:block>
+
+        </th:block>
+            <input type="submit" value="返回"/>
+        </form>
+
+    </div>
+</div>

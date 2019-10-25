@@ -45,19 +45,25 @@
     <!--报修工程内容搜索弹框 end-->
 
     <div data-role="main" class="ui-content">
+        <!--输入验证弹窗 start-->
+        <div data-role="popup" id="declarationForm_guest_mobile_add_form_poupu">
+            <p>带*号的为必填项！！</p>
+        </div>
+        <!--输入验证弹窗 end-->
         <form method="post" id="declarationForm_guest_mobile_add_form" action="/guestroom/declarationForm" enctype="multipart/form-data" data-ajax="false" >
-            <label for="declarationForm_guest_mobile_add_form_name">房号：</label>
+            <input type="hidden" name="pathFlag" value="w_26"/>
+            <label for="declarationForm_guest_mobile_add_form_name">房号*：</label>
             <a href="#declarationForm_guest_mobile_room_poupu"
                id="declarationForm_guest_mobile_add_form_room_a" data-rel="popup">
                 <input type="text" name="room.name" value="" id="declarationForm_guest_mobile_add_form_name"/>
             </a>
-            <label for="declarationForm_guest_mobile_add_form_roomOption">报修类别：</label>
+            <label for="declarationForm_guest_mobile_add_form_roomOption">报修类别*：</label>
             <a href="#declarationForm_guest_mobile_roomOption_poupu"
                id="declarationForm_guest_mobile_add_form_roomOption_a" data-rel="popup">
                 <input type="text" name="roomOption.name" value="" id="declarationForm_guest_mobile_add_form_roomOption"/>
                 <input type="hidden" name="roomOption.id" value="" id="declarationForm_guest_mobile_add_form_roomOption_id"/>
             </a>
-            <label for="declarationForm_guest_mobile_add_form_forNameOption">报修工程内容：</label>
+            <label for="declarationForm_guest_mobile_add_form_forNameOption">报修工程内容*：</label>
             <a href="#declarationForm_guest_mobile_forNameOption_poupu"
                id="declarationForm_guest_mobile_add_form_forNameOption_a" data-rel="popup">
                 <input type="text" name="forNameOption.name" value="" id="declarationForm_guest_mobile_add_form_forNameOption"/>
@@ -66,20 +72,34 @@
             <label for="declarationForm_guest_mobile_add_form_description">报修说明：</label>
             <input type="text" name="description" value="" id="declarationForm_guest_mobile_add_form_description"/>
             <label for="declarationForm_guest_mobile_add_form_declarationFormPhotos">选择上传照片:</label>
-            <div class="upload-wrap" id="declarationForm_guest_mobile_add_form_declarationFormPhotos">
-            <input  type="file" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
+            <input  type="file" id="declarationForm_guest_mobile_add_form_declarationFormPhotos" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
 <!--
             <input  type="file" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
              <input  type="file" name="photo" accept="image/*;capture=camera"    style="left: 0px;" >
 -->
 
-            </div>
+
+            <a href="#declarationForm_guest_mobile_add_form_poupu" data-rel="popup" id="declarationForm_guest_mobile_add_form_poupu_a"> </a>
             <input type="submit" data-inline="true" value="添加" id="declarationForm_guest_mobile_add_form_submit"/>
             <input type="reset" data-inline="true" value="清空"/>
         </form>
     </div>
 
     <script type="text/javascript">
+        /*输入必填验证 start*/
+        $(document).off("tap","#declarationForm_guest_mobile_add_form_submit");
+        $(document).on("tap","#declarationForm_guest_mobile_add_form_submit",function () {
+            var v1 = $("#declarationForm_guest_mobile_add_form_name").val();
+            var v2 = $("#declarationForm_guest_mobile_add_form_roomOption").val();
+            var v3 = $("#declarationForm_guest_mobile_add_form_forNameOption").val();
+
+            if(v1 =="" || v2=="" || v3==""){
+                $("#declarationForm_guest_mobile_add_form_poupu_a").click();
+                return false;
+            }
+                return true;
+        });
+        /*输入必填验证 end*/
         /*$(document).off("tap","#declarationForm_guest_mobile_add_form_submit");
         $(document).on("tap","#declarationForm_guest_mobile_add_form_submit",function () {
             $("#declarationForm_guest_mobile_add_form").submit();
