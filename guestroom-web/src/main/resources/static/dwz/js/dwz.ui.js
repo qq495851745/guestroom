@@ -218,7 +218,7 @@ function initUI($p){
 			var $pageContent = $(this).parents(".pageContent");
 			var id=$pageContent.attr("id");
 			id=id+"_pagerForm";
-			var arr = $("#"+id).serializeArray();
+			var arr = $("[pfid='"+id+"']").eq(0).serializeArray();
 			var url=$(this).attr("href");
 			var formid=$(this).attr("formId");
 			var $form = $("#"+formid);

@@ -113,13 +113,14 @@
                 dataType: "json",
                 type: "post",
                 success: function (data) {
+                    console.log(new Date())
                     $("document").off("remove", "#declarationForm_project_mobile_forNameOption_poupu")
                     var html = "";
                     for (var i = 0; i < data.length; i++) {
                         html += "<li data-filtertext=\"" + data[i]['pinyin'] + data[i]['name'] + "\"><a href='#'>" + data[i]['name'] + "</a></li>"
                     }
 
-                    $("#rdeclarationForm_project_mobile_forNameOption_poupu_ul").append(html);
+                    $("#declarationForm_project_mobile_forNameOption_poupu_ul").append(html);
                     $("#declarationForm_project_mobile_forNameOption_poupu_ul").off("tap", "a");
                     $("#declarationForm_project_mobile_forNameOption_poupu_ul").on("tap", "a", function () {
                         $("#declarationForm_project_mobile_index_form_roomOptionName").val($(this).text())

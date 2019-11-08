@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.swing.*;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,13 +46,14 @@ public class UserBizTest {
     @Test
     @Transactional
     public void addUserTest(){
-        System.out.println(repairFormBiz.findRepairFormByDeclarationFormId(45));
+       declarationFormBiz.findDeclarationFormByPage(new PageVo(),new DeclarationForm());
     }
 
     @Test
     @Transactional
     public void getUserByIdTest(){
-
+           char c ='a';
+        System.out.println((int)c);
     }
 
     public UserBiz getUserBiz() {

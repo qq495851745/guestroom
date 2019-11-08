@@ -29,6 +29,42 @@
             <label>报修人</label>
             <input type="text" value="" readonly="readonly"
                    th:value="${declarationForm.user.realName}"/>
+            <label>照片：</label>
+            <th:block th:each="photo:${declarationForm.declarationFormPhotos}">
+                <img width="100px" height="100px" th:attr="src=${photoUrl+photo.path}"/>
+            </th:block>
+            <input type="submit" value="返回"/>
+        </form>
+        <p>-----------维修与审核记录详情如下---------------</p>
+        <form action="/guestroom/declarationForm/index" method="get">
+            <th:block th:each="repairForm:${repairForms}">
+                <p>--------------------<b th:if="${repairForm.type == 1}" th:text="${repairFormStat.index+1}+'.维修记录'"></b><b th:if="${repairForm.type == 2}" th:text="${repairFormStat.index+1}+'上一次维修审核结果'"></b>-----------------------</p>
+                <label th:if="${repairForm.type == 1}" for="declarationForm_repairForm_guest_mobile_add_status_date">维修时间：</label>
+                <label th:if="${repairForm.type == 2}" for="declarationForm_repairForm_guest_mobile_add_status_date">审核时间：</label>
+                <input type="text" value="" readonly="readonly" id="declarationForm_repairForm_guest_mobile_add_status_date"
+                       th:value="${#dates.format(repairForm.createDate,'yyyy-MM-dd HH:mm:ss')}"/>
+
+                <label th:if="${repairForm.type == 1}" for="declarationForm_repairForm_guest_mobile_add_status_description">维修情况说明：</label>
+                <label th:if="${repairForm.type == 2}" for="declarationForm_repairForm_guest_mobile_add_status_description">审核情况说明：</label>
+                <input type="text" value="" readonly="readonly" id="declarationForm_repairForm_guest_mobile_add_status_description"
+                       th:value="${repairForm.description}"/>
+
+                <label  for="declarationForm_repairForm_guest_mobile_add_status_check">上一次维修审核结果：</label>
+                <input type="text" value="" readonly="readonly" id="declarationForm_repairForm_guest_mobile_add_status_check"
+                       th:value="${repairForm.declarationFormStatus.status}"/>
+
+                <label th:if="${repairForm.type == 1}" for="declarationForm_repairForm_guest_mobile_add_status_check_man">维修人：</label>
+                <label th:if="${repairForm.type == 2}" for="declarationForm_repairForm_guest_mobile_add_status_check_man">审核人：</label>
+                <input type="text" value="" readonly="readonly" id="declarationForm_repairForm_guest_mobile_add_status_check_man" th:if="${repairForm.type == 2}"
+                       th:value="${repairForm.user2.realName}"/>
+                <input type="text" value="" readonly="readonly" id="declarationForm_repairForm_guest_mobile_add_status_check_man" th:if="${repairForm.type == 1}"
+                       th:value="${repairForm.user1.realName}"/>
+                <label>照片：</label>
+                <th:block th:each="photo:${repairForm.repairFormPhotos}">
+                    <img width="100px" height="100px" th:attr="src=${photoUrl+photo.path}"/>
+                </th:block>
+
+            </th:block>
             <input type="submit" value="返回"/>
         </form>
     </div>

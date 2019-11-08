@@ -1,5 +1,6 @@
 package com.bateng.guestroom.dao;
 
+import com.bateng.guestroom.dao.repository.RoomOptionRepository;
 import com.bateng.guestroom.entity.RoomOption;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RoomOptionDao extends JpaRepository<RoomOption,Integer>, JpaSpecificationExecutor<RoomOption> {
+public interface RoomOptionDao extends JpaRepository<RoomOption,Integer>, JpaSpecificationExecutor<RoomOption> , RoomOptionRepository {
     /**
      * 根据删除标记查询所有客房选项
      * @param flag

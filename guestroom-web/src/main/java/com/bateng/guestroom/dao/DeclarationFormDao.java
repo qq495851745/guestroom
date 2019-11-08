@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface DeclarationFormDao extends JpaRepository<DeclarationForm,Integer>, DeclarationFormRepository {
-
 
     @Modifying
     @Query("update  DeclarationForm  df set df.finishDate=:finishDate where df.id = :declarationFormId")

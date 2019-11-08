@@ -34,6 +34,8 @@ public class DeclarationFormController  extends BaseController {
     private RoomBiz roomBiz;
     @Autowired
     private RoomOptionBiz roomOptionBiz;
+    @Autowired
+    private RepairFormBiz repairFormBiz;
 
     @RequestMapping(value = "/declarationForm/index/all",method = {RequestMethod.GET,RequestMethod.POST})
     public String indexAll(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
@@ -165,7 +167,7 @@ public class DeclarationFormController  extends BaseController {
 
         jsonObject.put("statusCode",StatusCodeDWZ.OK);
         jsonObject.put("message","删除成功!");
-        jsonObject.put("navTabId","w_14");
+        jsonObject.put("navTabId","w_29");
         return  jsonObject.toJSONString();
     }
 
@@ -174,6 +176,7 @@ public class DeclarationFormController  extends BaseController {
     public String toEdit(@PathVariable("id") int id,DeclarationForm declarationForm,Model model){
         declarationForm=declarationFormBiz.getDeclarationFormById(id);
         model.addAttribute("declarationForm",declarationForm);
+        model.addAttribute("repairForms", repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
         addurl(model);
         return  "declarationForm/guest/declarationForm_edit";
     }
@@ -327,6 +330,14 @@ public class DeclarationFormController  extends BaseController {
 
     public void setRoomOptionBiz(RoomOptionBiz roomOptionBiz) {
         this.roomOptionBiz = roomOptionBiz;
+    }
+
+    public RepairFormBiz getRepairFormBiz() {
+        return repairFormBiz;
+    }
+
+    public void setRepairFormBiz(RepairFormBiz repairFormBiz) {
+        this.repairFormBiz = repairFormBiz;
     }
 
     @InitBinder

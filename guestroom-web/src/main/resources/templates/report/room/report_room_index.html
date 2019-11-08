@@ -1,5 +1,5 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="report_room_index_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/report/room/index" method="post">
+    <form id="pagerForm" pfid="report_room_index_pageContent_pagerForm"  onsubmit="return navTabSearch(this);" action="/guestroom/report/room/index" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">
@@ -47,7 +47,7 @@
         <tr >
             <th width="80">序号</th>
             <th width="120">房号</th>
-            <th width="120">报修位置</th>
+            <th width="120">报修类别</th>
             <th width="120">报修内容</th>
             <th width="120">报修描述</th>
             <th width="120">报修人(真实姓名)</th>
@@ -87,6 +87,8 @@
             <span th:text="${'条，共'+pageVo.totalCount+'条'}">条，共50条</span>
         </div>
 
+        <!--<div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
+             class="pagination" targettype="navTab" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>-->
         <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
              class="pagination" targettype="navTab" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
 
@@ -102,6 +104,7 @@
         if (!len)
             setTimeout(arguments.callee, 100);
         else {
+
             // displayText({"relId":"report_room_index_pageContent","edit":"详细报表"});
             /*var $sel = $("#report_room_index_pageContent").find(".gridTbody").find("tr");
             $sel.on("click", function () {

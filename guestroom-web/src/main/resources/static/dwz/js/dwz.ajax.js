@@ -305,6 +305,7 @@ function dwzPageBreak(options) {
         }
     } else {
         var form = _getPagerForm($parent, op.data);
+        console.log(form)
         var params = $(form).serializeArray();
 
         if (op.targetType == "dialog") {

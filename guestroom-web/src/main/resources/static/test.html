@@ -3,8 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style type="text/css">
+        ul,ul li{
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+        }
+        a{
+            display: block;
+            width: 100px;
+            height: 50px;
+            background-color: green;
+            /*background-image: linear-gradient(to left,#2aabd2,#0000ff,#2b542c);*/
+            text-align: center;
+            line-height: 50px;
+            color: black;
+            font-size: 22px;
+            font-weight: bolder;
+        }
+
+        ul{
+            height: 50px;
+            width: 714px;
+            margin: 0 auto;
+        }
+        li{
+            float: left;
+            border-left: 2px solid red;
+        }
+
+        li a{
+            text-decoration: none;
+        }
+        a:hover{
+            /*background-color: #0f3255;*/
+            background-image: linear-gradient(to left,green,red);
+        }
+
+    </style>
 </head>
 <body>
-<input type="file" accept="image/*;capture=camera"/>
+ <ul>
+    <li><a href="#">首页</a></li>
+     <li><a href="#">推荐</a></li>
+     <li><a href="#">娱乐</a></li>
+     <li><a href="#">汽车</a></li>
+     <li><a href="#">新闻</a></li>
+     <li><a href="#">科技</a></li>
+     <li><a href="#">时尚</a></li>
+
+ </ul>
 </body>
 </html>

@@ -34,6 +34,8 @@ public class DeclarationFormController  extends BaseController {
     private RoomBiz roomBiz;
     @Autowired
     private RoomOptionBiz roomOptionBiz;
+    @Autowired
+    private RepairFormBiz repairFormBiz;
 
     @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET,RequestMethod.POST})
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
@@ -164,6 +166,7 @@ public class DeclarationFormController  extends BaseController {
     public String toEdit(@PathVariable("id") int id,DeclarationForm declarationForm,Model model){
         declarationForm=declarationFormBiz.getDeclarationFormById(id);
         model.addAttribute("declarationForm",declarationForm);
+        model.addAttribute("repairForms", repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
         addurl(model);
 //        return  "declarationForm/guest/declarationForm_edit";
         return "declarationForm/guest/mobile/declarationForm_guest_mobile_show";
@@ -248,11 +251,12 @@ public class DeclarationFormController  extends BaseController {
         model.addAttribute("pageVo",pageVo);
         model.addAttribute("declarationForm",declarationForm);
         User user= (User) session.getAttribute("user");
-        try {
+        /*try {
             model.addAttribute("flag",userLevelBiz.findAllUserLevelAjaxByPid(user.getUserLevel().getId()).equals("[]"));
         } catch (Exception e) {
            model.addAttribute("flag",true);
-        }
+        }*/
+        model.addAttribute("flag",false);
 //        return "declarationForm/project/declarationForm_project_index";
         return "declarationForm/project/mobile/declarationForm_project_index";
     }
@@ -322,6 +326,14 @@ public class DeclarationFormController  extends BaseController {
 
     public void setRoomOptionBiz(RoomOptionBiz roomOptionBiz) {
         this.roomOptionBiz = roomOptionBiz;
+    }
+
+    public RepairFormBiz getRepairFormBiz() {
+        return repairFormBiz;
+    }
+
+    public void setRepairFormBiz(RepairFormBiz repairFormBiz) {
+        this.repairFormBiz = repairFormBiz;
     }
 
     @InitBinder

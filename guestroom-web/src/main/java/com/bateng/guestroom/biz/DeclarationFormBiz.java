@@ -2,12 +2,20 @@ package com.bateng.guestroom.biz;
 
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.PageVo;
+import com.bateng.guestroom.entity.vo.RoomOptionVo;
 import org.dom4j.dtd.Decl;
 
 import java.util.Date;
 import java.util.List;
 
 public interface DeclarationFormBiz {
+
+
+    /**
+     * 生成类别的报修次数
+     * @return
+     */
+    public PageVo findByRoomOptionCountByPage(PageVo<DeclarationForm> pageVo, RoomOptionVo roomOptionVo);
 
 
     /**

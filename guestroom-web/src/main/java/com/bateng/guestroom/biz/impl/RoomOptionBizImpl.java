@@ -7,6 +7,7 @@ import com.bateng.guestroom.config.constant.AttachJsonTreeDWZ;
 import com.bateng.guestroom.dao.RoomOptionDao;
 import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.RoomOption;
+import com.bateng.guestroom.entity.vo.RoomOptionVo;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -16,8 +17,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("roomOptionBiz")
@@ -25,6 +28,27 @@ public class RoomOptionBizImpl implements RoomOptionBiz {
 
     @Autowired
     private RoomOptionDao roomOptionDao;
+
+    @Override
+    public List<RoomOptionVo> findAllRoomOptionVo(RoomOptionVo roomOptionVo) {
+        List list = roomOptionDao.findRoomOptionVo(roomOptionVo);
+        List<RoomOptionVo> roomOptionVos = new ArrayList<RoomOptionVo>();
+        for(Object obj:list){
+            Object[] objs= (Object[]) obj;
+            RoomOptionVo vo =new RoomOptionVo();
+            vo.setId((Integer) objs[0]);
+            vo.setCreateDate((Date) objs[1]);
+            vo.setFlag((Integer) objs[2]);
+            vo.setName((String) objs[3]);
+            vo.setUpdateDate((Date) objs[4]);
+            vo.setDesprition((String) objs[6]);
+            vo.setCount(new Integer(((BigInteger) objs[8]).toString()));
+            vo.setTime01((Date) objs[9]);
+            vo.setTime02((Date) objs[10]);
+            roomOptionVos.add(vo);
+        }
+        return roomOptionVos;
+    }
 
     @Override
     public String findRoomOptionAjax() {

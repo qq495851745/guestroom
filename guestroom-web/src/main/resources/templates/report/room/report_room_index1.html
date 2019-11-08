@@ -1,5 +1,5 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="report_room_index1_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/report/room/index1" method="post">
+    <form id="pagerForm" pfid="report_room_index1_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="/guestroom/report/room/index1" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">
@@ -47,7 +47,7 @@
         <tr >
             <th width="80">序号</th>
             <th width="120">房号</th>
-            <th width="120">报修位置</th>
+            <th width="120">报修类别</th>
             <th width="120">报修内容</th>
             <th width="120">报修描述</th>
             <th width="120">报修人(真实姓名)</th>
@@ -117,7 +117,7 @@
             })*/
             $("#bt_room_report_room_sel_1").css({display: "block"});
             $("#bt_room_report_room_sel_1").prev().css({display: "none"});
-            $("#bt_room_report_room_sel_1").val($("#bt_room_report_room_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
+            $("#bt_room_report_room_sel_1").val($("#bt_room_report_room_sel_1").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
 
         }
     }, 1);

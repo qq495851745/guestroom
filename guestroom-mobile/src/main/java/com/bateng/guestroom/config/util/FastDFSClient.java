@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class FastDFSClient {
 
 	//private static  String CONF_FILENAME = Thread.currentThread().getContextClassLoader().getResource("").getPath() + "fdfs/fdfs_client.conf";
-	private static  String CONF_FILENAME = "/fdfs/fdfs_client.conf";
+	private static  String CONF_FILENAME = "fdfs/fdfs_client.conf";
 	private static StorageClient1 storageClient1 = null;
 
 	private static Logger logger = LoggerFactory.getLogger(FastDFSClient.class);

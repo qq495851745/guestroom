@@ -31,7 +31,7 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(User user, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-//        session.setMaxInactiveInterval(60*10);
+        session.setMaxInactiveInterval(60*10);
         addurl(model);
         user = userBiz.checkUser(user);
         //管理员不能从手机登录
@@ -53,9 +53,12 @@ public class LoginController extends BaseController {
     public String toIndex(Model model, HttpSession session) {
         addurl(model);
         User user = (User) session.getAttribute("user");
-        if (session.getAttribute("pathFlag") == null)
+        if (session.getAttribute("pathFlag") == null){
             if (user.getRole().getId() == 2 || user.getRole().getId() == 1)
                 session.setAttribute("pathFlag", "w_26");
+            if(user.getRole().getId()==3)
+                session.setAttribute("pathFlag", "w_28");
+        }
         return "index";
     }
 

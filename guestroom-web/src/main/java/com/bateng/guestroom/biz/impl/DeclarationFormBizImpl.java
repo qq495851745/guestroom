@@ -7,10 +7,14 @@ import com.bateng.guestroom.dao.DeclarationFormPhotoDao;
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.DeclarationFormPhoto;
 import com.bateng.guestroom.entity.PageVo;
+import com.bateng.guestroom.entity.RoomOption;
+import com.bateng.guestroom.entity.vo.RoomOptionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +25,27 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     private DeclarationFormDao declarationFormDao;
     @Autowired
     private DeclarationFormPhotoDao declarationFormPhotoDao;
+
+    @Override
+    public PageVo findByRoomOptionCountByPage(PageVo<DeclarationForm> pageVo,RoomOptionVo roomOptionVo) {
+        PageVo pv = declarationFormDao.findByRoomOptionCountByPage(pageVo,roomOptionVo);
+        List<RoomOptionVo> roomOptionVos = new ArrayList<RoomOptionVo>();
+        for(Object obj:pv.getContents()){
+            Object[] objs= (Object[]) obj;
+            RoomOptionVo vo =new RoomOptionVo();
+            vo.setId((Integer) objs[0]);
+            vo.setCreateDate((Date) objs[1]);
+            vo.setFlag((Integer) objs[2]);
+            vo.setName((String) objs[3]);
+            vo.setUpdateDate((Date) objs[4]);
+            vo.setDesprition((String) objs[6]);
+            vo.setCount(new Integer(((BigInteger) objs[8]).toString()));
+            roomOptionVos.add(vo);
+        }
+        pv.setContents(roomOptionVos);
+
+        return pv;
+    }
 
     @Override
     @Transactional
@@ -77,7 +102,6 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
         declarationFormDao.deleteById(id);*/
         //假删除
         declarationFormDao.updateByFlag(0,id);
-
     }
 
     @Override

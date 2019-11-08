@@ -1,33 +1,41 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="pagerForm" pfid="report_room_index3_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/report/room/findByRoomOrTimeOrContent" method="post">
+    <form id="pagerForm" pfid="report_room_count_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/report/room/findByRoomOptionCount" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">
             <table class="searchContent">
-                <tr>
+                <!--<tr>
                     <td>
                         房号：<input type="text" name="room.name" value="" th:if="${declarationForm.room != null}" th:value="${declarationForm.room.name}"  /><input type="text" name="room.name" value="" th:if="${declarationForm.room == null}"   />
                     </td>
                     <td>
                         报修工程内容:
-                        <!--<input name="forNameOption.id" value="" th:if="${declarationForm.forNameOption!=null}" th:value="${declarationForm.forNameOption.id}" type="hidden" />
-                        <input name="forNameOption.id" value="" th:if="${declarationForm.forNameOption == null}" th:value="" type="hidden" />-->
+                        &lt;!&ndash;<input name="forNameOption.id" value="" th:if="${declarationForm.forNameOption!=null}" th:value="${declarationForm.forNameOption.id}" type="hidden" />
+                        <input name="forNameOption.id" value="" th:if="${declarationForm.forNameOption == null}" th:value="" type="hidden" />&ndash;&gt;
                         <input name="forNameOption.name" type="text" th:if="${declarationForm.forNameOption!=null}" th:value="${declarationForm.forNameOption.name}"  value="" class="required" maxlength="50" lookupGroup="forNameOption"/>
                         <input name="forNameOption.name" type="text" th:if="${declarationForm.forNameOption==null}" value=""  maxlength="50" lookupGroup="forNameOption"/>
                         <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="forNameOption" >选择工程报修内容</a>
                     </td>
-                </tr>
+                </tr>-->
                 <tr>
                     <td>
                         报修时间范围从：
-                        <input type="text" name="time01" th:value="${declarationForm.time01}" class="date" readonly="true"/>
+                        <input type="text" name="time01" th:value="${#dates.format(roomOptionVo.time01,'yyyy-MM-dd')}" class="date" readonly="true"/>
                         <!--<a class="inputDateButton" href="javascript:;">选择</a>-->
                         -到：
-                        <input type="text" name="time02" th:value="${declarationForm.time02}" class="date" readonly="true"/>
+                        <input type="text" name="time02" th:value="${#dates.format(roomOptionVo.time02,'yyyy-MM-dd')}" class="date" readonly="true"/>
                         <!--<a class="inputDateButton" href="javascript:;">选择</a>-->
 
                     </td>
 
+                    <td>
+                        报修工程内容:
+                        <input name="roomOptionVo.id" value="" th:if="${roomOptionVo.roomOptionVo!=null}" th:value="${roomOptionVo.roomOptionVo.id}" type="hidden" />
+                        <input name="roomOptionVo.id" value="" th:if="${roomOptionVo.roomOptionVo == null}"  type="hidden" />
+                        <input name="roomOptionVo.name" type="text" th:if="${roomOptionVo.roomOptionVo!=null}" th:value="${roomOptionVo.roomOptionVo.name}" readonly="readonly"  value=""  maxlength="50" lookupGroup="roomOptionVo"/>
+                        <input name="roomOptionVo.name" type="text" th:if="${roomOptionVo.roomOptionVo==null}" value=""  readonly="readonly" maxlength="50" lookupGroup="roomOptionVo"/>
+                        <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="roomOptionVo" >选择类别</a>
+                    </td>
 
                     <td>
                         <div class="buttonActive">
@@ -42,20 +50,19 @@
         </div>
     </form>
 </div>
-<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid" id="report_room_index3_pageContent">
+<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid" id="report_room_count_pageContent" xmlns:th="http://www.thymeleaf.org">
     <div class="panelBar">
-        <form action="guestroom/report/room/download" method="post" id="download3_report" target="_blank">
-            <input type="hidden" name="room.name" value="" />
-            <input name="forNameOption.name" type="hidden"  value=""  />
-            <input type="hidden" name="time01"  value=""/>
-            <input type="hidden" name="time02"  value=""/>
+        <form action="guestroom/report/room/download/count" method="post" id="download_count_report" target="_blank">
+            <input name="time01" type="hidden" value=""/>
+            <input  name="time02" type="hidden" value=""/>
+            <input name="roomOptionVo.id" type="hidden" value="">
         </form>
         <ul class="toolBar">
             <!--<li><a class="add"   href="guestroom/declarationForm/toAdd"  target="navTab" mask="true"><span>添加报修单</span></a>
             </li>
             <li><a class="delete" href="guestroom/declarationForm/{sid_obj}" target="ajaxTodo"
                    title="确定要删除吗?" _method="delete"><span>删除</span></a></li>-->
-            <li><a class="add deal"   href="#" formId="download3_report" target="report"  mask="true"><span>报表下载</span></a>
+            <li><a class="add deal"   href="#" formId="download_count_report" target="report"  mask="true"><span>报表下载</span></a>
             </li>
 
             <li class="line">line</li>
@@ -64,43 +71,35 @@
         </ul>
 
     </div>
-    <table class="table" width="99%" layoutH="120" id="bt_room_report_room3_table" >
+    <table class="table" width="99%" layoutH="100" id="bt_room_report_room_count_table" >
         <thead>
         <tr >
             <th width="80">序号</th>
-            <th width="120">房号</th>
             <th width="120">报修类别</th>
-            <th width="120">报修内容</th>
-            <th width="120">报修描述</th>
-            <th width="120">报修人(真实姓名)</th>
-            <th width="120">创建时间</th>
+            <th width="120">报修次数</th>
+
             <!--<th width="120">最晚完成时间</th>-->
-            <th width="120">状态</th>
+
+
         </tr>
         </thead>
         <tbody >
-        <tr th:each="declarationForm:${pageVo.contents}" th:attr="rel=${declarationForm.id}">
-            <td th:text="${declarationFormStat.index+1}"></td>
-            <td th:text="${declarationForm.room.name}"></td>
-            <td th:text="${declarationForm.roomOption.name}"></td>
-            <td th:text="${declarationForm.forNameOption.name}"></td>
-            <td th:text="${declarationForm.description}"></td>
-            <td th:text="${declarationForm.user.username+'('+declarationForm.user.realName+')'}"></td>
-            <td th:text="${#dates.format(declarationForm.createDate,'yyyy-MM-dd HH:mm:ss')}"></td>
-            <!--<td th:text="${#dates.format(declarationForm.finishDate,'yyyy-MM-dd HH:mm:ss')}"></td>-->
-            <td th:text="${declarationForm.declarationFormStatus.status}"></td>
+        <tr th:each="roomOptionVo:${pageVo.contents}" th:attr="rel=${roomOptionVo.id}">
+            <td th:text="${roomOptionVoStat.index+1}"></td>
+            <td th:text="${roomOptionVo.name}"></td>
+            <td th:text="${roomOptionVo.count}"></td>
         </tr>
 
 
         </tbody>
         <script type="text/javascript">
-            $("#bt_room_report_room3_table").find("th,td").css({"text-align": "center"});
+            $("#bt_room_report_room_count_table").find("th,td").css({"text-align": "center"});
         </script>
     </table>
     <div class="panelBar">
         <div class="pages">
             <span>显示</span>
-            <select id="bt_room_report_room3_sel" class="combox" name="numPerPage"
+            <select id="bt_room_report_room_count_sel" class="combox" name="numPerPage"
                     onchange="navTabPageBreak({numPerPage:this.value,pageNum:1})">
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -120,7 +119,7 @@
     $(window).trigger("resize");
     //消除分页错误
     setTimeout(function () {
-        var len = $("#bt_room_report_room3_sel").parent().find("a").size();
+        var len = $("#bt_room_report_room_count_sel").parent().find("a").size();
         if (!len)
             setTimeout(arguments.callee, 100);
         else {
@@ -137,9 +136,9 @@
                     $(this).find("span").html("房间" + "<b style='color: red'>" + t + "</b>报表");
                 })
             })*/
-            $("#bt_room_report_room3_sel").css({display: "block"});
-            $("#bt_room_report_room3_sel").prev().css({display: "none"});
-            $("#bt_room_report_room3_sel").val($("#bt_room_report_room3_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
+            $("#bt_room_report_room_count_sel").css({display: "block"});
+            $("#bt_room_report_room_count_sel").prev().css({display: "none"});
+            $("#bt_room_report_room_count_sel").val($("#bt_room_report_room_count_sel").parents(".unitBox:first").find("input[name=\"numPerPage\"]").val());
 
         }
     }, 1);

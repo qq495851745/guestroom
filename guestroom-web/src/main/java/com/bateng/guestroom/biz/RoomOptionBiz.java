@@ -2,11 +2,18 @@ package com.bateng.guestroom.biz;
 
 import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.RoomOption;
+import com.bateng.guestroom.entity.vo.RoomOptionVo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface RoomOptionBiz {
+
+    /**
+     * 用于生成报表，查询所有数据
+     * @return
+     */
+    public List<RoomOptionVo> findAllRoomOptionVo(RoomOptionVo roomOptionVo);
 
     /**
      * 查询所有有效的客房属性

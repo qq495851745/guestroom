@@ -1,5 +1,5 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="report_room_index4_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/report/room/findByCount" method="post">
+    <form id="pagerForm" pfid="report_room_index4_pageContent_pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/report/room/findByCount" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">
@@ -75,13 +75,15 @@
         </ul>
 
     </div>
-    <table class="table" width="99%" layoutH="100" id="bt_room_report_room4_table" >
+    <table class="table" width="99%" layoutH="120" id="bt_room_report_room4_table" >
         <thead>
         <tr >
             <th width="80">序号</th>
             <th width="120">房号</th>
+            <th width="120">报修类别</th>
             <th width="120">报修内容</th>
             <th width="120">报修次数</th>
+            <th width="120">报修描述</th>
             <th width="120">起始时间</th>
             <th width="120">最后时间</th>
 
@@ -94,8 +96,10 @@
         <tr th:each="declarationForm:${pageVo.contents}" th:attr="rel=${declarationForm.id}">
             <td th:text="${declarationFormStat.index+1}"></td>
             <td th:text="${declarationForm.room.name}"></td>
+            <td th:text="${declarationForm.roomOption.name}"></td>
             <td th:text="${declarationForm.forNameOption.name}"></td>
             <td th:text="${declarationForm.count}"></td>
+            <td th:text="${declarationForm.description}"></td>
             <td th:text="${declarationForm.time01}"></td>
             <td th:text="${declarationForm.time02}"></td>
         </tr>

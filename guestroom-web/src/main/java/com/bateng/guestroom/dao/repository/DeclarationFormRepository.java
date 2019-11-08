@@ -2,10 +2,19 @@ package com.bateng.guestroom.dao.repository;
 
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.PageVo;
+import com.bateng.guestroom.entity.vo.RoomOptionVo;
 
 import java.util.List;
 
 public interface DeclarationFormRepository {
+
+    /**
+     * 分页显示根据报修类别，显示报修次数。
+     * @param declarationForm
+     * @return
+     */
+    public PageVo findByRoomOptionCountByPage(PageVo<DeclarationForm> pageVo, RoomOptionVo roomOptionVo);
+
     /**
      * 做分页
      * @param pageVo

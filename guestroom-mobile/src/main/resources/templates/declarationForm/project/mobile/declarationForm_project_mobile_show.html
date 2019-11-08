@@ -14,12 +14,16 @@
             <label for="declarationForm_project_mobile_add_form_description">维修情况说明*：</label>
             <input type="text" name="description" value="" id="declarationForm_project_mobile_add_form_description"/>
 
-            <!-- 跳转新建，或是待本人维修-->
+            <label for="declarationForm_project_mobile_add_form_declarationFormPhotos">选择上传照片:</label>
+            <input  type="file" id="declarationForm_project_mobile_add_form_declarationFormPhotos" name="photo" accept="image/*;" capture="camera"    style="left: 0px;" >
+
+                        <!-- 跳转新建，或是待本人维修-->
             <input type="hidden" name="pathFlag" value="w_28" th:if="${flag==0}"/>
 
             <input type="hidden" name="pathFlag" value="w_31" th:if="${flag==1}"/>
             <a href="#declarationForm_project_mobile_show_form_popup" data-rel="popup" id="declarationForm_project_mobile_show_form_popup_a"> </a>
             <!--跳转审核维修单-->
+
             <input type="submit" data-inline="true" value="添加审核记录" id="declarationForm_project_mobile_show_form_submit"/>
             <input type="reset" data-inline="true" value="清空"/>
             <script type="text/javascript">
@@ -59,6 +63,10 @@
             <label>报修人</label>
             <input type="text" value="" readonly="readonly"
                    th:value="${declarationForm.user.realName}"/>
+            <label>图片</label>
+            <th:block th:each="photo:${declarationForm.declarationFormPhotos}">
+                <img width="100px" height="100px" th:attr="src=${photoUrl+photo.path}"/>
+            </th:block>
             <!--<input type="hidden" name="path" value="2"/>-->
             <!-- 2代表返回审核维修单路径 -->
             <input type="submit" value="返回"/>

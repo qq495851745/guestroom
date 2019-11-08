@@ -19,7 +19,7 @@ spring:
       max-file-size: 1024MB
       max-request-size: 1024MB
 server:
-  port: 8080
+  port: 80
   tomcat:
     accept-count: 200
     max-threads: 200
