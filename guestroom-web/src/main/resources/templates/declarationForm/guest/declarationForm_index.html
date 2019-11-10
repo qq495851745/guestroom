@@ -1,5 +1,5 @@
 <div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
-    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/declarationForm/index" method="post">
+    <form id="pagerForm" onsubmit="return navTabSearch(this);" action="guestroom/declarationForm/index/all" method="post">
         <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
         <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
         <div class="searchBar">

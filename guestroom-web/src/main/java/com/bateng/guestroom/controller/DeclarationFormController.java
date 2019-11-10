@@ -184,14 +184,15 @@ public class DeclarationFormController  extends BaseController {
     //做修改
     @RequestMapping(value = "/declarationForm",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String doEdit(DeclarationForm declarationForm,@RequestParam("photo") MultipartFile[] files) throws  Exception{
+    public String doEdit(DeclarationForm declarationForm,@RequestParam("photo") MultipartFile[] files,HttpSession session) throws  Exception{
+        User user = (User) session.getAttribute("user");
         JSONObject jsonObject=new JSONObject();
         DeclarationForm df=declarationFormBiz.getDeclarationFormById(declarationForm.getId());
-        if(df.getDeclarationFormStatus().getId() != 1){
+        if(df.getDeclarationFormStatus().getId() != 1 && user.getRole().getId()!=1){
             jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
             //jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
             //jsonObject.put("navTabId", "w_14");
-            jsonObject.put("message", "工程处理中！报修单不能修改");
+            jsonObject.put("message", "工程处理中！报修单不能修改,请联系管理员修改");
             return jsonObject.toJSONString();
         }
         //保存图片

@@ -5,92 +5,20 @@
     <title>客房管理平台</title>
     <base th:href="${url}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <!--<link rel="stylesheet" href="jquery.mobile-1.4.5/jqueryMobile.css">-->
     <link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css"/>
+
     <link rel="stylesheet" href="jquery.mobile-1.4.5/meanmenu/meanmenu.css" media="all"/>
+
+    <link href="jquery.mobile-1.4.5/mobiscroll.css" rel="stylesheet" type="text/css" />
+
+
     <script src="dwz/js/jquery-1.11.3.js" type="text/javascript"></script>
     <script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
     <script src="jquery.mobile-1.4.5/meanmenu/meanmenu.js" type="text/javascript"></script>
-    <!--<script type="text/javascript" src="dwz/chart/echarts.min.js"></script>-->
-    <!-- <script src="dwz/bin/dwz.min.js" type="text/javascript"></script>-->
-    <!--&lt;!&ndash;[if lt IE 9]>
-    <script src="dwz/js/speedup.js" type="text/javascript"></script>
-    <script src="dwz/js/jquery-1.11.3.min.js" type="text/javascript"></script><![endif]&ndash;&gt;
-    &lt;!&ndash;[if gte IE 9]>&lt;!&ndash;dash;&gt;
-    <script src="dwz/js/jquery-2.1.4.min.js" type="text/javascript"></script>&lt;!&ndash;<![endif]&ndash;&gt;
+    <script src="jquery.mobile-1.4.5/mobiscroll.js" type="text/javascript"></script>
 
-    <script src="dwz/js/jquery.cookie.js" type="text/javascript"></script>
-    <script src="dwz/js/jquery.validate.js" type="text/javascript"></script>
-    &lt;!&ndash;<script src="js/jquery.bgiframe.js" type="text/javascript"></script>&ndash;&gt;
-    <script src="dwz/xheditor/xheditor-1.2.2.min.js" type="text/javascript"></script>
-    <script src="dwz/xheditor/xheditor_lang/zh-cn.js" type="text/javascript"></script>
-    <script src="dwz/uploadify/scripts/jquery.uploadify.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="dwz/chart/echarts.min.js"></script>
-    &lt;!&ndash; <script src="dwz/bin/dwz.min.js" type="text/javascript"></script>&ndash;&gt;
-    <script src="dwz/js/dwz.core.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.util.date.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.validate.method.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.barDrag.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.drag.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.tree.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.accordion.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.ui.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.theme.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.switchEnv.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.alertMsg.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.contextmenu.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.navTab.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.tab.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.resize.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.dialog.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.dialogDrag.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.sortDrag.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.cssTable.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.stable.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.taskBar.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.ajax.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.pagination.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.database.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.datepicker.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.effects.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.panel.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.checkbox.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.history.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.combox.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.file.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.print.js" type="text/javascript"></script>
-
-    <script src="dwz/js/dwz.regional.zh.js" type="text/javascript"></script>-->
-    <!--<script src="dwz/js/dwz.core.js" type="text/javascript"></script>
-    <script src="dwz/js/dwz.file.js" type="text/javascript"></script>-->
-    <style type="text/css">
-        .upload-wrap {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            line-height: 80px;
-            overflow: hidden;
-            margin-right: 5px;
-            border: 1px dashed #cacbcc;
-            display: inline-block;
-            text-align: center;
-            background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDUwIDUwIj4KICAgIDxwYXRoIGZpbGw9IiM5OTkiIGQ9Ik0gMTcgNSBDIDE2LjE4MTI0NiA1IDE1LjYwMjYzNiA1LjQ5ODg1MDggMTUuMTg3NSA1Ljk2ODc1IEMgMTQuNzcyMzY0IDYuNDM4NjQ5MiAxNC40MzkxODQgNi45Njc1NTg4IDE0LjEyNSA3LjQ2ODc1IEMgMTMuODEwODE2IDcuOTY5OTQxMiAxMy41MjU2MzIgOC40MzcxMzYgMTMuMjgxMjUgOC43MTg3NSBDIDEzLjA5Nzk2NCA4LjkyOTk2MDUgMTIuOTc4NCA4Ljk4NjkwMTcgMTIuOTY4NzUgOSBMIDMgOSBDIDEuMzU0OTM3MiA5IDAgMTAuMzU0OTM3IDAgMTIgTCAwIDM5IEMgMCA0MC42NDUwNjMgMS4zNTQ5MzcyIDQyIDMgNDIgTCA0NyA0MiBDIDQ4LjY0NTA2MyA0MiA1MCA0MC42NDUwNjMgNTAgMzkgTCA1MCAxMiBDIDUwIDEwLjM1NDkzNyA0OC42NDUwNjMgOSA0NyA5IEwgMzcuMDMxMjUgOSBDIDM3LjAzNDQ2NyA5LjAwNDM2NjEgMzcuMDIxNjQyIDkgMzcgOSBDIDM2Ljk2NzgwOCA4Ljk3NzY4NDEgMzYuODc3NTk3IDguOTAxNzk5MSAzNi43MTg3NSA4LjcxODc1IEMgMzYuNDc0MzY4IDguNDM3MTM2IDM2LjE4OTE4NCA3Ljk2OTk0MTIgMzUuODc1IDcuNDY4NzUgQyAzNS41NjA4MTYgNi45Njc1NTg4IDM1LjIyNzYzNiA2LjQzODY0OTIgMzQuODEyNSA1Ljk2ODc1IEMgMzQuMzk3MzY0IDUuNDk4ODUwOCAzMy44MTg3NTQgNSAzMyA1IEwgMTcgNSB6IE0gMTcgNyBMIDMzIDcgQyAzMi45MzkyNSA3IDMzLjA2NTA0IDcuMDAxMTUgMzMuMzEyNSA3LjI4MTI1IEMgMzMuNTU5OTU3IDcuNTYxMzUwOCAzMy44NDM1NTkgOC4wMzI0NDEyIDM0LjE1NjI1IDguNTMxMjUgQyAzNC40Njg5NDEgOS4wMzAwNTg4IDM0LjgxMjI4OSA5LjU2Mjg2NCAzNS4yMTg3NSAxMC4wMzEyNSBDIDM1LjYyNTIxMSAxMC40OTk2MzYgMzYuMTc4OTI3IDExIDM3IDExIEwgNDcgMTEgQyA0Ny41NjI5MzcgMTEgNDggMTEuNDM3MDYzIDQ4IDEyIEwgNDggMzkgQyA0OCAzOS41NjI5MzcgNDcuNTYyOTM3IDQwIDQ3IDQwIEwgMyA0MCBDIDIuNDM3MDYyOCA0MCAyIDM5LjU2MjkzNyAyIDM5IEwgMiAxMiBDIDIgMTEuNDM3MDYzIDIuNDM3MDYyOCAxMSAzIDExIEwgMTMgMTEgQyAxMy44MjEwNzMgMTEgMTQuMzc0Nzg5IDEwLjQ5OTYzNiAxNC43ODEyNSAxMC4wMzEyNSBDIDE1LjE4NzcxMSA5LjU2Mjg2NCAxNS41MzEwNTkgOS4wMzAwNTg4IDE1Ljg0Mzc1IDguNTMxMjUgQyAxNi4xNTY0NDEgOC4wMzI0NDEyIDE2LjQ0MDA0MyA3LjU2MTM1MDggMTYuNjg3NSA3LjI4MTI1IEMgMTYuOTM0OTU3IDcuMDAxMTQ5MiAxNy4wNjA3NTQgNyAxNyA3IHogTSAyNSAxMSBDIDE3LjgzMjE0MyAxMSAxMiAxNi44MzIxNDMgMTIgMjQgQyAxMiAzMS4xNjc4NTcgMTcuODMyMTQzIDM3IDI1IDM3IEMgMzIuMTY3ODU3IDM3IDM4IDMxLjE2Nzg1NyAzOCAyNCBDIDM4IDE2LjgzMjE0MyAzMi4xNjc4NTcgMTEgMjUgMTEgeiBNIDI1IDEzIEMgMzEuMDg2OTc3IDEzIDM2IDE3LjkxMzAyMyAzNiAyNCBDIDM2IDMwLjA4Njk3NyAzMS4wODY5NzcgMzUgMjUgMzUgQyAxOC45MTMwMjMgMzUgMTQgMzAuMDg2OTc3IDE0IDI0IEMgMTQgMTcuOTEzMDIzIDE4LjkxMzAyMyAxMyAyNSAxMyB6IE0gOCAxNCBDIDYuODk2IDE0IDYgMTQuODk2IDYgMTYgQyA2IDE3LjEwNCA2Ljg5NiAxOCA4IDE4IEwgOSAxOCBDIDEwLjEwNCAxOCAxMSAxNy4xMDQgMTEgMTYgQyAxMSAxNC44OTYgMTAuMTA0IDE0IDkgMTQgTCA4IDE0IHogTSAyNSAxNSBDIDIwLjA0MTI4MiAxNSAxNiAxOS4wNDEyODIgMTYgMjQgQyAxNiAyOC45NTg3MTggMjAuMDQxMjgyIDMzIDI1IDMzIEMgMjkuOTU4NzE4IDMzIDM0IDI4Ljk1ODcxOCAzNCAyNCBDIDM0IDE5LjA0MTI4MiAyOS45NTg3MTggMTUgMjUgMTUgeiBNIDI1IDE3IEMgMjguODc3ODM4IDE3IDMyIDIwLjEyMjE2MiAzMiAyNCBDIDMyIDI3Ljg3NzgzOCAyOC44Nzc4MzggMzEgMjUgMzEgQyAyMS4xMjIxNjIgMzEgMTggMjcuODc3ODM4IDE4IDI0IEMgMTggMjAuMTIyMTYyIDIxLjEyMjE2MiAxNyAyNSAxNyB6IiBjb2xvcj0iIzAwMCIgb3ZlcmZsb3c9InZpc2libGUiIGVuYWJsZS1iYWNrZ3JvdW5kPSJhY2N1bXVsYXRlIiBmb250LWZhbWlseT0iQml0c3RyZWFtIFZlcmEgU2FucyI+PC9wYXRoPgo8L3N2Zz4=') center center no-repeat;
-        }
-
-        .upload-wrap input[type='file'] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            font-size: 0;
-            width: 100%;
-            height: 100%;
-            outline: 0;
-            opacity: 0;
-            filter: alpha(opacity=0);
-            cursor: pointer;
-        }
-
-    </style>
     <script type="text/javascript">
         var init = function (data) {
 

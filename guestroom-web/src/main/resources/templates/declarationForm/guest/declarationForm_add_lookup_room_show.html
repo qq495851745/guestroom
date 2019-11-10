@@ -36,7 +36,7 @@
     <table class="table" width="99%" layoutH="170" id="declaration_add_lookup_room_show_table" >
         <thead>
         <tr>
-            <th width="80">序号</th>
+            <th width="80">序号1</th>
             <th width="120">房号</th>
             <th width="120">房间描述</th>
             <th width="120">最近修改时间</th>
@@ -77,7 +77,7 @@
         </div>
 
         <div th:attr="pageNumShown=${pageVo.getTotalPages()>=5?5:pageVo.totalPages}, currentPage=${pageVo.pageNum},totalCount=${pageVo.totalCount},numPerPage=${pageVo.numPerPage}"
-             class="pagination" rel="roomBox" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
+             class="pagination" targetType="dialog" rel="declarationForm_add_lookup_room_box" totalCount="100" numPerPage="20" pageNumShown="5" currentPage="2"></div>
 
     </div>
 </div>
@@ -105,7 +105,7 @@
             //消除表格显示格式
             len = $("#declarationForm_add_lookup_room_box").find(".gridScroller").size();
             if (len)
-                $("#declarationForm_add_lookup_room_box").find(".gridScroller").css({height: "auto"})
+                  $("#declarationForm_add_lookup_room_box").find(".gridScroller").css({height: "auto"})
             else
                 setTimeout(arguments.callee, 100);
         }
