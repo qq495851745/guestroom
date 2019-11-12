@@ -22,24 +22,24 @@ public class DeclarationForm {
     @Column(name="ddescription")
     private String description;//报修单说明
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;//关联到某个房间
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private  User user;//报修人
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user2_id")
     private User user2;//审核人
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roomoption_id")
     private RoomOption roomOption;//关联到房间某个地方   报修类别
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fornameoption_id")
     private RoomOption forNameOption;//工程报修位置
 
@@ -48,12 +48,12 @@ public class DeclarationForm {
     private Integer flag=1;//删除标记
 
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "declarationform_id")
     private List<DeclarationFormPhoto> declarationFormPhotos;
 
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "declaration_form_id")
     private List<AppointForm> appointForms;
 
@@ -69,7 +69,7 @@ public class DeclarationForm {
     @Column(name = "actualdate")
     private Date actualDate;//实际发生时间
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dfstatus")
     private DeclarationFormStatus declarationFormStatus;//报修状态
 
@@ -77,15 +77,15 @@ public class DeclarationForm {
     private List<Integer> declarationFormStatusList;//搜索条件 状态
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appoint_form_id")
     private AppointForm appointForm;//最近委派单
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "repair_form_id")
     private RepairForm repairForm;//最近维修单
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="declaration_form_id")
     private List<RepairForm> repairForms;
 

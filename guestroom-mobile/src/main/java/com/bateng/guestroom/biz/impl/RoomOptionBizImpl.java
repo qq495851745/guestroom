@@ -33,7 +33,7 @@ public class RoomOptionBizImpl implements RoomOptionBiz {
     @Override
     public String findRoomOption1Ajax() {
         List<RoomOption> roomOptions = roomOptionDao.findAllByFlag(1);
-        roomOptions.removeIf((t) -> t.getRoomOptions().size() == 0);
+        roomOptions.removeIf((t) -> t.getRoomOption()==null?true:t.getRoomOption().getId()!=1);
         return JSONObject.toJSONString(roomOptions,new SerializeFilter[]{
                 new PropertyFilter() {
                     @Override

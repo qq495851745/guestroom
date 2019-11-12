@@ -16,9 +16,9 @@
             <input type="text" value="" readonly="readonly" th:value="${declarationForm.forNameOption.name}"/>
             <label>报修说明：</label>
             <input type="text" value="" readonly="readonly" th:value="${declarationForm.description}"/>
-            <label>报修时间</label>
+            <label>实际报修时间</label>
             <input type="text" value="" readonly="readonly"
-                   th:value="${#dates.format(declarationForm.createDate,'yyyy-MM-dd HH:mm:ss')}"/>
+                   th:value="${#dates.format(declarationForm.actualDate,'yyyy-MM-dd HH:mm:ss')}"/>
             <label>报修单状态</label>
             <input type="text" value="" readonly="readonly"
                    th:value="${declarationForm.declarationFormStatus.status}"/>
