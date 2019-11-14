@@ -424,7 +424,7 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
             sb.append("  and t2.actualdate <:time02");
             params.put("time01",format.format(roomOptionVo.getTime02()));
         }
-        if(roomOptionVo.getRoomOptionVo()!=null && roomOptionVo.getRoomOptionVo().getId()!=0){
+        if(roomOptionVo.getRoomOptionVo()!=null &&roomOptionVo.getRoomOptionVo().getId()!=null&& roomOptionVo.getRoomOptionVo().getId()!=0){
             sb.append(" and t1.pid = :pid ");
             params.put("pid",roomOptionVo.getRoomOptionVo().getId());
         }

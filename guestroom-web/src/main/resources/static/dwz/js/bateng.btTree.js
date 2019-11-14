@@ -95,10 +95,14 @@ function displayText(json) {
             var id = $(this).attr("rel");//获取rel属性 就是id
             var $del = $("#" + json["relId"]).find("a.delete");
             var text = $del.attr("href");
+            try {
                 text = text.replace(/\/[^\/]+$/g, "/" + id);
                 $del.attr("href", text); //修改href属性
                 text = $(this).find("td:eq(1)").find("div").text();
                 $del.find("span").html("删除" + "<b style='color: red'>" + text + "</b>");
+            } catch (e) {
+                text = $(this).find("td:eq(1)").find("div").text();//报错重新获取文本
+            }
             var $edit = $("#" + json["relId"]).find("a.edit");
                 $edit.find("span").html("修改/查看" + "<b style='color: red'>" + text + "</b>");
             text = $edit.attr("href");

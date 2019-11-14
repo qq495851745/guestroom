@@ -17,7 +17,6 @@ import java.util.function.Predicate;
 public class GuestroomApplication {
 
     public static void main(String[] args) {
-
         SpringApplication.run(GuestroomApplication.class, args);
 
     }

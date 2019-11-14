@@ -1,6 +1,7 @@
 package com.bateng.guestroom.controller;
 
 import com.bateng.guestroom.biz.RoomOptionBiz;
+import com.bateng.guestroom.entity.RoomOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,16 @@ public class RoomOptionAjaxController {
     @RequestMapping(value = "findAll1",produces ="application/json;charset=utf-8" )
     public String findRoomOptions1(){
         return roomOptionBiz.findRoomOption1Ajax();
+    }
+
+    /**
+     * 获取报修类别下的子元素
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "findAll2",produces ="application/json;charset=utf-8" )
+    public String findRoomOptions2(RoomOption roomOption){
+        return roomOptionBiz.findRoomOption2Ajax(roomOption);
     }
 
     /**

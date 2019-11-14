@@ -53,6 +53,41 @@ public class RoomOptionBizImpl implements RoomOptionBiz {
     }
 
     @Override
+    public String findRoomOption2Ajax(RoomOption roomOption) {
+        List<RoomOption> roomOptions = roomOptionDao.findAllByFlag(1);
+//        roomOptions.removeIf((t) -> t.getRoomOption()==null?true:t.getRoomOption().getId()!=1);
+        if(roomOption.getId()!=null)
+        roomOptions.removeIf(new java.util.function.Predicate<RoomOption>() {
+            @Override
+            public boolean test(RoomOption option) {
+                if(option.getRoomOption()!=null && option.getRoomOption().getId()==roomOption.getId())
+                    return false;
+                else{
+                    if(option.getRoomOption()!=null)
+                        return  test(option.getRoomOption());
+                }
+                return true;
+            }
+        });
+        System.out.println(roomOptions.size());
+        return JSONObject.toJSONString(roomOptions,new SerializeFilter[]{
+                new PropertyFilter() {
+                    @Override
+                    public boolean apply(Object o, String s, Object o1) {
+                        if(s.equals("id"))
+                            return  true;
+                        else if(s.equals("name"))
+                            return  true;
+                        else if(s.equals("pinyin"))
+                            return  true;
+                        else
+                            return  false;
+                    }
+                }
+        },SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+    @Override
     public String findRoomOptionAjax() {
         List<RoomOption> roomOptions = roomOptionDao.findAllByFlag(1);
         return JSONObject.toJSONString(roomOptions, new SerializeFilter[]{new PropertyFilter() {

@@ -188,6 +188,7 @@ public class DeclarationFormController  extends BaseController {
         User user = (User) session.getAttribute("user");
         JSONObject jsonObject=new JSONObject();
         DeclarationForm df=declarationFormBiz.getDeclarationFormById(declarationForm.getId());
+        //不是管理员处理中不能修改
         if(df.getDeclarationFormStatus().getId() != 1 && user.getRole().getId()!=1){
             jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
             //jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
@@ -195,6 +196,18 @@ public class DeclarationFormController  extends BaseController {
             jsonObject.put("message", "工程处理中！报修单不能修改,请联系管理员修改");
             return jsonObject.toJSONString();
         }
+        //不是管理员，不能修改不是自己添加的报修单
+        if(user.getRole().getId()!=1){
+            if(df.getUser().getId()!=user.getId()){
+                jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
+                //jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
+                //jsonObject.put("navTabId", "w_14");
+                jsonObject.put("message", "不能修改其它人的报修单！请联系管理员修改");
+                return jsonObject.toJSONString();
+            }
+
+        }
+
         //保存图片
         List<DeclarationFormPhoto> photoList=new ArrayList<DeclarationFormPhoto>();
         for(MultipartFile file:files){

@@ -191,12 +191,19 @@
           $(document).off("tap", "#declarationForm_guest_mobile_add_form_forNameOption_a");
           $(document).on("tap", "#declarationForm_guest_mobile_add_form_forNameOption_a", function () {
               $("#declarationForm_guest_mobile_add_forNameOption_poupu_ul").html("");
+              //获取选择的报修类别
+              var optionId=$("#declarationForm_guest_mobile_add_form_roomOption_id").val();
+              var optionName=$("#declarationForm_guest_mobile_add_form_roomOption").val();
+              if(optionName=="")
+                  optionId="";
+
               $.ajax({
-                  url: "/ajax/option/findAll",
+                  url: "/ajax/option/findAll2",
                   async: false,
                   cache: false,
                   dataType: "json",
                   type: "post",
+                  data:{"id":optionId},
                   success: function (data) {
                       $("document").off("remove", "#declarationForm_guest_mobile_forNameOption_poupu");
                       var html = "";
@@ -230,7 +237,7 @@
 
        /* 图片上传  start*/
 
-          $("div.upload-wrap").click(function () {
+          /*$("div.upload-wrap").click(function () {
               var op={maxW:80, maxH:80};
               var $uploadWrap = $(this);
               var $inputFiles = $uploadWrap.find('input[type=file]');
@@ -243,7 +250,7 @@
 
                   });
               })
-          });
+          });*/
         /*图片上传 end*/
 
     </script>

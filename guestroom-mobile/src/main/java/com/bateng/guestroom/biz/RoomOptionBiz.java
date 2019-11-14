@@ -18,6 +18,10 @@ public interface RoomOptionBiz {
      * 报修类别获取 获取所有有子元素的对象
      */
     public String findRoomOption1Ajax();
+    /**
+     * 根据报修类别，获取下面的子元素
+     */
+    public String findRoomOption2Ajax(RoomOption roomOption);
 
     /**
      * 分页查找父亲下的所有儿子
