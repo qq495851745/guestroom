@@ -22,7 +22,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/guestroom")
-public class DeclarationFormController  extends BaseController {
+public class DeclarationFormController extends BaseController {
 
     @Autowired
     private DeclarationFormBiz declarationFormBiz;
@@ -37,75 +37,74 @@ public class DeclarationFormController  extends BaseController {
     @Autowired
     private RepairFormBiz repairFormBiz;
 
-    @RequestMapping(value = "/declarationForm/index/all",method = {RequestMethod.GET,RequestMethod.POST})
-    public String indexAll(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
+    @RequestMapping(value = "/declarationForm/index/all", method = {RequestMethod.GET, RequestMethod.POST})
+    public String indexAll(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session) {
 //        User u= (User) session.getAttribute("user");
 
 //        declarationForm.setUser(u);//获取报修人
         //查询报修单
-        pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
-        model.addAttribute("pageVo",pageVo);
-        model.addAttribute("declarationForm",declarationForm);
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo, declarationForm);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("declarationForm", declarationForm);
 
-        return "declarationForm/guest/declarationForm_index";
+        return "declarationForm/guest/declarationForm_index_all";
     }
 
-    @RequestMapping(value = "/declarationForm/index",method = {RequestMethod.GET,RequestMethod.POST})
-    public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
-        User u= (User) session.getAttribute("user");
+    @RequestMapping(value = "/declarationForm/index", method = {RequestMethod.GET, RequestMethod.POST})
+    public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session) {
+        User u = (User) session.getAttribute("user");
 
         declarationForm.setUser(u);//获取报修人
         //查询报修单
-        pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
-        model.addAttribute("pageVo",pageVo);
-        model.addAttribute("declarationForm",declarationForm);
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo, declarationForm);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("declarationForm", declarationForm);
 
         return "declarationForm/guest/declarationForm_index";
     }
 
 
-
     //跳转添加页面
-    @RequestMapping(value = "/declarationForm/toAdd",method = RequestMethod.GET)
-    public String toAdd(){
+    @RequestMapping(value = "/declarationForm/toAdd", method = RequestMethod.GET)
+    public String toAdd() {
         return "declarationForm/guest/declarationForm_add";
     }
 
 
     //做添加操作
-    @RequestMapping(value = "/declarationForm",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/declarationForm", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String add(DeclarationForm declarationForm, HttpSession session, @RequestParam("photo") MultipartFile[] photos) throws Exception{
+    public String add(DeclarationForm declarationForm, HttpSession session, @RequestParam("photo") MultipartFile[] photos) throws Exception {
         //修正实际发生时间。
-        if(declarationForm.getActualDate()==null)
+        if (declarationForm.getActualDate() == null)
             declarationForm.setActualDate(declarationForm.getCreateDate());
         //验证房号填写正确
-        Room room=roomBiz.getRoomByName(declarationForm.getRoom().getName());
-        if(room==null){
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("statusCode",StatusCodeDWZ.ERROR);
-            jsonObject.put("message","房号输入不正确！注意前后不要有空格！");
+        Room room = roomBiz.getRoomByName(declarationForm.getRoom().getName());
+        if (room == null) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
+            jsonObject.put("message", "房号输入不正确！注意前后不要有空格！");
             return jsonObject.toJSONString();
-        }else
+        } else
             declarationForm.setRoom(room);
         //验证报修工程内容是否填写正确
         List<RoomOption> forNameOptions = roomOptionBiz.findRoomOptionByName(declarationForm.getForNameOption().getName());
-        if(forNameOptions.size()==0){
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("statusCode",StatusCodeDWZ.ERROR);
-            jsonObject.put("message","输入的工程报修内容不对！");
+        if (forNameOptions.size() == 0) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
+            jsonObject.put("message", "输入的工程报修内容不对！");
             return jsonObject.toJSONString();
-        }else
+        } else
             declarationForm.setForNameOption(forNameOptions.get(0));
 
-        List<DeclarationFormPhoto> photoList =new ArrayList<DeclarationFormPhoto>();
-        for(MultipartFile file:photos){//保存文件
-            String orname=file.getOriginalFilename();//获取原始文件名
-            if(orname.equals(""))
+        List<DeclarationFormPhoto> photoList = new ArrayList<DeclarationFormPhoto>();
+        for (MultipartFile file : photos) {//保存文件
+            String orname = file.getOriginalFilename();//获取原始文件名
+            if (orname.equals(""))
                 continue;
-            String ext=FastDFSClient.getFileExt(orname);//获取扩展名
-            String path=FastDFSClient.uploadFile(file.getInputStream(),orname);//上传文件
-            DeclarationFormPhoto photo=new DeclarationFormPhoto();
+            String ext = FastDFSClient.getFileExt(orname);//获取扩展名
+            String path = FastDFSClient.uploadFile(file.getInputStream(), orname);//上传文件
+            DeclarationFormPhoto photo = new DeclarationFormPhoto();
             photo.setCreateDate(new Date());
             photo.setExt(ext);
             photo.setPath(path);
@@ -114,13 +113,13 @@ public class DeclarationFormController  extends BaseController {
             photoList.add(photo);//添加到列表
         }
         declarationForm.setDeclarationFormPhotos(photoList);
-        User user= (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         declarationForm.setUser(user);
-        DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
+        DeclarationFormStatus declarationFormStatus = new DeclarationFormStatus();
         declarationFormStatus.setId(1);
         declarationForm.setDeclarationFormStatus(declarationFormStatus);
         declarationFormBiz.saveDeclarationForm(declarationForm);
-        JSONObject jsonObject=new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         jsonObject.put("statusCode", StatusCodeDWZ.OK);
         jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
         jsonObject.put("navTabId", "w_14");
@@ -129,67 +128,69 @@ public class DeclarationFormController  extends BaseController {
     }
 
     //添加报修单查询roomOption
-    @RequestMapping(value = "/declarationForm/roomOption",method = RequestMethod.GET)
-    public String toRoomOptionLookup(){
+    @RequestMapping(value = "/declarationForm/roomOption", method = RequestMethod.GET)
+    public String toRoomOptionLookup() {
         return "declarationForm/guest/declarationForm_add_lookup_roomOption";
     }
 
 
+
+
     //跳转添加报修单查询Room
-    @RequestMapping(value = "/declarationForm/room",method = RequestMethod.GET)
-    public String toRoom(){
+    @RequestMapping(value = "/declarationForm/room", method = RequestMethod.GET)
+    public String toRoom() {
         return "declarationForm/guest/declarationForm_add_lookup_room_index";
     }
 
     //查询room
-    @RequestMapping(value = "/declarationForm/room",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/declarationForm/room", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String findRoom(){
-        Map<String,String> map=new HashMap<String,String>();
+    public String findRoom() {
+        Map<String, String> map = new HashMap<String, String>();
         map.put("rel", AttachJsonTreeDWZ.RoomDWZ.DECLARATION_ROOM_TREE_REL);
-        map.put("href",AttachJsonTreeDWZ.RoomDWZ.DECLARATION_ROOM_TREE_HREF);
+        map.put("href", AttachJsonTreeDWZ.RoomDWZ.DECLARATION_ROOM_TREE_HREF);
 
-        return roomLevelBiz.findAllRoomLevelAjax(1,map);
+        return roomLevelBiz.findAllRoomLevelAjax(1, map);
     }
 
     //做删除
-    @RequestMapping(value = "/declarationForm/{id}",method = RequestMethod.DELETE,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/declarationForm/{id}", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String del(@PathVariable("id") int id){
-        JSONObject jsonObject=new JSONObject();
+    public String del(@PathVariable("id") int id) {
+        JSONObject jsonObject = new JSONObject();
         DeclarationForm declarationForm = declarationFormBiz.getDeclarationFormById(id);
-        if(declarationForm.getDeclarationFormStatus().getId() != 1){
-            jsonObject.put("statusCode",StatusCodeDWZ.ERROR);
-            jsonObject.put("message","工程已处理中，不能删除！");
-            return  jsonObject.toJSONString();
+        if (declarationForm.getDeclarationFormStatus().getId() != 1) {
+            jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
+            jsonObject.put("message", "工程已处理中，不能删除！");
+            return jsonObject.toJSONString();
         }
         declarationFormBiz.deleteById(id);
 
-        jsonObject.put("statusCode",StatusCodeDWZ.OK);
-        jsonObject.put("message","删除成功!");
-        jsonObject.put("navTabId","w_29");
-        return  jsonObject.toJSONString();
+        jsonObject.put("statusCode", StatusCodeDWZ.OK);
+        jsonObject.put("message", "删除成功!");
+        jsonObject.put("navTabId", "w_29");
+        return jsonObject.toJSONString();
     }
 
     //跳转修改
-    @RequestMapping(value = "/declarationForm/{id}",method = RequestMethod.GET)
-    public String toEdit(@PathVariable("id") int id,DeclarationForm declarationForm,Model model){
-        declarationForm=declarationFormBiz.getDeclarationFormById(id);
-        model.addAttribute("declarationForm",declarationForm);
+    @RequestMapping(value = "/declarationForm/{id}", method = RequestMethod.GET)
+    public String toEdit(@PathVariable("id") int id, DeclarationForm declarationForm, Model model) {
+        declarationForm = declarationFormBiz.getDeclarationFormById(id);
+        model.addAttribute("declarationForm", declarationForm);
         model.addAttribute("repairForms", repairFormBiz.findRepairFormByDeclarationFormId(declarationForm.getId()));
         addurl(model);
-        return  "declarationForm/guest/declarationForm_edit";
+        return "declarationForm/guest/declarationForm_edit";
     }
 
     //做修改
-    @RequestMapping(value = "/declarationForm",method = RequestMethod.PUT,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/declarationForm", method = RequestMethod.PUT, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String doEdit(DeclarationForm declarationForm,@RequestParam("photo") MultipartFile[] files,HttpSession session) throws  Exception{
+    public String doEdit(DeclarationForm declarationForm, @RequestParam("photo") MultipartFile[] files, HttpSession session) throws Exception {
         User user = (User) session.getAttribute("user");
-        JSONObject jsonObject=new JSONObject();
-        DeclarationForm df=declarationFormBiz.getDeclarationFormById(declarationForm.getId());
+        JSONObject jsonObject = new JSONObject();
+        DeclarationForm df = declarationFormBiz.getDeclarationFormById(declarationForm.getId());
         //不是管理员处理中不能修改
-        if(df.getDeclarationFormStatus().getId() != 1 && user.getRole().getId()!=1){
+        if (df.getDeclarationFormStatus().getId() != 1 && user.getRole().getId() != 1) {
             jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
             //jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
             //jsonObject.put("navTabId", "w_14");
@@ -197,8 +198,8 @@ public class DeclarationFormController  extends BaseController {
             return jsonObject.toJSONString();
         }
         //不是管理员，不能修改不是自己添加的报修单
-        if(user.getRole().getId()!=1){
-            if(df.getUser().getId()!=user.getId()){
+        if (user.getRole().getId() != 1) {
+            if (df.getUser().getId() != user.getId()) {
                 jsonObject.put("statusCode", StatusCodeDWZ.ERROR);
                 //jsonObject.put("callbackType", "closeCurrent");//关闭当前标签页
                 //jsonObject.put("navTabId", "w_14");
@@ -209,14 +210,14 @@ public class DeclarationFormController  extends BaseController {
         }
 
         //保存图片
-        List<DeclarationFormPhoto> photoList=new ArrayList<DeclarationFormPhoto>();
-        for(MultipartFile file:files){
-            String orname=file.getOriginalFilename();//获取原始文件名
-            if(orname.equals(""))
+        List<DeclarationFormPhoto> photoList = new ArrayList<DeclarationFormPhoto>();
+        for (MultipartFile file : files) {
+            String orname = file.getOriginalFilename();//获取原始文件名
+            if (orname.equals(""))
                 continue;
-            String ext=FastDFSClient.getFileExt(orname);//获取扩展名
-            String path=FastDFSClient.uploadFile(file.getInputStream(),orname);//上传文件
-            DeclarationFormPhoto photo=new DeclarationFormPhoto();
+            String ext = FastDFSClient.getFileExt(orname);//获取扩展名
+            String path = FastDFSClient.uploadFile(file.getInputStream(), orname);//上传文件
+            DeclarationFormPhoto photo = new DeclarationFormPhoto();
             photo.setCreateDate(new Date());
             photo.setExt(ext);
             photo.setPath(path);
@@ -234,18 +235,35 @@ public class DeclarationFormController  extends BaseController {
         return jsonObject.toJSONString();
     }
 
+
+    //查询审核的自己的报修单
+    @RequestMapping(value = {"/declarationForm/status/self"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String lookupSekf(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm, HttpSession session, Model model) {
+//设置搜索条件，搜索待审核单子
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(3);
+        list.add(6);
+        declarationForm.setDeclarationFormStatusList(list);
+        declarationForm.setUser((User) session.getAttribute("user"));
+//        declarationForm.setUser((User) session.getAttribute("user"));
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo, declarationForm);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("declarationForm", declarationForm);
+        return "repairForm/guest/declarationForm_index";
+    }
+
     //查询审核的报修单
-    @RequestMapping(value = {"/declarationForm/status"},method = {RequestMethod.GET,RequestMethod.POST})
-    public String lookup(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,HttpSession session,Model model){
+    @RequestMapping(value = {"/declarationForm/status"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String lookup(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm, HttpSession session, Model model) {
         //设置搜索条件，搜索待审核单子
-        List<Integer> list=new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(3);
         list.add(6);
         declarationForm.setDeclarationFormStatusList(list);
 //        declarationForm.setUser((User) session.getAttribute("user"));
-        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
-        model.addAttribute("pageVo",pageVo);
-        model.addAttribute("declarationForm",declarationForm);
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo, declarationForm);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("declarationForm", declarationForm);
         return "repairForm/guest/declarationForm_index";
     }
 
@@ -260,51 +278,50 @@ public class DeclarationFormController  extends BaseController {
 
     /**
      * 工程查询新建状态报修单
+     *
      * @return
      */
-    @RequestMapping(value = "project/declarationForm/show",method = {RequestMethod.GET,RequestMethod.POST})
-    public String show(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,Model model,HttpSession session){
-        DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
+    @RequestMapping(value = "project/declarationForm/show", method = {RequestMethod.GET, RequestMethod.POST})
+    public String show(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm, Model model, HttpSession session) {
+        DeclarationFormStatus declarationFormStatus = new DeclarationFormStatus();
         declarationFormStatus.setId(1);
         declarationForm.setDeclarationFormStatus(declarationFormStatus);
 
-        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
-        model.addAttribute("pageVo",pageVo);
-        model.addAttribute("declarationForm",declarationForm);
-        User user= (User) session.getAttribute("user");
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo, declarationForm);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("declarationForm", declarationForm);
+        User user = (User) session.getAttribute("user");
         try {
-            model.addAttribute("flag",userLevelBiz.findAllUserLevelAjaxByPid(user.getUserLevel().getId()).equals("[]"));
+            model.addAttribute("flag", userLevelBiz.findAllUserLevelAjaxByPid(user.getUserLevel().getId()).equals("[]"));
         } catch (Exception e) {
-           model.addAttribute("flag",true);
+            model.addAttribute("flag", true);
         }
         return "declarationForm/project/declarationForm_project_index";
     }
 
 
     //查询工程，待维修的单子
-    @RequestMapping(value = "/project/appointForm",method = {RequestMethod.GET,RequestMethod.POST})
-    public String list(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,HttpSession session,Model model){
-        AppointForm appointForm=new AppointForm();
+    @RequestMapping(value = "/project/appointForm", method = {RequestMethod.GET, RequestMethod.POST})
+    public String list(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm, HttpSession session, Model model) {
+        AppointForm appointForm = new AppointForm();
         appointForm.setUser1((User) session.getAttribute("user"));
         declarationForm.setAppointForm(appointForm);//设置委派查询参数
 
         //设置参数
-        List<Integer> list=new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<Integer>();
         list.add(2);
         list.add(5);
         declarationForm.setDeclarationFormStatusList(list);
 
-        pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
-        model.addAttribute("pageVo",pageVo);
-        model.addAttribute("flag",true);
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo, declarationForm);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("flag", true);
         return "declarationForm/project/declarationForm_project_index";
     }
 
 
-
     /**
      * end
-     *
      */
 
     public DeclarationFormBiz getDeclarationFormBiz() {
@@ -338,6 +355,7 @@ public class DeclarationFormController  extends BaseController {
     public void setRoomBiz(RoomBiz roomBiz) {
         this.roomBiz = roomBiz;
     }
+
     public RoomOptionBiz getRoomOptionBiz() {
         return roomOptionBiz;
     }
@@ -355,11 +373,11 @@ public class DeclarationFormController  extends BaseController {
     }
 
     @InitBinder
-    public void initBinder(WebDataBinder binder){
-        binder.registerCustomEditor(Date.class,"finishDate",new DatePropertyEditor());
-        binder.registerCustomEditor(Date.class,"time01",new DatePropertyEditor2());
-        binder.registerCustomEditor(Date.class,"time02",new DatePropertyEditor2());
-        binder.registerCustomEditor(Date.class,"actualDate",new DatePropertyEditor2());
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class, "finishDate", new DatePropertyEditor());
+        binder.registerCustomEditor(Date.class, "time01", new DatePropertyEditor2());
+        binder.registerCustomEditor(Date.class, "time02", new DatePropertyEditor2());
+        binder.registerCustomEditor(Date.class, "actualDate", new DatePropertyEditor2());
     }
 
 

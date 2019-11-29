@@ -8,9 +8,12 @@ import java.util.List;
 
 public interface DeclarationFormRepository {
 
+
+    public List<Object> findAjaxIndex02(RoomOptionVo roomOptionVo);
+
     /**
      * 分页显示根据报修类别，显示报修次数。
-     * @param declarationForm
+     * @param
      * @return
      */
     public PageVo findByRoomOptionCountByPage(PageVo<DeclarationForm> pageVo, RoomOptionVo roomOptionVo);

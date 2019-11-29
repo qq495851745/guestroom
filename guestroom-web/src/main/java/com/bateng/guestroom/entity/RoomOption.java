@@ -36,6 +36,12 @@ public class RoomOption {
     @Column(name = "rodes")
     private String desprition;//客房描述信息
 
+    public RoomOption(Integer id) {
+        this.id=id;
+    }
+    public RoomOption() {
+    }
+
     public Integer getId() {
         return id;
     }

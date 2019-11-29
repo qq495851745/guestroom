@@ -25,6 +25,14 @@ public interface DeclarationFormBiz {
     public PageVo<DeclarationForm> findDeclarationFormByPage(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm);
 
     /**
+     * 分页查询 当天的报修单
+     * @param pageVo
+     * @param declarationForm
+     * @return
+     */
+    public PageVo<DeclarationForm> findDeclarationFormTodayByPage(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm);
+
+    /**
      * 根据报修次数搜索
      * @param pageVo
      * @param declarationForm

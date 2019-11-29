@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +33,24 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     public PageVo<DeclarationForm> findDeclarationFormByPage(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm) {
 
         return declarationFormDao.findDeclarationFormByPage(pageVo,declarationForm);
+    }
+
+    @Override
+    public PageVo<DeclarationForm> findDeclarationFormTodayByPage(PageVo<DeclarationForm> pageVo, DeclarationForm declarationForm) {
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2=  Calendar.getInstance();
+        calendar1.set(Calendar.HOUR_OF_DAY,0);
+        calendar1.set(Calendar.MINUTE,0);
+        calendar1.set(Calendar.SECOND,0);
+
+        calendar2.set(Calendar.HOUR_OF_DAY,23);
+        calendar2.set(Calendar.MINUTE,59);
+        calendar2.set(Calendar.SECOND,59);
+        declarationForm.setTime01(calendar1.getTime());
+        declarationForm.setTime02(calendar2.getTime());
+
+        return declarationFormDao.findDeclarationFormByPage(pageVo,declarationForm);
+//        return  null;
     }
 
     @Override

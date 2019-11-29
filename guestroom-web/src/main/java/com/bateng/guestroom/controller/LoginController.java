@@ -31,7 +31,7 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public String login(User user, Model model, HttpServletRequest request){
         HttpSession session= request.getSession();
-//        session.setMaxInactiveInterval(60*10);
+        session.setMaxInactiveInterval(60*10);
         addurl(model);
         user=userBiz.checkUser(user);
         if(user==null)

@@ -41,7 +41,7 @@ public class DeclarationFormController  extends BaseController {
     public String index(PageVo<DeclarationForm> pageVo, Model model, DeclarationForm declarationForm, HttpSession session){
         User u= (User) session.getAttribute("user");
 
-//        declarationForm.setUser(u);//获取报修人
+        declarationForm.setUser(u);//获取报修人
         //查询报修单
         pageVo=declarationFormBiz.findDeclarationFormByPage(pageVo,declarationForm);
         model.addAttribute("pageVo",pageVo);
@@ -212,6 +212,21 @@ public class DeclarationFormController  extends BaseController {
         return jsonObject.toJSONString();
     }
 
+    //查询审核自己的报修单
+    @RequestMapping(value = {"/declarationForm/status/self"},method = {RequestMethod.GET,RequestMethod.POST})
+    public String lookupSelf(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,HttpSession session,Model model) {
+        //设置搜索条件，搜索待审核单子
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(3);
+        list.add(6);
+        declarationForm.setDeclarationFormStatusList(list);
+        declarationForm.setUser((User) session.getAttribute("user"));
+        pageVo = declarationFormBiz.findDeclarationFormByPage(pageVo, declarationForm);
+        model.addAttribute("pageVo", pageVo);
+        model.addAttribute("declarationForm", declarationForm);
+        /*return "repairForm/guest/declarationForm_index";*/
+        return "repairForm/guest/mobile/repairForm_guest_mobile_index";
+    }
     //查询审核的报修单
     @RequestMapping(value = {"/declarationForm/status"},method = {RequestMethod.GET,RequestMethod.POST})
     public String lookup(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,HttpSession session,Model model){
@@ -236,11 +251,37 @@ public class DeclarationFormController  extends BaseController {
      *
      * begin
      */
-
     /**
-     * 工程查询新建状态报修单
+     * 查看当天工程需维修的单子
+     * @param pageVo
+     * @param declarationForm
+     * @param model
+     * @param session
      * @return
      */
+    @RequestMapping(value = "project/declarationForm/show/today",method = {RequestMethod.GET,RequestMethod.POST})
+    public String showToday(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,Model model,HttpSession session) {
+        DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();
+        declarationFormStatus.setId(1);
+        declarationForm.setDeclarationFormStatus(declarationFormStatus);
+
+        pageVo = declarationFormBiz.findDeclarationFormTodayByPage(pageVo,declarationForm);
+        model.addAttribute("pageVo",pageVo);
+        model.addAttribute("declarationForm",declarationForm);
+        User user= (User) session.getAttribute("user");
+        /*try {
+            model.addAttribute("flag",userLevelBiz.findAllUserLevelAjaxByPid(user.getUserLevel().getId()).equals("[]"));
+        } catch (Exception e) {
+           model.addAttribute("flag",true);
+        }*/
+        model.addAttribute("flag",false);
+
+        return "declarationForm/project/mobile/declarationForm_project_today_index";
+    }
+        /**
+         * 工程查询新建状态报修单
+         * @return
+         */
     @RequestMapping(value = "project/declarationForm/show",method = {RequestMethod.GET,RequestMethod.POST})
     public String show(PageVo<DeclarationForm> pageVo,DeclarationForm declarationForm,Model model,HttpSession session){
         DeclarationFormStatus declarationFormStatus=new DeclarationFormStatus();

@@ -1,5 +1,6 @@
 package com.bateng.guestroom.biz.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.bateng.guestroom.biz.RoomBiz;
 import com.bateng.guestroom.dao.RoomAndRoomLevelDao;
 import com.bateng.guestroom.dao.RoomDao;
@@ -9,13 +10,16 @@ import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.Room;
 import com.bateng.guestroom.entity.RoomAndRoomLevel;
 import com.bateng.guestroom.entity.RoomPhoto;
+import com.bateng.guestroom.entity.vo.RoomVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("roomBiz")
 public class RoomBizImpl implements RoomBiz {
@@ -90,6 +94,19 @@ public class RoomBizImpl implements RoomBiz {
     public Room getRoomByName(String name) {
 
         return roomDao.findRoomByName(name);
+    }
+
+    @Override
+    public String findAjaxIndex01(RoomVo roomVo) {
+        Map<Object,Object> map = new HashMap<Object, Object>();
+     List<Object> list = roomDao.findAjaxIndex01(roomVo);
+        System.out.println(list.size());
+        for(Object obj:list){
+            Object[] objs = (Object[]) obj;
+            map.put(objs[1],objs[2]);
+        }
+
+        return JSON.toJSONString(map);
     }
 
     public RoomDao getRoomDao() {

@@ -169,7 +169,7 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
         }
 
 
-        sb.append("  order by  df.roomOption.id , df.actualDate desc");
+        sb.append("  order by  df.actualDate desc");
         Query query=entityManager.createQuery(sb.toString());//生成查询对象
 
         //设置参数

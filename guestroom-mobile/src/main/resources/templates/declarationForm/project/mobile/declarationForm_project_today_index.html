@@ -25,12 +25,12 @@
                 <input type="text" name="forNameOption.name" readonly="readonly" value=""
                        id="repairForm_guest_mobile_index_form_roomOptionName"/>
             </a>
-            <label for="declarationForm_project_mobile_index_form_roomOptionName">报修时间起始：</label>
+            <!--<label for="declarationForm_project_mobile_index_form_roomOptionName">报修时间起始：</label>
             <input type="text" data-role="datebox" id="declarationForm_project_mobile_index_form_time01" name="time01"
                    th:value="${#dates.format(declarationForm.time01, 'yyyy-MM-dd')}"/>
             <label for="declarationForm_project_mobile_index_form_roomOptionName">报修时间结束：</label>
             <input type="text" data-role="datebox" id="declarationForm_project_mobile_index_form_time02" name="time02"
-                   th:value="${#dates.format(declarationForm.time02, 'yyyy-MM-dd')}"/>
+                   th:value="${#dates.format(declarationForm.time02, 'yyyy-MM-dd')}"/>-->
             <input type="hidden" name="pageNum" value="1" th:value="${pageVo.pageNum}"/>
             <input type="hidden" name="numPerPage" value="" th:value="${pageVo.numPerPage}"/>
             <input type="submit" id="declarationForm_project_mobile_index_submit" data-inline="true" value="查询"/>
@@ -51,7 +51,7 @@
 
     </div>
     <div data-role="main" class="ui-content" id="declarationForm_project_mobile_index_main">
-        <p th:if="${flag==false}">工程维修(新建的报修单)</p>
+        <p th:if="${flag==false}">工程维修(当天新建的报修单)</p>
         <p th:if="${flag==true}">工程维修(待本人维修的报修单)</p>
         <ul data-role="listview" data-inset="true" id="declarationForm_project_mobile_forNameOption_poupu_main_ul">
             <li th:each="declarationForm:${pageVo.contents}">

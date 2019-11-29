@@ -3,6 +3,7 @@ package com.bateng.guestroom.biz;
 import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.Room;
 import com.bateng.guestroom.entity.RoomAndRoomLevel;
+import com.bateng.guestroom.entity.vo.RoomVo;
 
 import java.util.List;
 
@@ -72,5 +73,13 @@ public interface RoomBiz {
      * @return
      */
     public Room findRoomForReoprtByName(String name);
+
+
+    /**
+     * 获取/ajax/view/room/count请求，需要的数据
+     * @param roomVo
+     * @return
+     */
+    public String findAjaxIndex01(RoomVo roomVo);
 
 }

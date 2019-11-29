@@ -53,12 +53,12 @@ public class LoginController extends BaseController {
     public String toIndex(Model model, HttpSession session) {
         addurl(model);
         User user = (User) session.getAttribute("user");
-        if (session.getAttribute("pathFlag") == null){
+//        if (session.getAttribute("pathFlag") == null){
             if (user.getRole().getId() == 2 || user.getRole().getId() == 1)
                 session.setAttribute("pathFlag", "w_26");
             if(user.getRole().getId()==3)
-                session.setAttribute("pathFlag", "w_28");
-        }
+                session.setAttribute("pathFlag", "w_40");
+//        }
         return "index";
     }
 

@@ -51,7 +51,7 @@ public class UserBizTest {
     @Test
     @Transactional
     public void getUserByIdTest(){
-
+declarationFormBiz.findDeclarationFormTodayByPage(null,null);
     }
 
     public UserBiz getUserBiz() {

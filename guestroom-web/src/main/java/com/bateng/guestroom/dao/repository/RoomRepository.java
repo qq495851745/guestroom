@@ -3,6 +3,7 @@ package com.bateng.guestroom.dao.repository;
 import com.bateng.guestroom.entity.PageVo;
 import com.bateng.guestroom.entity.Room;
 import com.bateng.guestroom.entity.RoomAndRoomLevel;
+import com.bateng.guestroom.entity.vo.RoomVo;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface RoomRepository {
     public PageVo<Room> findRoomForRoomLevelByPage(PageVo<Room> pageVo, RoomAndRoomLevel roomAndRoomLevel);
 
     public PageVo<Room> findRoomForRoomByPage(PageVo<Room> pageVo,Room room);
+
+    public List<Object> findAjaxIndex01(RoomVo roomVo);
 }

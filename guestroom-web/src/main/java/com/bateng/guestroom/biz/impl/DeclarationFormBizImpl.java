@@ -1,9 +1,12 @@
 package com.bateng.guestroom.biz.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.bateng.guestroom.biz.DeclarationFormBiz;
 import com.bateng.guestroom.config.util.FastDFSClient;
 import com.bateng.guestroom.dao.DeclarationFormDao;
 import com.bateng.guestroom.dao.DeclarationFormPhotoDao;
+import com.bateng.guestroom.dao.RoomOptionDao;
 import com.bateng.guestroom.entity.DeclarationForm;
 import com.bateng.guestroom.entity.DeclarationFormPhoto;
 import com.bateng.guestroom.entity.PageVo;
@@ -14,9 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 
 @Service("declarationFormBiz")
 public class DeclarationFormBizImpl implements DeclarationFormBiz {
@@ -25,6 +27,8 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     private DeclarationFormDao declarationFormDao;
     @Autowired
     private DeclarationFormPhotoDao declarationFormPhotoDao;
+    @Autowired
+    private RoomOptionDao roomOptionDao;
 
     @Override
     public PageVo findByRoomOptionCountByPage(PageVo<DeclarationForm> pageVo,RoomOptionVo roomOptionVo) {
@@ -120,6 +124,50 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     }
 
     @Override
+    public String findAjaxIndex02(RoomOptionVo roomOptionVo) {
+        List<Object> list = declarationFormDao.findAjaxIndex02(roomOptionVo);
+        List<RoomOption> roomOptions = roomOptionDao.findAllByFlag(1);
+        if(roomOptionVo.getRoomOptionVo()!=null && roomOptionVo.getRoomOptionVo().getId() !=null&& roomOptionVo.getRoomOptionVo().getId()!=0){
+            roomOptions.removeIf(new Predicate<RoomOption>() {
+                @Override
+                public boolean test(RoomOption roomOption) {
+                    if(roomOption.getRoomOption()!=null && roomOption.getRoomOption().getId()==roomOptionVo.getRoomOptionVo().getId())
+                        return false;
+                    else{
+                        if(roomOption.getRoomOption()==null)
+                            return  true;
+                        else{
+                            test(roomOption.getRoomOption());
+                        }
+                    }
+                    return true;
+                }
+            });
+        }
+
+        list.removeIf(new Predicate<Object>() {
+            @Override
+            public boolean test(Object o) {
+                Object[] objs= (Object[]) o;
+                Integer id = (int) objs[0];
+               int index= Collections.binarySearch(roomOptions,new RoomOption(id),new Comparator<RoomOption>(){
+                    @Override
+                    public int compare(RoomOption o1, RoomOption o2) {
+                        if(o1.getId()>o2.getId())
+                            return 1;
+                        if(o1.getId()<o2.getId())
+                            return -1;
+                        return 0;
+                    }
+                });
+
+                return index<0;
+            }
+        });
+        return JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+    @Override
     public DeclarationForm getDeclarationFormById(int id) {
         return declarationFormDao.getOne(id);
     }
@@ -140,5 +188,13 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
 
     public void setDeclarationFormPhotoDao(DeclarationFormPhotoDao declarationFormPhotoDao) {
         this.declarationFormPhotoDao = declarationFormPhotoDao;
+    }
+
+    public RoomOptionDao getRoomOptionDao() {
+        return roomOptionDao;
+    }
+
+    public void setRoomOptionDao(RoomOptionDao roomOptionDao) {
+        this.roomOptionDao = roomOptionDao;
     }
 }

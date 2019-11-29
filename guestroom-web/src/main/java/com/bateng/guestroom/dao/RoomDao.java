@@ -2,6 +2,7 @@ package com.bateng.guestroom.dao;
 
 import com.bateng.guestroom.dao.repository.RoomRepository;
 import com.bateng.guestroom.entity.Room;
+import com.bateng.guestroom.entity.vo.RoomVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,9 @@ public interface RoomDao extends RoomRepository, JpaRepository<Room,Integer>, Jp
     public List<Room> findRoomByRoomLevel(int id);
 
     public Room findRoomByName(String name);
+
+//    @Query(value = "select t1.rid ,t1.rname, count(*) as c from t_room t1 left outer join t_declaration_form t2 on (t1.rid = t2.room_id and t1.delflag=1 and t2.delflag=1) GROUP BY t1.rid ,t1.rname\n",nativeQuery = true)
+
 
 
 

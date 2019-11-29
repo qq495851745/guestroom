@@ -91,4 +91,11 @@ public interface DeclarationFormBiz {
      * 更新状态
      */
     public void updateStatus(DeclarationForm declarationForm);
+
+    /**
+     * 查询ajax
+     * @param roomOptionVo
+     * @return
+     */
+    public String findAjaxIndex02(RoomOptionVo roomOptionVo);
 }

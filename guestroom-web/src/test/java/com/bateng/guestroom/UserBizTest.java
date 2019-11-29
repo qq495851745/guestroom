@@ -2,6 +2,7 @@ package com.bateng.guestroom;
 
 import com.bateng.guestroom.biz.*;
 import com.bateng.guestroom.entity.*;
+import com.bateng.guestroom.entity.vo.RoomOptionVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,8 @@ public class UserBizTest {
     @Test
     @Transactional
     public void addUserTest(){
-       declarationFormBiz.findDeclarationFormByPage(new PageVo(),new DeclarationForm());
+        RoomOptionVo roomOptionVo = new RoomOptionVo();
+       declarationFormBiz.findAjaxIndex02(roomOptionVo);
     }
 
     @Test
