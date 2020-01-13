@@ -454,6 +454,38 @@ public class DeclarationFormDaoImpl implements DeclarationFormRepository {
     }
 
     @Override
+    public List<Object> findTen(RoomOptionVo roomOptionVo) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        StringBuffer sb1 = new StringBuffer();
+        sb1.append("select t1.rname , t1.rid , count(t2.did) total from t_room t1 left outer join  t_declaration_form t2 on (t1.rid = t2.room_id and t2.delflag = 1");
+        if(roomOptionVo!=null&&roomOptionVo.getTime01()!=null){
+            sb1.append(" and t2.actualDate >= :time01");
+            params.put("time01",roomOptionVo.getTime01());
+        }
+        if(roomOptionVo!=null&&roomOptionVo.getTime02()!=null){
+            sb1.append(" and t2.actualDate <= :time02");
+            params.put("time02",roomOptionVo.getTime02());
+        }
+        sb1.append(" )  group by t1.rname , t1.rid ");
+
+        StringBuffer sb2 = new StringBuffer();
+        sb2.append("select * from (");
+        sb2.append(sb1.toString());
+        sb2.append(" ) t order by total desc ");
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select * from (");
+        sb.append(sb2.toString());
+        sb.append(" ) t limit 0,10");
+
+        Query query = entityManager.createNativeQuery(sb.toString());
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            query.setParameter(entry.getKey(), entry.getValue());
+        }
+        return query.getResultList();
+    }
+
+    @Override
     public List<Object> findAjaxIndex02(RoomOptionVo roomOptionVo) {
         Map<String, Object> params = new HashMap<String, Object>();
         StringBuffer sb = new StringBuffer();

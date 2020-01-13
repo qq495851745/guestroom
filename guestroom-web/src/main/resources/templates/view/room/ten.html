@@ -1,0 +1,219 @@
+<div class="pageHeader" style="border:1px #B8D0D6 solid" xmlns:th="http://www.thymeleaf.org">
+    <form id="pagerForm" data-rel="view_room_ten_form" onsubmit="return navTabSearch(this);" action="/guestroom/view/room/count/ten" method="post">
+        <div class="searchBar">
+            <table class="searchContent">
+                <tr>
+                    <!--<td>
+                        房号：<input type="text" name="name" value="" th:value="${roomVo.name}"/>
+                    </td>-->
+                    <td>
+                        报修时间范围从：
+                        <input type="text" name="time01" th:value="${#dates.format(roomOptionVo.time01, 'yyyy-MM-dd')}" class="date" readonly="true"/>
+                        -到：
+                        <input type="text" name="time02" th:value="${#dates.format(roomOptionVo.time02, 'yyyy-MM-dd')}" class="date" readonly="true"/>
+
+                    </td>
+                   <!-- <td>
+                        报修工程内容:
+                        <input name="roomOptionVo.id" value="" th:if="${roomOptionVo.roomOptionVo!=null}" th:value="${roomOptionVo.roomOptionVo.id}" type="hidden" />
+                        <input name="roomOptionVo.id" value="" th:if="${roomOptionVo.roomOptionVo == null}"  type="hidden" />
+                        <input name="roomOptionVo.name" type="text" th:if="${roomOptionVo.roomOptionVo!=null}" th:value="${roomOptionVo.roomOptionVo.name}" readonly="readonly"  value=""  maxlength="50" lookupGroup="roomOptionVo"/>
+                        <input name="roomOptionVo.name" type="text" th:if="${roomOptionVo.roomOptionVo==null}" value=""  readonly="readonly" maxlength="50" lookupGroup="roomOptionVo"/>
+                        <a class="btnLook" href="guestroom/declarationForm/roomOption" lookupGroup="roomOptionVo" >选择类别</a>
+                    </td>-->
+
+                    <td>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit">检索</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid"
+     xmlns:th="http://www.thymeleaf.org" id="user_index_pageContent">
+    <div class="panelBar">
+
+    </div>
+    <div id="view_room_ten_main" style="height:600px;"></div>
+
+</div>
+
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('view_room_ten_main'));
+
+    var posList = [
+        'left', 'right', 'top', 'bottom',
+        'inside',
+        'insideTop', 'insideLeft', 'insideRight', 'insideBottom',
+        'insideTopLeft', 'insideTopRight', 'insideBottomLeft', 'insideBottomRight'
+    ];
+    var app={};
+    app.configParameters = {
+        rotate: {
+            min: -90,
+            max: 90
+        },
+        align: {
+            options: {
+                left: 'left',
+                center: 'center',
+                right: 'right'
+            }
+        },
+        verticalAlign: {
+            options: {
+                top: 'top',
+                middle: 'middle',
+                bottom: 'bottom'
+            }
+        },
+        position: {
+            options: echarts.util.reduce(posList, function (map, pos) {
+                map[pos] = pos;
+                return map;
+            }, {})
+        },
+        distance: {
+            min: 0,
+            max: 100
+        }
+    };
+
+    app.config = {
+        rotate: 90,
+        align: 'left',
+        verticalAlign: 'middle',
+        position: 'insideBottom',
+        distance: 15,
+        onChange: function () {
+            var labelOption = {
+                normal: {
+                    rotate: app.config.rotate,
+                    align: app.config.align,
+                    verticalAlign: app.config.verticalAlign,
+                    position: app.config.position,
+                    distance: app.config.distance
+                }
+            };
+            myChart.setOption({
+                series: [{
+                    label: labelOption
+                }, {
+                    label: labelOption
+                }, {
+                    label: labelOption
+                }, {
+                    label: labelOption
+                }]
+            });
+        }
+    };
+
+    var labelOption = {
+        normal: {
+            show: false,
+            position: app.config.position,
+            distance: app.config.distance,
+            align: app.config.align,
+            verticalAlign: app.config.verticalAlign,
+            rotate: app.config.rotate,
+            formatter: '{c}  {name|{a}}',
+            fontSize: 16,
+            rich: {
+                name: {
+                    textBorderColor: '#fff'
+                }
+            }
+        }
+    };
+
+    option = {
+        color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: ['Forest', 'Steppe', 'Desert', 'Wetland']
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {show: true},
+                data: []
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '总维修次数',
+                type: 'bar',
+                barGap: 0,
+                label: labelOption,
+                data: []
+            }/*,
+            {
+                name: '返修次数',
+                type: 'bar',
+                label: labelOption,
+                data: []
+            }*/
+          /*  ,
+            {
+                name: '返修率',
+                type: 'bar',
+                label: labelOption,
+                data: []
+            }*/
+        ]
+    };
+
+    $.ajax({
+        url:"guestroom/ajax/view/room/count/ten",
+        type:"post",
+        dataType:"json",
+        async:false,
+        data:$("[data-rel='view_room_ten_form']").serializeArray(),
+        success:function(data){
+            for(var i=0;i<data.length;i++){
+                option.xAxis[0].data.push('房号:'+data[i][0]);
+                option.series[0].data.push(data[i][2]);
+               /* option.series[1].data.push(data[i][2]);*/
+                /*option.series[2].data.push((data[i][4]-0)*100);*/
+                //(data[i][4]-0)*100+"%"
+            }
+        }
+
+    })
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>

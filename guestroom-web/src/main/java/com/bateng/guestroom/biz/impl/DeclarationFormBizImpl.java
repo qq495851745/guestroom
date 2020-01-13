@@ -52,6 +52,12 @@ public class DeclarationFormBizImpl implements DeclarationFormBiz {
     }
 
     @Override
+    public String findTen(RoomOptionVo roomOptionVo) {
+
+        return JSON.toJSONString(declarationFormDao.findTen(roomOptionVo),SerializerFeature.DisableCircularReferenceDetect);
+    }
+
+    @Override
     @Transactional
     public void updateFinishDate(Integer declarationFormId, Date finishDate) {
         declarationFormDao.updateFinishDate(declarationFormId,finishDate);

@@ -47,8 +47,7 @@ public class UserBizTest {
     @Test
     @Transactional
     public void addUserTest(){
-        RoomOptionVo roomOptionVo = new RoomOptionVo();
-       declarationFormBiz.findAjaxIndex02(roomOptionVo);
+        System.out.println(declarationFormBiz.findTen(null));
     }
 
     @Test

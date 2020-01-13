@@ -10,6 +10,12 @@ import java.util.List;
 
 public interface DeclarationFormBiz {
 
+    /**
+     * 查看排名前十的数据
+     * @param roomOptionVo
+     * @return
+     */
+    public String findTen(RoomOptionVo roomOptionVo);
 
     /**
      * 生成类别的报修次数

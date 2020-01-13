@@ -9,6 +9,8 @@ import java.util.List;
 public interface DeclarationFormRepository {
 
 
+    public List<Object> findTen(RoomOptionVo roomOptionVo);
+
     public List<Object> findAjaxIndex02(RoomOptionVo roomOptionVo);
 
     /**

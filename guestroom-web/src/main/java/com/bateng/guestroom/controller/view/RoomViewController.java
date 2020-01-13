@@ -30,6 +30,20 @@ public class RoomViewController extends BaseController {
     @Autowired
     public DeclarationFormBiz declarationFormBiz;
 
+
+    @RequestMapping(value = "/view/room/count/ten",method ={RequestMethod.GET,RequestMethod.POST})
+    public String index03(RoomOptionVo roomOptionVo,Model model){
+        model.addAttribute("roomOptionVo",roomOptionVo);
+        return "view/room/ten";
+    }
+
+    @RequestMapping(value = "ajax/view/room/count/ten",method ={RequestMethod.GET,RequestMethod.POST},produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String index04(RoomOptionVo roomOptionVo){
+
+        return  declarationFormBiz.findTen(roomOptionVo);
+    }
+
     @RequestMapping(value = "/view/repair",method = {RequestMethod.GET,RequestMethod.POST})
     public String index02(RoomOptionVo roomOptionVo,Model model){
         model.addAttribute("roomOptionVo",roomOptionVo);
